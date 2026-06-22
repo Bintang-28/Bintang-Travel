@@ -1,0 +1,18 @@
+{
+  "resources/js/app.tsx": {
+    "file": "assets/app-_Akqvy3s.js",
+    "name": "app",
+    "src": "resources/js/app.tsx",
+    "isEntry": true,
+    "css": [
+      "assets/app-CW03lmrG.css"
+    ],
+    "assets": [
+      "assets/logobintangtravel-Dn85K1-W.png"
+    ]
+  },
+  "resources/js/assets/logobintangtravel.png": {
+    "file": "assets/logobintangtravel-Dn85K1-W.png",
+    "src": "resources/js/assets/logobintangtravel.png"
+  }
+}
