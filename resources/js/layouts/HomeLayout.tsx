@@ -13,6 +13,7 @@ export default function HomeLayout({ children }: Props) {
     const dashboardLink = role === 'admin' ? '/admin/cars' : '/client/reservations';
     const user = ($page.props.auth as any)?.user;
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const handleLogout = () => {
         // Gunakan URL string secara langsung
@@ -65,7 +66,7 @@ export default function HomeLayout({ children }: Props) {
                         </div>
 
                         {/* Auth Buttons */}
-                        <div className="flex items-center space-x-3">
+                        <div className="hidden md:flex items-center space-x-3">
                             {user ? (
                                 <div className="relative">
                                     <button
@@ -154,7 +155,54 @@ export default function HomeLayout({ children }: Props) {
                                 </>
                             )}
                         </div>
+
+                        {/* Mobile Hamburger */}
+                        <button
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            className="flex md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
+                            aria-label="Toggle menu"
+                        >
+                            {mobileMenuOpen ? (
+                                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            ) : (
+                                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                            )}
+                        </button>
+
                     </nav>
+                    {/* Mobile Menu */}
+                        {mobileMenuOpen && (
+                            <div className="md:hidden border-t border-gray-100 bg-white px-4 py-4 space-y-1">
+                                <Link href="/" onClick={() => setMobileMenuOpen(false)} className={`block px-4 py-3 rounded-xl font-bold text-sm transition-colors ${$page.url === '/' ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50'}`}>Halaman Utama</Link>
+                                <Link href="/fleet" onClick={() => setMobileMenuOpen(false)} className={`block px-4 py-3 rounded-xl font-bold text-sm transition-colors ${$page.url.startsWith('/fleet') ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50'}`}>Armada</Link>
+                                <Link href="/about" onClick={() => setMobileMenuOpen(false)} className={`block px-4 py-3 rounded-xl font-bold text-sm transition-colors ${$page.url === '/about' ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50'}`}>Tentang Kami</Link>
+                                <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className={`block px-4 py-3 rounded-xl font-bold text-sm transition-colors ${$page.url === '/contact' ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50'}`}>Kontak</Link>
+
+                                {user ? (
+                                    <div className="pt-3 border-t border-gray-100 space-y-1">
+                                        <div className="px-4 py-2">
+                                            <p className="text-sm font-bold text-gray-900">{user.name}</p>
+                                            <p className="text-xs text-gray-500">{user.email}</p>
+                                        </div>
+                                        {role === 'admin' && (
+                                            <Link href="/admin/cars" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-semibold text-blue-600 hover:bg-blue-50 transition-colors">Halaman Admin</Link>
+                                        )}
+                                        <Link href="/client/reservations" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors">Pesanan Saya</Link>
+                                        <Link href="/settings/profile" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors">Profile</Link>
+                                        <button onClick={handleLogout} className="w-full text-left px-4 py-3 rounded-xl text-sm font-bold text-red-600 hover:bg-red-50 transition-colors">Keluar</button>
+                                    </div>
+                                ) : (
+                                    <div className="pt-3 border-t border-gray-100">
+                                        <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors">Masuk</Link>
+                                        <Link href="/register" onClick={() => setMobileMenuOpen(false)} className="block w-full text-center rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white hover:bg-blue-700 transition-colors mt-2">Daftar Sekarang</Link>
+                                    </div>
+                                )}
+                            </div>
+                        )}
                 </div>
             </header>
 
