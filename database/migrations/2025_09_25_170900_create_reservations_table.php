@@ -21,11 +21,11 @@ return new class extends Migration
             $table->string('pickup_location')->nullable();
             $table->string('return_location')->nullable();
             $table->integer('total_days');
-            $table->decimal('daily_rate', 8, 2);
-            $table->decimal('subtotal', 10, 2);
-            $table->decimal('tax_amount', 8, 2)->default(0);
-            $table->decimal('discount_amount', 8, 2)->default(0);
-            $table->decimal('total_amount', 10, 2);
+            $table->decimal('daily_rate', 12, 2);
+            $table->decimal('subtotal', 14, 2);
+            $table->decimal('tax_amount', 12, 2)->default(0);
+            $table->decimal('discount_amount', 12, 2)->default(0);
+            $table->decimal('total_amount', 14, 2);
             $table->string('status')->default(ReservationStatus::PENDING->value);
             $table->text('notes')->nullable();
             $table->text('cancellation_reason')->nullable();

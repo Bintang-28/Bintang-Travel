@@ -27,6 +27,17 @@ Route::get('/run-migration-secret-xyz', function() {
     }
 });
 
+Route::get('/force-recreate-db-secret-xyz', function() {
+    try {
+        \Illuminate\Support\Facades\Schema::dropIfExists('payments');
+        \Illuminate\Support\Facades\Schema::dropIfExists('reservations');
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        return "Tables reservations and payments re-created successfully! Output:<br><pre>" . \Illuminate\Support\Facades\Artisan::output() . "</pre>";
+    } catch (\Exception $e) {
+        return "Error: " . $e->getMessage();
+    }
+});
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';

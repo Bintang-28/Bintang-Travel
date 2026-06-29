@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('payment_number')->unique();
             $table->foreignId('reservation_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->decimal('amount', 10, 2);
+            $table->decimal('amount', 14, 2);
             $table->string('currency', 3)->default(config('app.currency_code'));
             $table->string('payment_method')->default(PaymentMethod::CREDIT_CARD->value);
             $table->string('status')->default(PaymentStatus::PENDING->value);
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->json('gateway_data')->nullable();
             $table->text('notes')->nullable();
             $table->timestamp('processed_at')->nullable();
-            $table->decimal('refunded_amount', 10, 2)->default(0);
+            $table->decimal('refunded_amount', 14, 2)->default(0);
             $table->timestamps();
             $table->softDeletes();
 
