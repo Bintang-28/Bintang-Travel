@@ -48,6 +48,75 @@ Route::get('/force-recreate-db-secret-xyz', function() {
     }
 });
 
+Route::get('/force-sync-status-secret-xyz', function() {
+    try {
+        $today = \Carbon\Carbon::today();
+
+        // 1. Dapatkan semua reservasi aktif/konfirmasi yang belum selesai
+        $reservations = \App\Models\Reservation::whereIn('status', [
+            \App\Enums\ReservationStatus::CONFIRMED,
+            \App\Enums\ReservationStatus::ACTIVE
+        ])->get();
+
+        $rentedCarIds = [];
+        $onDutyDriverIds = [];
+
+        foreach ($reservations as $res) {
+            if ($today->greaterThan($res->end_date)) {
+                $res->update(['status' => \App\Enums\ReservationStatus::COMPLETED]);
+                $res->payments()
+                    ->whereIn('status', [\App\Enums\PaymentStatus::PENDING, \App\Enums\PaymentStatus::COMPLETED])
+                    ->each(function ($payment) {
+                        $payment->update([
+                            'status'       => \App\Enums\PaymentStatus::COMPLETED,
+                            'processed_at' => $payment->processed_at ?? now(),
+                        ]);
+                    });
+            } elseif ($today->between($res->start_date, $res->end_date)) {
+                if ($res->status !== \App\Enums\ReservationStatus::ACTIVE) {
+                    $res->update(['status' => \App\Enums\ReservationStatus::ACTIVE]);
+                }
+                $rentedCarIds[] = $res->car_id;
+                if ($res->driver_id) {
+                    $onDutyDriverIds[] = (int) $res->driver_id;
+                }
+            } else {
+                if ($res->status !== \App\Enums\ReservationStatus::CONFIRMED) {
+                    $res->update(['status' => \App\Enums\ReservationStatus::CONFIRMED]);
+                }
+            }
+        }
+
+        // 2. Update status semua mobil berdasarkan sewa aktif hari ini
+        \App\Models\Car::where('status', \App\Enums\CarStatus::RENTED)
+            ->whereNotIn('id', $rentedCarIds)
+            ->update(['status' => \App\Enums\CarStatus::AVAILABLE]);
+
+        if (!empty($rentedCarIds)) {
+            \App\Models\Car::whereIn('id', $rentedCarIds)
+                ->where('status', '!=', \App\Enums\CarStatus::MAINTENANCE)
+                ->update(['status' => \App\Enums\CarStatus::RENTED]);
+        }
+
+        // 3. Update status semua driver berdasarkan tugas aktif hari ini
+        \App\Models\Driver::where('status', 'on_duty')
+            ->whereNotIn('id', $onDutyDriverIds)
+            ->update(['status' => 'available']);
+
+        if (!empty($onDutyDriverIds)) {
+            \App\Models\Driver::whereIn('id', $onDutyDriverIds)
+                ->update(['status' => 'on_duty']);
+        }
+
+        // Simpan tanda cache agar tidak bertabrakan dengan middleware harian
+        \Illuminate\Support\Facades\Cache::put('maintenance_auto_complete_' . $today->toDateString(), true, \Carbon\Carbon::tomorrow());
+
+        return "Database statuses successfully synchronized for today (" . $today->toDateString() . ")!";
+    } catch (\Exception $e) {
+        return "Error: " . $e->getMessage();
+    }
+});
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';

@@ -160,6 +160,7 @@ class ReservationsController extends Controller
         $reservation->save();
 
         $statusChanged = $previousStatus !== $reservation->status;
+        $today = Carbon::today();
 
         if ($statusChanged && $reservation->status === ReservationStatus::CONFIRMED) {
             $reservation->payments()
@@ -171,11 +172,23 @@ class ReservationsController extends Controller
                     ]);
                 });
 
-            $reservation->car?->update(['status' => CarStatus::RENTED]);
+            if ($today->between($reservation->start_date, $reservation->end_date)) {
+                $reservation->status = ReservationStatus::ACTIVE;
+                $reservation->save();
+                $reservation->car?->update(['status' => CarStatus::RENTED]);
+            } else {
+                $reservation->car?->update(['status' => CarStatus::AVAILABLE]);
+            }
         }
 
         if ($statusChanged && $reservation->status === ReservationStatus::ACTIVE) {
-            $reservation->car?->update(['status' => CarStatus::RENTED]);
+            if ($today->between($reservation->start_date, $reservation->end_date)) {
+                $reservation->car?->update(['status' => CarStatus::RENTED]);
+            } else {
+                $reservation->status = ReservationStatus::CONFIRMED;
+                $reservation->save();
+                $reservation->car?->update(['status' => CarStatus::AVAILABLE]);
+            }
         }
 
         if ($statusChanged && $reservation->status === ReservationStatus::COMPLETED) {
@@ -214,9 +227,14 @@ class ReservationsController extends Controller
         $currentDriverId = $reservation->driver_id !== null ? (int) $reservation->driver_id : null;
         $driverChanged   = $previousDriverId !== $currentDriverId;
 
-        // Sopir yang terpasang sekarang mulai bertugas
+        // Sopir yang terpasang sekarang mulai bertugas jika hari sewa sudah mulai
+        $today = Carbon::today();
         if ($currentDriverId && in_array($reservation->status, $activeStatuses, true)) {
-            Driver::where('id', $currentDriverId)->update(['status' => 'on_duty']);
+            if ($today->between($reservation->start_date, $reservation->end_date)) {
+                Driver::where('id', $currentDriverId)->update(['status' => 'on_duty']);
+            } else {
+                Driver::where('id', $currentDriverId)->update(['status' => 'available']);
+            }
         }
 
         // Tentukan apakah ada sopir lama yang perlu dilepas
@@ -232,7 +250,11 @@ class ReservationsController extends Controller
             $stillOnDuty = Reservation::where('driver_id', $driverToRelease)
                 ->where('id', '!=', $reservation->id)
                 ->whereIn('status', $activeStatuses)
-                ->exists();
+                ->get()
+                ->filter(function ($res) use ($today) {
+                    return $today->between($res->start_date, $res->end_date);
+                })
+                ->count() > 0;
 
             if (! $stillOnDuty) {
                 Driver::where('id', $driverToRelease)->update(['status' => 'available']);

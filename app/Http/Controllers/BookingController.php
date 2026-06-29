@@ -24,10 +24,33 @@ class BookingController extends Controller
             return redirect()->route('fleet')->with('error', 'Mobil ini sedang dalam perbaikan dan tidak dapat disewa.');
         }
 
-        $drivers = Driver::where('status', 'available')
-            ->select('id', 'name', 'phone')
-            ->orderBy('name')
-            ->get();
+        $drivers = Driver::orderBy('name')
+            ->get()
+            ->map(function ($driver) {
+                // Dapatkan semua tanggal terbooking untuk driver ini
+                $bookedRanges = Reservation::where('driver_id', $driver->id)
+                    ->whereIn('status', [
+                        ReservationStatus::PENDING,
+                        ReservationStatus::CONFIRMED,
+                        ReservationStatus::ACTIVE
+                    ])
+                    ->select('start_date', 'end_date')
+                    ->get()
+                    ->map(function ($res) {
+                        return [
+                            'start' => $res->start_date->format('Y-m-d'),
+                            'end' => $res->end_date->format('Y-m-d')
+                        ];
+                    });
+
+                return [
+                    'id' => $driver->id,
+                    'name' => $driver->name,
+                    'phone' => $driver->phone,
+                    'status' => $driver->status,
+                    'bookedRanges' => $bookedRanges,
+                ];
+            });
 
         $bookedRanges = Reservation::where('car_id', $car->id)
             ->whereIn('status', [
@@ -88,6 +111,31 @@ class BookingController extends Controller
                 'start_date' => 'Mobil ini sudah dipesan pada tanggal yang Anda pilih.',
                 'end_date' => 'Mobil ini sudah dipesan pada tanggal yang Anda pilih.',
             ]);
+        }
+
+        // Check if selected driver overlaps with any existing booking
+        if ($request->with_driver && $request->driver_id) {
+            $driverOverlap = Reservation::where('driver_id', $request->driver_id)
+                ->whereIn('status', [
+                    ReservationStatus::PENDING,
+                    ReservationStatus::CONFIRMED,
+                    ReservationStatus::ACTIVE
+                ])
+                ->where(function ($query) use ($request) {
+                    $query->whereBetween('start_date', [$request->start_date, $request->end_date])
+                        ->orWhereBetween('end_date', [$request->start_date, $request->end_date])
+                        ->orWhere(function ($q) use ($request) {
+                            $q->where('start_date', '<=', $request->start_date)
+                              ->where('end_date', '>=', $request->end_date);
+                        });
+                })
+                ->exists();
+
+            if ($driverOverlap) {
+                return back()->withErrors([
+                    'driver_id' => 'Sopir yang Anda pilih sudah memiliki jadwal menyetir pada tanggal tersebut.',
+                ]);
+            }
         }
 
         $startDate  = Carbon::parse($request->start_date);

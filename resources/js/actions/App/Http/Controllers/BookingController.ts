@@ -103,7 +103,7 @@ show.head = (args: { car: number | { id: number } } | [car: number | { id: numbe
     show.form = showForm
 /**
 * @see \App\Http\Controllers\BookingController::book
- * @see app/Http/Controllers/BookingController.php:50
+ * @see app/Http/Controllers/BookingController.php:73
  * @route '/fleet/{car}'
  */
 export const book = (args: { car: number | { id: number } } | [car: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -118,7 +118,7 @@ book.definition = {
 
 /**
 * @see \App\Http\Controllers\BookingController::book
- * @see app/Http/Controllers/BookingController.php:50
+ * @see app/Http/Controllers/BookingController.php:73
  * @route '/fleet/{car}'
  */
 book.url = (args: { car: number | { id: number } } | [car: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -151,7 +151,7 @@ book.url = (args: { car: number | { id: number } } | [car: number | { id: number
 
 /**
 * @see \App\Http\Controllers\BookingController::book
- * @see app/Http/Controllers/BookingController.php:50
+ * @see app/Http/Controllers/BookingController.php:73
  * @route '/fleet/{car}'
  */
 book.post = (args: { car: number | { id: number } } | [car: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -161,7 +161,7 @@ book.post = (args: { car: number | { id: number } } | [car: number | { id: numbe
 
     /**
 * @see \App\Http\Controllers\BookingController::book
- * @see app/Http/Controllers/BookingController.php:50
+ * @see app/Http/Controllers/BookingController.php:73
  * @route '/fleet/{car}'
  */
     const bookForm = (args: { car: number | { id: number } } | [car: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -171,7 +171,7 @@ book.post = (args: { car: number | { id: number } } | [car: number | { id: numbe
 
             /**
 * @see \App\Http\Controllers\BookingController::book
- * @see app/Http/Controllers/BookingController.php:50
+ * @see app/Http/Controllers/BookingController.php:73
  * @route '/fleet/{car}'
  */
         bookForm.post = (args: { car: number | { id: number } } | [car: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -182,7 +182,7 @@ book.post = (args: { car: number | { id: number } } | [car: number | { id: numbe
     book.form = bookForm
 /**
 * @see \App\Http\Controllers\BookingController::confirmation
- * @see app/Http/Controllers/BookingController.php:134
+ * @see app/Http/Controllers/BookingController.php:182
  * @route '/booking/{reservation}'
  */
 export const confirmation = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -197,7 +197,7 @@ confirmation.definition = {
 
 /**
 * @see \App\Http\Controllers\BookingController::confirmation
- * @see app/Http/Controllers/BookingController.php:134
+ * @see app/Http/Controllers/BookingController.php:182
  * @route '/booking/{reservation}'
  */
 confirmation.url = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -230,7 +230,7 @@ confirmation.url = (args: { reservation: number | { id: number } } | [reservatio
 
 /**
 * @see \App\Http\Controllers\BookingController::confirmation
- * @see app/Http/Controllers/BookingController.php:134
+ * @see app/Http/Controllers/BookingController.php:182
  * @route '/booking/{reservation}'
  */
 confirmation.get = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -239,7 +239,7 @@ confirmation.get = (args: { reservation: number | { id: number } } | [reservatio
 })
 /**
 * @see \App\Http\Controllers\BookingController::confirmation
- * @see app/Http/Controllers/BookingController.php:134
+ * @see app/Http/Controllers/BookingController.php:182
  * @route '/booking/{reservation}'
  */
 confirmation.head = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -249,7 +249,7 @@ confirmation.head = (args: { reservation: number | { id: number } } | [reservati
 
     /**
 * @see \App\Http\Controllers\BookingController::confirmation
- * @see app/Http/Controllers/BookingController.php:134
+ * @see app/Http/Controllers/BookingController.php:182
  * @route '/booking/{reservation}'
  */
     const confirmationForm = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -259,7 +259,7 @@ confirmation.head = (args: { reservation: number | { id: number } } | [reservati
 
             /**
 * @see \App\Http\Controllers\BookingController::confirmation
- * @see app/Http/Controllers/BookingController.php:134
+ * @see app/Http/Controllers/BookingController.php:182
  * @route '/booking/{reservation}'
  */
         confirmationForm.get = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -268,7 +268,7 @@ confirmation.head = (args: { reservation: number | { id: number } } | [reservati
         })
             /**
 * @see \App\Http\Controllers\BookingController::confirmation
- * @see app/Http/Controllers/BookingController.php:134
+ * @see app/Http/Controllers/BookingController.php:182
  * @route '/booking/{reservation}'
  */
         confirmationForm.head = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

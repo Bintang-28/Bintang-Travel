@@ -22,6 +22,8 @@ interface Driver {
     id: number;
     name: string;
     phone: string;
+    status: string;
+    bookedRanges?: { start: string; end: string }[];
 }
 
 interface PageProps {
@@ -58,20 +60,39 @@ export default function BookCar() {
 
     const isDateOverlapping = useMemo(() => {
         if (!data.start_date || !data.end_date) return false;
-        const start = new Date(data.start_date);
-        start.setHours(0,0,0,0);
-        const end = new Date(data.end_date);
-        end.setHours(0,0,0,0);
+        const start = data.start_date;
+        const end = data.end_date;
         
         return (bookedRanges || []).some((range: { start: string; end: string }) => {
-            const rangeStart = new Date(range.start);
-            rangeStart.setHours(0,0,0,0);
-            const rangeEnd = new Date(range.end);
-            rangeEnd.setHours(0,0,0,0);
-            
-            return (start <= rangeEnd && end >= rangeStart);
+            return (start <= range.end && end >= range.start);
         });
     }, [data.start_date, data.end_date, bookedRanges]);
+
+    const isDriverOverlapping = useMemo(() => {
+        if (!data.start_date || !data.end_date || !data.with_driver || !data.driver_id) return false;
+        
+        const selectedDriver = drivers.find(d => d.id === parseInt(data.driver_id));
+        if (!selectedDriver || !selectedDriver.bookedRanges) return false;
+
+        const start = data.start_date;
+        const end = data.end_date;
+        
+        return (selectedDriver.bookedRanges || []).some((range: { start: string; end: string }) => {
+            return (start <= range.end && end >= range.start);
+        });
+    }, [data.start_date, data.end_date, data.with_driver, data.driver_id, drivers]);
+
+    const selectedDriverSchedule = useMemo(() => {
+        if (!data.driver_id) return [];
+        const selectedDriver = drivers.find(d => d.id === parseInt(data.driver_id));
+        if (!selectedDriver || !selectedDriver.bookedRanges) return [];
+        
+        return selectedDriver.bookedRanges.map((range: { start: string; end: string }) => {
+            const start = new Date(range.start).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+            const end = new Date(range.end).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+            return `${start} - ${end}`;
+        });
+    }, [data.driver_id, drivers]);
 
     const subtotal = useMemo(() => rentalDays * parseFloat(car.price_per_day || '0'), [rentalDays, car.price_per_day]);
     const driverFee = useMemo(() => data.with_driver ? DRIVER_FEE_PER_DAY * rentalDays : 0, [data.with_driver, rentalDays]);
@@ -80,9 +101,9 @@ export default function BookCar() {
     const canSubmit = useMemo(() => {
         const baseValid = !!data.start_date && !!data.end_date && rentalDays > 0 && !isDateOverlapping;
         const deliveryValid = data.delivery_type === 'self_pickup' || (data.delivery_type === 'delivery' && data.delivery_address.trim() !== '');
-        const driverValid = !data.with_driver || data.driver_id !== '';
+        const driverValid = !data.with_driver || (data.driver_id !== '' && !isDriverOverlapping);
         return baseValid && deliveryValid && driverValid;
-    }, [data, rentalDays, isDateOverlapping]);
+    }, [data, rentalDays, isDateOverlapping, isDriverOverlapping]);
 
     const submitBooking = () => {
         if (!auth.user) { router.get(login().url); return; }
@@ -325,20 +346,49 @@ export default function BookCar() {
                                                         Tidak ada sopir tersedia saat ini.
                                                     </div>
                                                 ) : (
-                                                    <div className="relative">
-                                                        <label className="absolute left-3 -top-2.5 bg-white px-2 text-xs font-semibold text-blue-600 z-10">Pilih Sopir</label>
-                                                        <select value={data.driver_id}
-                                                            onChange={(e) => setData('driver_id', e.target.value)}
-                                                            className={`w-full appearance-none rounded-xl border-2 bg-transparent px-4 py-3.5 text-gray-900 transition-colors focus:border-blue-600 focus:outline-none ${errors.driver_id ? 'border-red-500' : 'border-gray-200 hover:border-gray-300'}`}>
-                                                            <option value="">-- Pilih Sopir --</option>
-                                                            {drivers.map((d) => (
-                                                                <option key={d.id} value={d.id}>{d.name} — {d.phone}</option>
-                                                            ))}
-                                                        </select>
-                                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
-                                                            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                                                    <div className="space-y-3">
+                                                        <div className="relative">
+                                                            <label className="absolute left-3 -top-2.5 bg-white px-2 text-xs font-semibold text-blue-600 z-10">Pilih Sopir</label>
+                                                            <select value={data.driver_id}
+                                                                onChange={(e) => setData('driver_id', e.target.value)}
+                                                                className={`w-full appearance-none rounded-xl border-2 bg-transparent px-4 py-3.5 text-gray-900 transition-colors focus:border-blue-600 focus:outline-none ${errors.driver_id || isDriverOverlapping ? 'border-red-500' : 'border-gray-200 hover:border-gray-300'}`}>
+                                                                <option value="">-- Pilih Sopir --</option>
+                                                                {drivers.map((d) => (
+                                                                    <option key={d.id} value={d.id}>{d.name} — {d.phone}</option>
+                                                                ))}
+                                                            </select>
+                                                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                                                                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                                                            </div>
+                                                            {errors.driver_id && <span className="text-xs text-red-500">{errors.driver_id}</span>}
                                                         </div>
-                                                        {errors.driver_id && <span className="text-xs text-red-500">{errors.driver_id}</span>}
+
+                                                        {/* Indikator Jadwal Sopir */}
+                                                        {data.driver_id && selectedDriverSchedule.length > 0 && (
+                                                            <div className="rounded-2xl border border-amber-200 bg-amber-50/50 p-4 text-xs text-amber-800">
+                                                                <p className="font-bold flex items-center gap-1.5 mb-2">
+                                                                    <svg className="h-4 w-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                                                    Jadwal Mengemudi Sopir Ini (Tidak Tersedia):
+                                                                </p>
+                                                                <div className="flex flex-wrap gap-2">
+                                                                    {selectedDriverSchedule.map((range, idx) => (
+                                                                        <span key={idx} className="inline-block px-2.5 py-1 font-extrabold rounded-lg bg-amber-100/70 border border-amber-200 text-amber-900">
+                                                                            {range}
+                                                                        </span>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
+                                                        )}
+
+                                                        {isDriverOverlapping && (
+                                                            <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 font-medium flex items-start gap-3">
+                                                                <svg className="h-5 w-5 text-red-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                                                                <div>
+                                                                    <p className="font-bold">Jadwal Bentrok!</p>
+                                                                    <p className="text-xs text-red-600 mt-1">Sopir yang Anda pilih sudah terbooking untuk tanggal sewa tersebut. Silakan pilih sopir lain atau sesuaikan tanggal sewa Anda.</p>
+                                                                </div>
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 )}
                                             </div>
