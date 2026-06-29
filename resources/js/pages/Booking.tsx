@@ -30,6 +30,7 @@ interface PageProps {
     auth: { user: any };
     minDate: string;
     maxDate: string;
+    bookedRanges?: { start: string; end: string }[];
     [key: string]: any;
 }
 
@@ -37,7 +38,7 @@ const DRIVER_FEE_PER_DAY = 250000;
 
 export default function BookCar() {
     const { props } = usePage<PageProps>();
-    const { car, auth, minDate, maxDate, drivers } = props;
+    const { car, auth, minDate, maxDate, drivers, bookedRanges } = props;
 
     const { data, setData, post, processing, errors } = useForm({
         start_date: '',
@@ -55,16 +56,33 @@ export default function BookCar() {
         return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
     }, [data.start_date, data.end_date]);
 
+    const isDateOverlapping = useMemo(() => {
+        if (!data.start_date || !data.end_date) return false;
+        const start = new Date(data.start_date);
+        start.setHours(0,0,0,0);
+        const end = new Date(data.end_date);
+        end.setHours(0,0,0,0);
+        
+        return (bookedRanges || []).some((range: { start: string; end: string }) => {
+            const rangeStart = new Date(range.start);
+            rangeStart.setHours(0,0,0,0);
+            const rangeEnd = new Date(range.end);
+            rangeEnd.setHours(0,0,0,0);
+            
+            return (start <= rangeEnd && end >= rangeStart);
+        });
+    }, [data.start_date, data.end_date, bookedRanges]);
+
     const subtotal = useMemo(() => rentalDays * parseFloat(car.price_per_day || '0'), [rentalDays, car.price_per_day]);
     const driverFee = useMemo(() => data.with_driver ? DRIVER_FEE_PER_DAY * rentalDays : 0, [data.with_driver, rentalDays]);
     const total = useMemo(() => subtotal + driverFee, [subtotal, driverFee]);
 
     const canSubmit = useMemo(() => {
-        const baseValid = !!data.start_date && !!data.end_date && rentalDays > 0;
+        const baseValid = !!data.start_date && !!data.end_date && rentalDays > 0 && !isDateOverlapping;
         const deliveryValid = data.delivery_type === 'self_pickup' || (data.delivery_type === 'delivery' && data.delivery_address.trim() !== '');
         const driverValid = !data.with_driver || data.driver_id !== '';
         return baseValid && deliveryValid && driverValid;
-    }, [data, rentalDays]);
+    }, [data, rentalDays, isDateOverlapping]);
 
     const submitBooking = () => {
         if (!auth.user) { router.get(login().url); return; }
@@ -151,6 +169,28 @@ export default function BookCar() {
                                             <span className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600 mr-3 text-sm">1</span>
                                             Kapan Anda ingin menyewa?
                                         </h4>
+
+                                        {/* List of booked dates */}
+                                        {bookedRanges && bookedRanges.length > 0 && (
+                                            <div className="mb-4 ml-11 rounded-2xl border border-amber-100 bg-amber-50/50 p-4">
+                                                <p className="text-xs font-bold text-amber-800 mb-2 flex items-center gap-1.5">
+                                                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                    Jadwal Pesanan Mobil Ini (Tidak Tersedia):
+                                                </p>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {bookedRanges.map((range: any, idx: number) => (
+                                                        <span key={idx} className="inline-flex items-center gap-1 rounded-lg bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-800 border border-amber-200">
+                                                            {new Date(range.start).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+                                                            <span> - </span>
+                                                            {new Date(range.end).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
                                         <div className="grid gap-6 md:grid-cols-2 ml-11">
                                             <div className="relative">
                                                 <label className="absolute left-3 -top-2.5 bg-white px-2 text-xs font-semibold text-blue-600 z-10">Tanggal Pengambilan</label>
@@ -168,6 +208,15 @@ export default function BookCar() {
                                                     className={`w-full rounded-xl border-2 bg-transparent px-4 py-3.5 text-gray-900 transition-colors focus:border-blue-600 focus:outline-none ${errors.end_date ? 'border-red-500' : 'border-gray-200 hover:border-gray-300'}`} />
                                                 {errors.end_date && <span className="text-xs text-red-500">{errors.end_date}</span>}
                                             </div>
+
+                                            {isDateOverlapping && (
+                                                <div className="col-span-2 mt-3 rounded-xl border border-red-200 bg-red-50 p-3.5 text-xs font-bold text-red-600 flex items-center gap-2">
+                                                    <svg className="h-5 w-5 shrink-0 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                                                    </svg>
+                                                    Mobil sudah dipesan pada tanggal tersebut. Silakan pilih tanggal lain yang tersedia.
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
 
@@ -179,7 +228,14 @@ export default function BookCar() {
                                         </h4>
                                         <div className="ml-11 grid gap-4 md:grid-cols-2">
                                             <button type="button"
-                                                onClick={() => setData('delivery_type', 'self_pickup')}
+                                                onClick={() => {
+                                                    setData(prev => ({
+                                                        ...prev,
+                                                        delivery_type: 'self_pickup',
+                                                        with_driver: false,
+                                                        driver_id: ''
+                                                    }));
+                                                }}
                                                 className={`flex items-center gap-4 rounded-xl border-2 p-4 text-left transition-all ${data.delivery_type === 'self_pickup' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-gray-300'}`}>
                                                 <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${data.delivery_type === 'self_pickup' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-500'}`}>
                                                     <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
@@ -238,13 +294,26 @@ export default function BookCar() {
 
                                             <button type="button"
                                                 onClick={() => setData('with_driver', true)}
-                                                className={`flex items-center gap-4 rounded-xl border-2 p-4 text-left transition-all ${data.with_driver ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-gray-300'}`}>
+                                                disabled={data.delivery_type === 'self_pickup'}
+                                                className={`flex items-center gap-4 rounded-xl border-2 p-4 text-left transition-all ${
+                                                    data.with_driver 
+                                                        ? 'border-blue-600 bg-blue-50' 
+                                                        : 'border-gray-200 hover:border-gray-300'
+                                                } ${
+                                                    data.delivery_type === 'self_pickup' 
+                                                        ? 'opacity-50 cursor-not-allowed' 
+                                                        : ''
+                                                }`}>
                                                 <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${data.with_driver ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-500'}`}>
                                                     <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                                 </div>
                                                 <div>
                                                     <p className="font-semibold text-gray-900">Dengan Sopir</p>
-                                                    <p className="text-xs text-gray-500">+{formatCurrency(DRIVER_FEE_PER_DAY)}/hari</p>
+                                                    {data.delivery_type === 'self_pickup' ? (
+                                                        <p className="text-xs text-amber-600 font-bold">Tidak tersedia untuk Ambil Sendiri</p>
+                                                    ) : (
+                                                        <p className="text-xs text-gray-500">+{formatCurrency(DRIVER_FEE_PER_DAY)}/hari</p>
+                                                    )}
                                                 </div>
                                             </button>
                                         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\CarStatus;
+use App\Enums\ReservationStatus;
 use App\Models\Car;
 use App\Models\Driver;
 use App\Models\Reservation;
@@ -19,8 +20,8 @@ class BookingController extends Controller
 
     public function show(Car $car)
     {
-        if ($car->status !== CarStatus::AVAILABLE) {
-            return redirect()->route('fleet')->with('error', 'Mobil ini tidak tersedia untuk disewa.');
+        if ($car->status === CarStatus::MAINTENANCE) {
+            return redirect()->route('fleet')->with('error', 'Mobil ini sedang dalam perbaikan dan tidak dapat disewa.');
         }
 
         $drivers = Driver::where('status', 'available')
@@ -28,13 +29,28 @@ class BookingController extends Controller
             ->orderBy('name')
             ->get();
 
-        return inertia('Booking', compact('car', 'drivers'));
+        $bookedRanges = Reservation::where('car_id', $car->id)
+            ->whereIn('status', [
+                ReservationStatus::PENDING,
+                ReservationStatus::CONFIRMED,
+                ReservationStatus::ACTIVE
+            ])
+            ->select('start_date', 'end_date')
+            ->get()
+            ->map(function ($reservation) {
+                return [
+                    'start' => $reservation->start_date->format('Y-m-d'),
+                    'end' => $reservation->end_date->format('Y-m-d')
+                ];
+            });
+
+        return inertia('Booking', compact('car', 'drivers', 'bookedRanges'));
     }
 
     public function book(Car $car, Request $request)
     {
-        if ($car->status !== CarStatus::AVAILABLE) {
-            return redirect()->route('fleet')->with('error', 'Mobil tidak tersedia.');
+        if ($car->status === CarStatus::MAINTENANCE) {
+            return redirect()->route('fleet')->with('error', 'Mobil tidak tersedia karena sedang dalam perbaikan.');
         }
 
         if (!Auth::check()) {
@@ -49,6 +65,30 @@ class BookingController extends Controller
             'with_driver'      => 'boolean',
             'driver_id'        => 'nullable|exists:drivers,id',
         ]);
+
+        // check if start_date or end_date overlaps with any existing booking
+        $overlap = Reservation::where('car_id', $car->id)
+            ->whereIn('status', [
+                ReservationStatus::PENDING,
+                ReservationStatus::CONFIRMED,
+                ReservationStatus::ACTIVE
+            ])
+            ->where(function ($query) use ($request) {
+                $query->whereBetween('start_date', [$request->start_date, $request->end_date])
+                    ->orWhereBetween('end_date', [$request->start_date, $request->end_date])
+                    ->orWhere(function ($q) use ($request) {
+                        $q->where('start_date', '<=', $request->start_date)
+                          ->where('end_date', '>=', $request->end_date);
+                    });
+            })
+            ->exists();
+
+        if ($overlap) {
+            return back()->withErrors([
+                'start_date' => 'Mobil ini sudah dipesan pada tanggal yang Anda pilih.',
+                'end_date' => 'Mobil ini sudah dipesan pada tanggal yang Anda pilih.',
+            ]);
+        }
 
         $startDate  = Carbon::parse($request->start_date);
         $endDate    = Carbon::parse($request->end_date);

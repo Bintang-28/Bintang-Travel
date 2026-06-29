@@ -23,4 +23,9 @@ Route::middleware(['auth', 'verified', 'active', 'client'])
         Route::get('/support/{id}', [SupportController::class, 'show'])->name('support.show');
         Route::post('/support/{id}/reply', [SupportController::class, 'reply'])->name('support.reply');
 
+        // Support Chat API
+        Route::get('/support-chat/active', [SupportController::class, 'getActiveChat'])->name('support.chat.active');
+        Route::post('/support-chat/create', [SupportController::class, 'startChat'])->name('support.chat.create');
+        Route::post('/support-chat/{id}/reply', [SupportController::class, 'replyJson'])->name('support.chat.reply');
+
     });

@@ -4,16 +4,14 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
+use App\Enums\TicketStatus;
 use Illuminate\Http\Request;
 
 class SupportController extends Controller
 {
     public function index()
     {
-        $tickets = Ticket::where('user_id', auth()->user()->id)->latest()->paginate(10)->withQueryString();
-        return inertia('Client/Support/Index', [
-            'tickets' => $tickets,
-        ]);
+        return redirect()->route('home', ['open_chat' => 'true']);
     }
 
     public function show($id)
@@ -27,7 +25,7 @@ class SupportController extends Controller
 
     public function create()
     {
-        return inertia('Client/Support/Create');
+        return redirect()->route('home', ['open_chat' => 'true']);
     }
 
     public function store(Request $request)
@@ -56,5 +54,63 @@ class SupportController extends Controller
             'is_admin' => false,
         ]);
         return redirect()->back();
+    }
+
+    public function getActiveChat()
+    {
+        $ticket = Ticket::where('user_id', auth()->id())
+            ->where('status', '!=', 'closed')
+            ->latest()
+            ->first();
+
+        if ($ticket) {
+            $ticket->load(['messages' => function ($query) {
+                $query->orderBy('created_at', 'asc');
+            }]);
+        }
+
+        return response()->json($ticket);
+    }
+
+    public function startChat(Request $request)
+    {
+        $request->validate([
+            'message' => 'required|string',
+        ]);
+
+        $ticket = Ticket::create([
+            'subject' => 'Chat Bantuan - ' . auth()->user()->name,
+            'user_id' => auth()->id(),
+            'status' => TicketStatus::NEW,
+        ]);
+
+        $message = $ticket->messages()->create([
+            'message' => $request->message,
+            'is_admin' => false,
+        ]);
+
+        return response()->json($ticket->load(['messages' => function ($query) {
+            $query->orderBy('created_at', 'asc');
+        }]));
+    }
+
+    public function replyJson($id, Request $request)
+    {
+        $request->validate([
+            'message' => 'required|string',
+        ]);
+
+        $ticket = Ticket::findOrFail($id);
+
+        if ($ticket->status === TicketStatus::CLOSED) {
+            $ticket->update(['status' => TicketStatus::NEW]);
+        }
+
+        $message = $ticket->messages()->create([
+            'message' => $request->message,
+            'is_admin' => false,
+        ]);
+
+        return response()->json($message);
     }
 }

@@ -103,7 +103,7 @@ export default function CarCard({ car }: Props) {
 
             {/* Book Button */}
             <div className="p-4">
-                {isAvailable ? (
+                {car.status === 'available' || car.status === 'rented' ? (
                     <button
                         onClick={() => bookCar(car.id)}
                         className="group/btn w-full cursor-pointer rounded-xl bg-gradient-to-r from-slate-700 to-slate-900 px-6 py-3.5 font-semibold text-white shadow-lg transition-all duration-200 hover:from-blue-600 hover:to-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
@@ -112,14 +112,14 @@ export default function CarCard({ car }: Props) {
                             <svg className="h-5 w-5 transition-transform group-hover/btn:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                            Book Now
+                            {car.status === 'rented' ? 'Pesan (Tanggal Lain)' : 'Book Now'}
                         </span>
                     </button>
                 ) : (
                     <button
                     disabled
                     className="w-full cursor-not-allowed rounded-xl px-6 py-3.5 font-semibold text-white shadow-sm opacity-80"
-                    style={{ background: statusInfo?.color.includes('amber') ? '#F59E0B' : '#EF4444' }}
+                    style={{ background: '#EF4444' }}
                 >
                     <span className="flex flex-col items-center justify-center gap-1">
                         <span className="flex items-center justify-center gap-2">

@@ -37,13 +37,13 @@ export default function Login({ status, canResetPassword }: Props) {
 
                 {/* Main Split Card */}
                 <div className="relative z-10 flex w-full max-w-5xl overflow-hidden rounded-3xl bg-white shadow-2xl shadow-blue-900/10 transition-all duration-300 hover:shadow-blue-900/20 md:flex-row flex-col">
-                    
+
                     {/* LEFT PANEL - Colorful Branding (Hidden on small screens) */}
                     <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-gradient-to-br from-blue-700 via-blue-600 to-cyan-500 p-12 text-white md:flex">
                         {/* Abstract Decorative Circles */}
                         <div className="absolute -right-16 -top-16 h-64 w-64 rounded-full border-[30px] border-white/10 transition-transform duration-700 hover:scale-110"></div>
                         <div className="absolute -bottom-24 -left-24 h-80 w-80 rounded-full border-[40px] border-white/10 transition-transform duration-700 hover:scale-110"></div>
-                        
+
                         <div className="relative z-10">
                             <div className="mb-12 inline-flex items-center gap-3 rounded-2xl bg-white/20 px-4 py-2 backdrop-blur-md border border-white/30 shadow-lg">
                                 <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,7 +61,6 @@ export default function Login({ status, canResetPassword }: Props) {
                             </p>
                         </div>
 
-                        // GANTI MENJADI:
                         <div className="relative z-10 mt-12 rounded-2xl bg-white/10 p-6 backdrop-blur-sm border border-white/20">
                             <div className="flex flex-col gap-3">
                                 <div className="flex items-center gap-3">
@@ -81,7 +80,7 @@ export default function Login({ status, canResetPassword }: Props) {
 
                     {/* RIGHT PANEL - Login Form */}
                     <div className="flex w-full flex-col justify-center p-8 sm:p-12 md:w-1/2 lg:p-16">
-                        
+
                         {/* Mobile Logo (Only visible on mobile) */}
                         <div className="mb-8 flex items-center gap-2 md:hidden">
                             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 text-white shadow-lg">
