@@ -31,6 +31,13 @@ Route::get('/force-recreate-db-secret-xyz', function() {
     try {
         \Illuminate\Support\Facades\Schema::dropIfExists('payments');
         \Illuminate\Support\Facades\Schema::dropIfExists('reservations');
+        
+        // Hapus catatan migrasi agar Laravel menjalankan ulang pembuatan tabel tersebut
+        \Illuminate\Support\Facades\DB::table('migrations')->whereIn('migration', [
+            '2025_09_25_170900_create_reservations_table',
+            '2025_09_25_170914_create_payments_table'
+        ])->delete();
+
         \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
         return "Tables reservations and payments re-created successfully! Output:<br><pre>" . \Illuminate\Support\Facades\Artisan::output() . "</pre>";
     } catch (\Exception $e) {
