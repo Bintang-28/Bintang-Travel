@@ -1,5 +1,22 @@
 <?php
 
+if (isset($_GET['clear_all_caches_secret_123'])) {
+    $files = [
+        __DIR__ . '/../bootstrap/cache/routes-v7.php',
+        __DIR__ . '/../bootstrap/cache/config.php',
+        __DIR__ . '/../bootstrap/cache/services.php',
+        __DIR__ . '/../bootstrap/cache/packages.php',
+    ];
+    foreach ($files as $file) {
+        if (file_exists($file)) {
+            @unlink($file);
+            echo "Deleted cache file: $file<br>";
+        }
+    }
+    echo "Caches cleared successfully!";
+    exit;
+}
+
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 

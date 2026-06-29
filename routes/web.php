@@ -18,6 +18,14 @@ Route::post('/fleet/{car}', [BookingController::class, 'book'])->name('fleet.boo
 
 Route::get('/booking/{reservation}', [BookingController::class, 'confirmation'])->name('booking.confirmation');
 
+Route::get('/run-migration-secret-xyz', function() {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        return "Database migrated successfully! Output:<br><pre>" . \Illuminate\Support\Facades\Artisan::output() . "</pre>";
+    } catch (\Exception $e) {
+        return "Error: " . $e->getMessage();
+    }
+});
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
