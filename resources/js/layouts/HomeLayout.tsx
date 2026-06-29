@@ -12,7 +12,6 @@ export default function HomeLayout({ children }: Props) {
     // Gunakan URL string secara langsung
     const dashboardLink = role === 'admin' ? '/admin/cars' : '/client/reservations';
     const user = ($page.props.auth as any)?.user;
-    const isVerifiedUser = user && user.email_verified_at !== null;
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -68,7 +67,7 @@ export default function HomeLayout({ children }: Props) {
 
                         {/* Auth Buttons */}
                         <div className="hidden md:flex items-center space-x-3">
-                            {isVerifiedUser ? (
+                            {user ? (
                                 <div className="relative">
                                     <button
                                         onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -183,7 +182,7 @@ export default function HomeLayout({ children }: Props) {
                                 <Link href="/about" onClick={() => setMobileMenuOpen(false)} className={`block px-4 py-3 rounded-xl font-bold text-sm transition-colors ${$page.url === '/about' ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50'}`}>Tentang Kami</Link>
                                 <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className={`block px-4 py-3 rounded-xl font-bold text-sm transition-colors ${$page.url === '/contact' ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50'}`}>Kontak</Link>
 
-                                {isVerifiedUser ? (
+                                {user ? (
                                     <div className="pt-3 border-t border-gray-100 space-y-1">
                                         <div className="px-4 py-2">
                                             <p className="text-sm font-bold text-gray-900">{user.name}</p>
