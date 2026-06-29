@@ -37,7 +37,8 @@ Route::get('/force-recreate-db-secret-xyz', function() {
             '2025_09_25_170900_create_reservations_table',
             '2025_09_25_170914_create_payments_table',
             '2026_06_21_072420_add_driver_and_delivery_to_reservations_table',
-            '2025_06_13_000000_add_proof_path_to_payments_table'
+            '2025_06_13_000000_add_proof_path_to_payments_table',
+            '2025_09_26_000000_add_proof_path_to_payments_table'
         ])->delete();
 
         \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
