@@ -120,6 +120,32 @@ Route::get('/force-sync-status-secret-xyz', function() {
     }
 });
 
+Route::get('/test-telegram-secret-xyz', function() {
+    try {
+        $token = config('services.telegram.bot_token');
+        $chatId = config('services.telegram.chat_id');
+        
+        $response = \Illuminate\Support\Facades\Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+            'chat_id'    => $chatId,
+            'text'       => "🔔 *Test Notifikasi Bintang Travel*\nKoneksi bot Telegram Anda telah berhasil terhubung!",
+            'parse_mode' => 'Markdown',
+        ]);
+        
+        return [
+            'status_code' => $response->status(),
+            'successful'  => $response->successful(),
+            'body'        => $response->json() ?? $response->body(),
+            'config_used' => [
+                'bot_token_configured' => !empty($token),
+                'chat_id_configured'   => !empty($chatId),
+                'chat_id'              => $chatId
+            ]
+        ];
+    } catch (\Exception $e) {
+        return "Exception: " . $e->getMessage();
+    }
+});
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
