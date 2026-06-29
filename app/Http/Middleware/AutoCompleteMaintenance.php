@@ -27,6 +27,13 @@ class AutoCompleteMaintenance
             $this->autoCompleteOverdue();
             $this->syncReservationsAndResources();
 
+            // Jalankan pengingat dokumen kendaraan
+            try {
+                \Illuminate\Support\Facades\Artisan::call('reminders:vehicle-documents');
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error('Reminders execution failed: ' . $e->getMessage());
+            }
+
             // Tandai sudah dijalankan hari ini, expire besok
             Cache::put($cacheKey, true, Carbon::tomorrow());
         }

@@ -108,10 +108,13 @@ Route::get('/force-sync-status-secret-xyz', function() {
                 ->update(['status' => 'on_duty']);
         }
 
+        // Jalankan juga pengingat dokumen kendaraan
+        \Illuminate\Support\Facades\Artisan::call('reminders:vehicle-documents');
+
         // Simpan tanda cache agar tidak bertabrakan dengan middleware harian
         \Illuminate\Support\Facades\Cache::put('maintenance_auto_complete_' . $today->toDateString(), true, \Carbon\Carbon::tomorrow());
 
-        return "Database statuses successfully synchronized for today (" . $today->toDateString() . ")!";
+        return "Database statuses successfully synchronized and reminders triggered for today (" . $today->toDateString() . ")! Output: " . \Illuminate\Support\Facades\Artisan::output();
     } catch (\Exception $e) {
         return "Error: " . $e->getMessage();
     }
