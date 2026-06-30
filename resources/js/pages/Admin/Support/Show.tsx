@@ -116,7 +116,7 @@ export default function ShowTicket({ ticket, isGuest }: Props) {
                             <Link href="/admin/support">
                                 <Button variant="outline">Back</Button>
                             </Link>
-                            {!isGuest && ticket.status !== 'closed' && (
+                            {ticket.status !== 'closed' && (
                                 <Button onClick={closeTicket} variant="secondary" disabled={btnProcessing}>
                                     {btnProcessing ? 'Closing...' : 'Close Ticket'}
                                 </Button>
@@ -125,33 +125,7 @@ export default function ShowTicket({ ticket, isGuest }: Props) {
                     </div>
                 </div>
 
-                {/* Guest Ticket Details */}
-                {isGuest && (
-                    <div className="mb-6 rounded-2xl bg-white p-6 shadow-sm border border-gray-100">
-                        <h2 className="mb-4 text-lg font-bold text-gray-900 border-b pb-2">Informasi Pengirim</h2>
-                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                            <div>
-                                <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Nama</p>
-                                <p className="mt-1 text-base text-gray-900">{ticket.guest_name}</p>
-                            </div>
-                            <div>
-                                <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Email</p>
-                                <p className="mt-1 text-base text-gray-900">{ticket.guest_email}</p>
-                            </div>
-                            <div className="md:col-span-2">
-                                <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Pesan Awal</p>
-                                <div className="rounded-xl bg-gray-50 p-4 border border-gray-100">
-                                    <p className="text-sm whitespace-pre-line text-gray-800 leading-relaxed">
-                                        {ticket.messages?.[0]?.message}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
                 {/* Chat Interface */}
-                {!isGuest && (
                     <div className="h-[500px] space-y-4 overflow-y-auto p-6 rounded-2xl bg-white border border-gray-100 shadow-inner mb-6">
                         <div className="space-y-4">
                             {!ticket.messages || ticket.messages.length === 0 ? (
@@ -185,10 +159,8 @@ export default function ShowTicket({ ticket, isGuest }: Props) {
                             <div ref={messagesEndRef} />
                         </div>
                     </div>
-                )}
-
                 {/* Reply Form */}
-                {!isGuest && ticket.status !== 'closed' && (
+                {ticket.status !== 'closed' && (
                     <form
                         onSubmit={submitReply}
                         className="flex gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm items-end"

@@ -8,6 +8,7 @@ interface Client {
     id: number;
     name: string;
     email: string;
+    role: string;
     is_active: boolean;
     reservations_count: number;
     payments_count: number;
@@ -45,6 +46,14 @@ function hexToRgba(hex: string, alpha: number) {
     const b = parseInt(h.substring(4, 6), 16);
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
+
+const roleLabels: Record<string, { label: string; color: string }> = {
+    super_admin: { label: 'Super Admin', color: '#6366F1' },
+    admin: { label: 'Admin (Data)', color: '#A855F7' },
+    kepala_travel: { label: 'Admin Reservasi', color: '#10B981' },
+    owner: { label: 'Owner', color: '#F59E0B' },
+    client: { label: 'Klien', color: '#3B82F6' },
+};
 
 export default function ClientsIndex() {
     const page = usePage();
@@ -91,9 +100,9 @@ export default function ClientsIndex() {
         );
     };
 
-    const handleStatusChange = (key: string) => {
-        setStatusFilter(key);
-        doSearch(key);
+    const handleStatusChange = (newStatus: string) => {
+        setStatusFilter(newStatus);
+        doSearch(newStatus);
     };
 
     const navigateToClient = (id: number) => {
@@ -214,6 +223,7 @@ export default function ClientsIndex() {
                             <thead className="bg-slate-50/80">
                                 <tr>
                                     <th className="px-6 py-4 text-left text-xs font-extrabold text-gray-500 uppercase tracking-wider">Data Pengguna</th>
+                                    <th className="px-6 py-4 text-left text-xs font-extrabold text-gray-500 uppercase tracking-wider">Role Akses</th>
                                     <th className="px-6 py-4 text-center text-xs font-extrabold text-gray-500 uppercase tracking-wider">Total Reservasi</th>
                                     <th className="px-6 py-4 text-center text-xs font-extrabold text-gray-500 uppercase tracking-wider">Total Pembayaran</th>
                                     <th className="px-6 py-4 text-left text-xs font-extrabold text-gray-500 uppercase tracking-wider">Status Akun</th>
@@ -239,6 +249,16 @@ export default function ClientsIndex() {
                                                         <div className="text-xs font-medium text-gray-500">{c.email}</div>
                                                     </div>
                                                 </div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span className="inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-extrabold border"
+                                                      style={{
+                                                          color: roleLabels[c.role]?.color || '#6B7280',
+                                                          borderColor: roleLabels[c.role]?.color || '#E5E7EB',
+                                                          backgroundColor: hexToRgba(roleLabels[c.role]?.color || '#6B7280', 0.1)
+                                                      }}>
+                                                    {roleLabels[c.role]?.label || c.role}
+                                                </span>
                                             </td>
                                             <td className="px-6 py-4 text-center">
                                                 <span className="inline-flex items-center justify-center min-w-[2.5rem] rounded-lg bg-slate-100 px-2.5 py-1 text-sm font-bold text-slate-700">
@@ -356,19 +376,32 @@ export default function ClientsIndex() {
                                         placeholder="Minimal 8 karakter"
                                         required
                                     />
-                                    {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
+                                    {errors.password && <p className="mt-1.5 text-sm text-red-600">{errors.password}</p>}
                                 </div>
+
                                 {/* Role Selection */}
                                 <div>
-                                    <label className="mb-1.5 block text-sm font-bold text-gray-700">Pilih Role Akses</label>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all ${data.role === 'client' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
+                                    <label className="mb-2 block text-sm font-bold text-gray-700">Pilih Role Akses</label>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                        <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'client' ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
                                             <input type="radio" value="client" checked={data.role === 'client'} onChange={(e) => setData('role', e.target.value)} className="hidden" />
-                                            <span className="font-bold">Klien (Pelanggan)</span>
+                                            <span className="font-bold text-sm">Klien (Pelanggan)</span>
                                         </label>
-                                        <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all ${data.role === 'admin' ? 'border-indigo-500 bg-indigo-50 text-indigo-700' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
+                                        <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'super_admin' ? 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
+                                            <input type="radio" value="super_admin" checked={data.role === 'super_admin'} onChange={(e) => setData('role', e.target.value)} className="hidden" />
+                                            <span className="font-bold text-sm">Super Admin</span>
+                                        </label>
+                                        <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'admin' ? 'border-purple-500 bg-purple-50 text-purple-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
                                             <input type="radio" value="admin" checked={data.role === 'admin'} onChange={(e) => setData('role', e.target.value)} className="hidden" />
-                                            <span className="font-bold">Administrator</span>
+                                            <span className="font-bold text-sm">Admin (Data Input)</span>
+                                        </label>
+                                        <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'kepala_travel' ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
+                                            <input type="radio" value="kepala_travel" checked={data.role === 'kepala_travel'} onChange={(e) => setData('role', e.target.value)} className="hidden" />
+                                            <span className="font-bold text-sm">Admin Reservasi</span>
+                                        </label>
+                                        <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'owner' ? 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
+                                            <input type="radio" value="owner" checked={data.role === 'owner'} onChange={(e) => setData('role', e.target.value)} className="hidden" />
+                                            <span className="font-bold text-sm">Owner</span>
                                         </label>
                                     </div>
                                 </div>

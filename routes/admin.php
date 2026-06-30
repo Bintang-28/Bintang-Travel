@@ -15,8 +15,18 @@ Route::middleware(['auth', 'verified', 'active', 'admin'])
     ->prefix('admin')
     ->as('admin.')
     ->group(function () {
-        // Redirect '/admin' to '/admin/cars' with a named route we can reference
-        Route::redirect('/', '/admin/cars')->name('home');
+        // Redirect '/admin' dynamically based on user's role
+        Route::get('/', function() {
+            $user = auth()->user();
+            if ($user->role === \App\Enums\UserRole::SUPER_ADMIN || $user->role === \App\Enums\UserRole::ADMIN) {
+                return redirect()->route('admin.cars.index');
+            } elseif ($user->role === \App\Enums\UserRole::KEPALA_TRAVEL) {
+                return redirect()->route('admin.reservations.index');
+            } elseif ($user->role === \App\Enums\UserRole::OWNER) {
+                return redirect()->route('admin.reports.index');
+            }
+            abort(403);
+        })->name('home');
 
         // Cars
         Route::resource('cars', CarsController::class)->except(['show']);

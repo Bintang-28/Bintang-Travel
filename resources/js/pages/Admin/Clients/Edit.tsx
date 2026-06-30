@@ -108,16 +108,32 @@ export default function ClientEdit({ client }: Props) {
                             <label className="block text-sm font-bold text-gray-900 mb-1.5">
                                 Ubah Role Akses
                             </label>
-                            <p className="text-xs text-gray-500 mb-3 font-medium">Hati-hati! Memberikan role Admin akan memberikan pengguna ini akses penuh ke dasbor.</p>
-                            <div className="grid grid-cols-2 gap-4">
-                                <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all ${data.role === 'client' ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
+                            <p className="text-xs text-gray-500 mb-3 font-medium">Tentukan hak akses akun ini pada sistem.</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                                <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'client' ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
                                     <input type="radio" value="client" checked={data.role === 'client'} onChange={(e) => setData('role', e.target.value)} className="hidden" />
-                                    <span className="font-bold">Klien (Pelanggan)</span>
+                                    <span className="font-bold text-sm">Klien (Pelanggan)</span>
+                                    <span className="text-[10px] text-gray-400 mt-1">Akses publik</span>
                                 </label>
-                                <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all ${data.role === 'admin' ? 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
-                                    <input type="radio" value="        email: string;
-" checked={data.role === 'admin'} onChange={(e) => setData('role', e.target.value)} className="hidden" />
-                                    <span className="font-bold">Administrator</span>
+                                <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'super_admin' ? 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
+                                    <input type="radio" value="super_admin" checked={data.role === 'super_admin'} onChange={(e) => setData('role', e.target.value)} className="hidden" />
+                                    <span className="font-bold text-sm">Super Admin</span>
+                                    <span className="text-[10px] text-gray-400 mt-1">Seluruh akses</span>
+                                </label>
+                                <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'admin' ? 'border-purple-500 bg-purple-50 text-purple-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
+                                    <input type="radio" value="admin" checked={data.role === 'admin'} onChange={(e) => setData('role', e.target.value)} className="hidden" />
+                                    <span className="font-bold text-sm">Admin (Data Input)</span>
+                                    <span className="text-[10px] text-gray-400 mt-1">Input data armada</span>
+                                </label>
+                                <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'kepala_travel' ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
+                                    <input type="radio" value="kepala_travel" checked={data.role === 'kepala_travel'} onChange={(e) => setData('role', e.target.value)} className="hidden" />
+                                    <span className="font-bold text-sm">Admin Reservasi</span>
+                                    <span className="text-[10px] text-gray-400 mt-1">Kelola reservasi</span>
+                                </label>
+                                <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'owner' ? 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
+                                    <input type="radio" value="owner" checked={data.role === 'owner'} onChange={(e) => setData('role', e.target.value)} className="hidden" />
+                                    <span className="font-bold text-sm">Owner</span>
+                                    <span className="text-[10px] text-gray-400 mt-1">Graf & laporan</span>
                                 </label>
                             </div>
                             {errors.role && <p className="mt-1.5 text-sm font-medium text-red-600">{errors.role}</p>}

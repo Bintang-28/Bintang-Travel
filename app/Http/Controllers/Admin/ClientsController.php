@@ -82,6 +82,7 @@ class ClientsController extends Controller
                 'name' => $client->name,
                 'email' => $client->email,
                 'phone' => $client->phone,
+                'role' => $client->role->value,
                 'is_active' => (bool) $client->is_active,
                 'created_at' => $client->created_at,
             ],
@@ -126,10 +127,10 @@ class ClientsController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'role' => ['required', 'string', Rule::in(['admin', 'client'])],
+            'role' => ['required', 'string', Rule::in(['client', 'super_admin', 'admin', 'kepala_travel', 'owner'])],
         ]);
 
-        $roleEnum = $validated['role'] === 'admin' ? UserRole::ADMIN : UserRole::CLIENT;
+        $roleEnum = UserRole::from($validated['role']);
 
         User::create([
             'name' => $validated['name'],
@@ -152,6 +153,7 @@ class ClientsController extends Controller
                 'name' => $client->name,
                 'email' => $client->email,
                 'phone' => $client->phone,
+                'role' => $client->role->value,
             ]
         ]);
     }
@@ -163,11 +165,13 @@ class ClientsController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $client->id],
             'phone' => ['required', 'string', 'max:20'],
             'password' => ['nullable', 'string', 'min:8'],
+            'role' => ['required', 'string', Rule::in(['client', 'super_admin', 'admin', 'kepala_travel', 'owner'])],
         ]);
 
         $client->name = $validated['name'];
         $client->email = $validated['email'];
         $client->phone = $validated['phone'];
+        $client->role = UserRole::from($validated['role']);
 
         if ($request->filled('password')) {
             $client->password = bcrypt($validated['password']);

@@ -17,7 +17,63 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role === UserRole::ADMIN) {
+        if (!Auth::check() || Auth::user()->role === UserRole::CLIENT) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $user = Auth::user();
+        $routeName = $request->route() ? $request->route()->getName() : null;
+
+        // If route name is not set, let them pass
+        if (!$routeName) {
+            return $next($request);
+        }
+
+        // Define permissions per role
+        switch ($user->role) {
+            case UserRole::SUPER_ADMIN:
+                // Super Admin has access to everything
+                return $next($request);
+
+            case UserRole::ADMIN:
+                // Admin (Input Data): Cars, Drivers, Maintenance, Reminders
+                $allowedPrefixes = [
+                    'admin.cars.',
+                    'admin.drivers.',
+                    'admin.maintenance.',
+                    'admin.reminders.',
+                ];
+                break;
+
+            case UserRole::KEPALA_TRAVEL:
+                // Kepala Travel: Reservations & Support
+                $allowedPrefixes = [
+                    'admin.reservations.',
+                    'admin.support.',
+                ];
+                break;
+
+            case UserRole::OWNER:
+                // Owner: Payments, Reports
+                $allowedPrefixes = [
+                    'admin.payments.',
+                    'admin.reports.',
+                ];
+                break;
+
+            default:
+                abort(403, 'Unauthorized action.');
+        }
+
+        // Check if the current route name matches any of the allowed prefixes
+        foreach ($allowedPrefixes as $prefix) {
+            if (str_starts_with($routeName, $prefix)) {
+                return $next($request);
+            }
+        }
+
+        // Also allow the home/redirect route
+        if ($routeName === 'admin.home') {
             return $next($request);
         }
 

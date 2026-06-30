@@ -56,14 +56,6 @@ class SupportController extends Controller
                         ->where('status', $status->value)
                         ->count()
                 ])->toArray()
-            ],
-            'guest' => [
-                'all' => Ticket::whereNull('user_id')->count(),
-                ...collect(TicketStatus::cases())->mapWithKeys(fn($status) => [
-                    $status->value => Ticket::whereNull('user_id')
-                        ->where('status', $status->value)
-                        ->count()
-                ])->toArray()
             ]
         ];
 
@@ -92,6 +84,10 @@ class SupportController extends Controller
 
     public function show(Ticket $ticket)
     {
+        if ($ticket->status === TicketStatus::NEW) {
+            $ticket->update(['status' => TicketStatus::IN_PROGRESS]);
+        }
+
         // Eager load the messages and user relationship
         $ticket->load(['messages' => function ($query) {
             $query->orderBy('created_at', 'asc');

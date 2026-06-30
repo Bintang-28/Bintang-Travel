@@ -45,6 +45,9 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'unreadSupportCount' => $request->user() && in_array($request->user()->role->value ?? $request->user()->role, ['super_admin', 'kepala_travel'])
+                ? \App\Models\Ticket::where('status', 'new')->count()
+                : 0,
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'csrf_token' => csrf_token(),
             'fileUploadConfig' => [

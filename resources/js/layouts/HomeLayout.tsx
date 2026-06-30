@@ -12,7 +12,7 @@ export default function HomeLayout({ children }: Props) {
     const $page = usePage();
     const role = ($page.props.auth as any)?.user?.role;
     // Gunakan URL string secara langsung
-    const dashboardLink = role === 'admin' ? '/admin/cars' : '/client/reservations';
+    const dashboardLink = role !== 'client' ? '/admin' : '/client/reservations';
     const user = ($page.props.auth as any)?.user;
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -204,9 +204,9 @@ export default function HomeLayout({ children }: Props) {
                                                 <p className="text-xs font-medium text-gray-500 truncate">{user.email}</p>
                                             </div>
                                             <div className="space-y-1">            
-                                                {role === 'admin' && (
+                                                {role !== 'client' && (
                                                     <Link
-                                                        href="/admin/cars"
+                                                        href="/admin"
                                                         className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold text-blue-600 bg-blue-50/50 hover:bg-blue-100 transition-colors"
                                                         onClick={() => setDropdownOpen(false)}
                                                     >
@@ -303,8 +303,8 @@ export default function HomeLayout({ children }: Props) {
                                             <p className="text-sm font-bold text-gray-900">{user.name}</p>
                                             <p className="text-xs text-gray-500">{user.email}</p>
                                         </div>
-                                        {role === 'admin' && (
-                                            <Link href="/admin/cars" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-semibold text-blue-600 hover:bg-blue-50 transition-colors">Halaman Admin</Link>
+                                        {role !== 'client' && (
+                                            <Link href="/admin" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-semibold text-blue-600 hover:bg-blue-50 transition-colors">Halaman Admin</Link>
                                         )}
                                         <Link href="/client/reservations" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors">Pesanan Saya</Link>
                                         <Link href="/settings/profile" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors">Profile</Link>

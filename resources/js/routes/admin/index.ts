@@ -88,8 +88,7 @@ login.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     login.form = loginForm
 /**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
+ * @see routes/admin.php:19
  * @route '/admin'
  */
 export const home = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -98,13 +97,12 @@ export const home = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 home.definition = {
-    methods: ["get","head","post","put","patch","delete","options"],
+    methods: ["get","head"],
     url: '/admin',
-} satisfies RouteDefinition<["get","head","post","put","patch","delete","options"]>
+} satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
+ * @see routes/admin.php:19
  * @route '/admin'
  */
 home.url = (options?: RouteQueryOptions) => {
@@ -112,8 +110,7 @@ home.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
+ * @see routes/admin.php:19
  * @route '/admin'
  */
 home.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -121,63 +118,16 @@ home.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
+ * @see routes/admin.php:19
  * @route '/admin'
  */
 home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: home.url(options),
     method: 'head',
 })
-/**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
- * @route '/admin'
- */
-home.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: home.url(options),
-    method: 'post',
-})
-/**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
- * @route '/admin'
- */
-home.put = (options?: RouteQueryOptions): RouteDefinition<'put'> => ({
-    url: home.url(options),
-    method: 'put',
-})
-/**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
- * @route '/admin'
- */
-home.patch = (options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
-    url: home.url(options),
-    method: 'patch',
-})
-/**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
- * @route '/admin'
- */
-home.delete = (options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
-    url: home.url(options),
-    method: 'delete',
-})
-/**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
- * @route '/admin'
- */
-home.options = (options?: RouteQueryOptions): RouteDefinition<'options'> => ({
-    url: home.url(options),
-    method: 'options',
-})
 
     /**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
+ * @see routes/admin.php:19
  * @route '/admin'
  */
     const homeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -186,8 +136,7 @@ home.options = (options?: RouteQueryOptions): RouteDefinition<'options'> => ({
     })
 
             /**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
+ * @see routes/admin.php:19
  * @route '/admin'
  */
         homeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -195,79 +144,13 @@ home.options = (options?: RouteQueryOptions): RouteDefinition<'options'> => ({
             method: 'get',
         })
             /**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
+ * @see routes/admin.php:19
  * @route '/admin'
  */
         homeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: home.url({
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'get',
-        })
-            /**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
- * @route '/admin'
- */
-        homeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-            action: home.url(options),
-            method: 'post',
-        })
-            /**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
- * @route '/admin'
- */
-        homeForm.put = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-            action: home.url({
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'PUT',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'post',
-        })
-            /**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
- * @route '/admin'
- */
-        homeForm.patch = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-            action: home.url({
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'PATCH',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'post',
-        })
-            /**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
- * @route '/admin'
- */
-        homeForm.delete = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-            action: home.url({
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'DELETE',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'post',
-        })
-            /**
-* @see \Illuminate\Routing\RedirectController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:19
- * @route '/admin'
- */
-        homeForm.options = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: home.url({
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'OPTIONS',
                             ...(options?.query ?? options?.mergeQuery ?? {}),
                         }
                     }),

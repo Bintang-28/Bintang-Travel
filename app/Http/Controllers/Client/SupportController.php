@@ -102,7 +102,7 @@ class SupportController extends Controller
 
         $ticket = Ticket::findOrFail($id);
 
-        if ($ticket->status === TicketStatus::CLOSED) {
+        if ($ticket->status !== TicketStatus::NEW) {
             $ticket->update(['status' => TicketStatus::NEW]);
         }
 

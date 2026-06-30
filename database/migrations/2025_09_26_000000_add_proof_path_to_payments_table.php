@@ -8,9 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('payments', function (Blueprint $table) {
-            $table->string('proof_path')->nullable()->after('gateway_data');
-        });
+        if (!Schema::hasColumn('payments', 'proof_path')) {
+            Schema::table('payments', function (Blueprint $table) {
+                $table->string('proof_path')->nullable()->after('gateway_data');
+            });
+        }
     }
 
     public function down(): void

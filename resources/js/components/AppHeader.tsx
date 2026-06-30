@@ -55,21 +55,30 @@ export default function AppHeader({ breadcrumbs = [] }: Props) {
         return String(routeHelper);
     };
 
-    const mainNavItems: NavItem[] = useMemo(
-        () => [
+    const mainNavItems: NavItem[] = useMemo(() => {
+        if (!auth.user || auth.user.role === 'client') {
+            return [
+                {
+                    title: 'Reservations',
+                    href: getRouteUrl(reservationsIndex()),
+                    icon: FileCheck,
+                },
+                {
+                    title: 'Support',
+                    href: getRouteUrl(supportIndex()),
+                    icon: LifeBuoy,
+                },
+            ];
+        }
+
+        return [
             {
-                title: 'Reservations',
-                href: getRouteUrl(reservationsIndex()),
+                title: 'Dasbor Admin',
+                href: '/admin',
                 icon: FileCheck,
             },
-            {
-                title: 'Support',
-                href: getRouteUrl(supportIndex()),
-                icon: LifeBuoy,
-            },
-        ],
-        []
-    );
+        ];
+    }, [auth.user]);
 
     return (
         <div>

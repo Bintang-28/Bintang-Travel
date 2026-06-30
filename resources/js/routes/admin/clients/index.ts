@@ -79,7 +79,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     index.form = indexForm
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::create
- * @see app/Http/Controllers/Admin/ClientsController.php:118
+ * @see app/Http/Controllers/Admin/ClientsController.php:119
  * @route '/admin/clients/create'
  */
 export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -94,7 +94,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::create
- * @see app/Http/Controllers/Admin/ClientsController.php:118
+ * @see app/Http/Controllers/Admin/ClientsController.php:119
  * @route '/admin/clients/create'
  */
 create.url = (options?: RouteQueryOptions) => {
@@ -103,7 +103,7 @@ create.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::create
- * @see app/Http/Controllers/Admin/ClientsController.php:118
+ * @see app/Http/Controllers/Admin/ClientsController.php:119
  * @route '/admin/clients/create'
  */
 create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -112,7 +112,7 @@ create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::create
- * @see app/Http/Controllers/Admin/ClientsController.php:118
+ * @see app/Http/Controllers/Admin/ClientsController.php:119
  * @route '/admin/clients/create'
  */
 create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -122,7 +122,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
     /**
 * @see \App\Http\Controllers\Admin\ClientsController::create
- * @see app/Http/Controllers/Admin/ClientsController.php:118
+ * @see app/Http/Controllers/Admin/ClientsController.php:119
  * @route '/admin/clients/create'
  */
     const createForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -132,7 +132,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
             /**
 * @see \App\Http\Controllers\Admin\ClientsController::create
- * @see app/Http/Controllers/Admin/ClientsController.php:118
+ * @see app/Http/Controllers/Admin/ClientsController.php:119
  * @route '/admin/clients/create'
  */
         createForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -141,7 +141,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
             /**
 * @see \App\Http\Controllers\Admin\ClientsController::create
- * @see app/Http/Controllers/Admin/ClientsController.php:118
+ * @see app/Http/Controllers/Admin/ClientsController.php:119
  * @route '/admin/clients/create'
  */
         createForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -157,7 +157,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     create.form = createForm
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::store
- * @see app/Http/Controllers/Admin/ClientsController.php:123
+ * @see app/Http/Controllers/Admin/ClientsController.php:124
  * @route '/admin/clients'
  */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -172,7 +172,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::store
- * @see app/Http/Controllers/Admin/ClientsController.php:123
+ * @see app/Http/Controllers/Admin/ClientsController.php:124
  * @route '/admin/clients'
  */
 store.url = (options?: RouteQueryOptions) => {
@@ -181,7 +181,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::store
- * @see app/Http/Controllers/Admin/ClientsController.php:123
+ * @see app/Http/Controllers/Admin/ClientsController.php:124
  * @route '/admin/clients'
  */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -191,7 +191,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
     /**
 * @see \App\Http\Controllers\Admin\ClientsController::store
- * @see app/Http/Controllers/Admin/ClientsController.php:123
+ * @see app/Http/Controllers/Admin/ClientsController.php:124
  * @route '/admin/clients'
  */
     const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -201,7 +201,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
             /**
 * @see \App\Http\Controllers\Admin\ClientsController::store
- * @see app/Http/Controllers/Admin/ClientsController.php:123
+ * @see app/Http/Controllers/Admin/ClientsController.php:124
  * @route '/admin/clients'
  */
         storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -314,7 +314,7 @@ show.head = (args: { client: number | { id: number } } | [client: number | { id:
     show.form = showForm
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::edit
- * @see app/Http/Controllers/Admin/ClientsController.php:147
+ * @see app/Http/Controllers/Admin/ClientsController.php:148
  * @route '/admin/clients/{client}/edit'
  */
 export const edit = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -329,7 +329,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::edit
- * @see app/Http/Controllers/Admin/ClientsController.php:147
+ * @see app/Http/Controllers/Admin/ClientsController.php:148
  * @route '/admin/clients/{client}/edit'
  */
 edit.url = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -362,7 +362,7 @@ edit.url = (args: { client: number | { id: number } } | [client: number | { id: 
 
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::edit
- * @see app/Http/Controllers/Admin/ClientsController.php:147
+ * @see app/Http/Controllers/Admin/ClientsController.php:148
  * @route '/admin/clients/{client}/edit'
  */
 edit.get = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -371,7 +371,7 @@ edit.get = (args: { client: number | { id: number } } | [client: number | { id: 
 })
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::edit
- * @see app/Http/Controllers/Admin/ClientsController.php:147
+ * @see app/Http/Controllers/Admin/ClientsController.php:148
  * @route '/admin/clients/{client}/edit'
  */
 edit.head = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -381,7 +381,7 @@ edit.head = (args: { client: number | { id: number } } | [client: number | { id:
 
     /**
 * @see \App\Http\Controllers\Admin\ClientsController::edit
- * @see app/Http/Controllers/Admin/ClientsController.php:147
+ * @see app/Http/Controllers/Admin/ClientsController.php:148
  * @route '/admin/clients/{client}/edit'
  */
     const editForm = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -391,7 +391,7 @@ edit.head = (args: { client: number | { id: number } } | [client: number | { id:
 
             /**
 * @see \App\Http\Controllers\Admin\ClientsController::edit
- * @see app/Http/Controllers/Admin/ClientsController.php:147
+ * @see app/Http/Controllers/Admin/ClientsController.php:148
  * @route '/admin/clients/{client}/edit'
  */
         editForm.get = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -400,7 +400,7 @@ edit.head = (args: { client: number | { id: number } } | [client: number | { id:
         })
             /**
 * @see \App\Http\Controllers\Admin\ClientsController::edit
- * @see app/Http/Controllers/Admin/ClientsController.php:147
+ * @see app/Http/Controllers/Admin/ClientsController.php:148
  * @route '/admin/clients/{client}/edit'
  */
         editForm.head = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -416,7 +416,7 @@ edit.head = (args: { client: number | { id: number } } | [client: number | { id:
     edit.form = editForm
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::update
- * @see app/Http/Controllers/Admin/ClientsController.php:159
+ * @see app/Http/Controllers/Admin/ClientsController.php:161
  * @route '/admin/clients/{client}'
  */
 export const update = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -431,7 +431,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::update
- * @see app/Http/Controllers/Admin/ClientsController.php:159
+ * @see app/Http/Controllers/Admin/ClientsController.php:161
  * @route '/admin/clients/{client}'
  */
 update.url = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -464,7 +464,7 @@ update.url = (args: { client: number | { id: number } } | [client: number | { id
 
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::update
- * @see app/Http/Controllers/Admin/ClientsController.php:159
+ * @see app/Http/Controllers/Admin/ClientsController.php:161
  * @route '/admin/clients/{client}'
  */
 update.put = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -473,7 +473,7 @@ update.put = (args: { client: number | { id: number } } | [client: number | { id
 })
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::update
- * @see app/Http/Controllers/Admin/ClientsController.php:159
+ * @see app/Http/Controllers/Admin/ClientsController.php:161
  * @route '/admin/clients/{client}'
  */
 update.patch = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -483,7 +483,7 @@ update.patch = (args: { client: number | { id: number } } | [client: number | { 
 
     /**
 * @see \App\Http\Controllers\Admin\ClientsController::update
- * @see app/Http/Controllers/Admin/ClientsController.php:159
+ * @see app/Http/Controllers/Admin/ClientsController.php:161
  * @route '/admin/clients/{client}'
  */
     const updateForm = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -498,7 +498,7 @@ update.patch = (args: { client: number | { id: number } } | [client: number | { 
 
             /**
 * @see \App\Http\Controllers\Admin\ClientsController::update
- * @see app/Http/Controllers/Admin/ClientsController.php:159
+ * @see app/Http/Controllers/Admin/ClientsController.php:161
  * @route '/admin/clients/{client}'
  */
         updateForm.put = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -512,7 +512,7 @@ update.patch = (args: { client: number | { id: number } } | [client: number | { 
         })
             /**
 * @see \App\Http\Controllers\Admin\ClientsController::update
- * @see app/Http/Controllers/Admin/ClientsController.php:159
+ * @see app/Http/Controllers/Admin/ClientsController.php:161
  * @route '/admin/clients/{client}'
  */
         updateForm.patch = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -528,7 +528,7 @@ update.patch = (args: { client: number | { id: number } } | [client: number | { 
     update.form = updateForm
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::destroy
- * @see app/Http/Controllers/Admin/ClientsController.php:183
+ * @see app/Http/Controllers/Admin/ClientsController.php:187
  * @route '/admin/clients/{client}'
  */
 export const destroy = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -543,7 +543,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::destroy
- * @see app/Http/Controllers/Admin/ClientsController.php:183
+ * @see app/Http/Controllers/Admin/ClientsController.php:187
  * @route '/admin/clients/{client}'
  */
 destroy.url = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -576,7 +576,7 @@ destroy.url = (args: { client: number | { id: number } } | [client: number | { i
 
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::destroy
- * @see app/Http/Controllers/Admin/ClientsController.php:183
+ * @see app/Http/Controllers/Admin/ClientsController.php:187
  * @route '/admin/clients/{client}'
  */
 destroy.delete = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -586,7 +586,7 @@ destroy.delete = (args: { client: number | { id: number } } | [client: number | 
 
     /**
 * @see \App\Http\Controllers\Admin\ClientsController::destroy
- * @see app/Http/Controllers/Admin/ClientsController.php:183
+ * @see app/Http/Controllers/Admin/ClientsController.php:187
  * @route '/admin/clients/{client}'
  */
     const destroyForm = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -601,7 +601,7 @@ destroy.delete = (args: { client: number | { id: number } } | [client: number | 
 
             /**
 * @see \App\Http\Controllers\Admin\ClientsController::destroy
- * @see app/Http/Controllers/Admin/ClientsController.php:183
+ * @see app/Http/Controllers/Admin/ClientsController.php:187
  * @route '/admin/clients/{client}'
  */
         destroyForm.delete = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -617,7 +617,7 @@ destroy.delete = (args: { client: number | { id: number } } | [client: number | 
     destroy.form = destroyForm
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::suspend
- * @see app/Http/Controllers/Admin/ClientsController.php:98
+ * @see app/Http/Controllers/Admin/ClientsController.php:99
  * @route '/admin/clients/{client}/suspend'
  */
 export const suspend = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -632,7 +632,7 @@ suspend.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::suspend
- * @see app/Http/Controllers/Admin/ClientsController.php:98
+ * @see app/Http/Controllers/Admin/ClientsController.php:99
  * @route '/admin/clients/{client}/suspend'
  */
 suspend.url = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -665,7 +665,7 @@ suspend.url = (args: { client: number | { id: number } } | [client: number | { i
 
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::suspend
- * @see app/Http/Controllers/Admin/ClientsController.php:98
+ * @see app/Http/Controllers/Admin/ClientsController.php:99
  * @route '/admin/clients/{client}/suspend'
  */
 suspend.post = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -675,7 +675,7 @@ suspend.post = (args: { client: number | { id: number } } | [client: number | { 
 
     /**
 * @see \App\Http\Controllers\Admin\ClientsController::suspend
- * @see app/Http/Controllers/Admin/ClientsController.php:98
+ * @see app/Http/Controllers/Admin/ClientsController.php:99
  * @route '/admin/clients/{client}/suspend'
  */
     const suspendForm = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -685,7 +685,7 @@ suspend.post = (args: { client: number | { id: number } } | [client: number | { 
 
             /**
 * @see \App\Http\Controllers\Admin\ClientsController::suspend
- * @see app/Http/Controllers/Admin/ClientsController.php:98
+ * @see app/Http/Controllers/Admin/ClientsController.php:99
  * @route '/admin/clients/{client}/suspend'
  */
         suspendForm.post = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -696,7 +696,7 @@ suspend.post = (args: { client: number | { id: number } } | [client: number | { 
     suspend.form = suspendForm
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::activate
- * @see app/Http/Controllers/Admin/ClientsController.php:108
+ * @see app/Http/Controllers/Admin/ClientsController.php:109
  * @route '/admin/clients/{client}/activate'
  */
 export const activate = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -711,7 +711,7 @@ activate.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::activate
- * @see app/Http/Controllers/Admin/ClientsController.php:108
+ * @see app/Http/Controllers/Admin/ClientsController.php:109
  * @route '/admin/clients/{client}/activate'
  */
 activate.url = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -744,7 +744,7 @@ activate.url = (args: { client: number | { id: number } } | [client: number | { 
 
 /**
 * @see \App\Http\Controllers\Admin\ClientsController::activate
- * @see app/Http/Controllers/Admin/ClientsController.php:108
+ * @see app/Http/Controllers/Admin/ClientsController.php:109
  * @route '/admin/clients/{client}/activate'
  */
 activate.post = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -754,7 +754,7 @@ activate.post = (args: { client: number | { id: number } } | [client: number | {
 
     /**
 * @see \App\Http\Controllers\Admin\ClientsController::activate
- * @see app/Http/Controllers/Admin/ClientsController.php:108
+ * @see app/Http/Controllers/Admin/ClientsController.php:109
  * @route '/admin/clients/{client}/activate'
  */
     const activateForm = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -764,7 +764,7 @@ activate.post = (args: { client: number | { id: number } } | [client: number | {
 
             /**
 * @see \App\Http\Controllers\Admin\ClientsController::activate
- * @see app/Http/Controllers/Admin/ClientsController.php:108
+ * @see app/Http/Controllers/Admin/ClientsController.php:109
  * @route '/admin/clients/{client}/activate'
  */
         activateForm.post = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

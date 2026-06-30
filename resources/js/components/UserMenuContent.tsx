@@ -22,6 +22,16 @@ export default function UserMenuContent({ user }: Props) {
                 </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+            {user.role !== 'client' && (
+                <>
+                    <DropdownMenuItem asChild className="cursor-pointer font-bold text-blue-600 hover:text-blue-700">
+                        <Link href="/admin" className="flex w-full items-center">
+                            Dasbor Admin
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                </>
+            )}
             <DropdownMenuItem
                 asChild
                 className="cursor-pointer text-red-600 transition-colors focus:bg-red-50 focus:text-red-700 dark:text-red-400 dark:focus:bg-red-950/40 dark:focus:text-red-300"

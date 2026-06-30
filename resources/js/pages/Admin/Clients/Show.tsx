@@ -25,6 +25,7 @@ interface Client {
     name: string;
     email: string;
     phone: string | null;
+    role?: string;
     is_active: boolean;
     created_at: string;
 }
@@ -58,6 +59,14 @@ export default function ClientShow() {
     const { props } = usePage();
     const { client, stats, reservations } = props as unknown as Props;
     const [isProcessing, setIsProcessing] = useState(false);
+
+    const roleLabels: Record<string, string> = {
+        super_admin: 'Super Admin',
+        admin: 'Admin (Data Input)',
+        kepala_travel: 'Admin Reservasi',
+        owner: 'Owner',
+        client: 'Klien (Pelanggan)',
+    };
 
     const formatCurrency = (amount: number | string) => {
         return new Intl.NumberFormat('id-ID', {
@@ -137,7 +146,13 @@ export default function ClientShow() {
                             </div>
                             <h2 className="text-xl font-bold text-gray-900">{client.name}</h2>
                             <p className="text-sm font-medium text-gray-500">{client.email}</p>
-                            <p className="text-sm font-medium text-gray-500 mb-4">{client.phone || '—'}</p>
+                            <p className="text-sm font-medium text-gray-500 mb-2">{client.phone || '—'}</p>
+
+                            {client.role && (
+                                <span className="mb-4 inline-flex items-center rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-extrabold text-slate-800 border border-slate-200">
+                                    {roleLabels[client.role] || client.role}
+                                </span>
+                            )}
                             
                             <span className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider ${client.is_active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                                 <span className={`size-2 rounded-full ${client.is_active ? 'bg-green-500' : 'bg-red-500'}`}></span>

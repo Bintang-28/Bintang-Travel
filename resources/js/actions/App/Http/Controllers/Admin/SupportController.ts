@@ -79,7 +79,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     index.form = indexForm
 /**
 * @see \App\Http\Controllers\Admin\SupportController::show
- * @see app/Http/Controllers/Admin/SupportController.php:93
+ * @see app/Http/Controllers/Admin/SupportController.php:85
  * @route '/admin/support/tickets/{ticket}'
  */
 export const show = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -94,7 +94,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\SupportController::show
- * @see app/Http/Controllers/Admin/SupportController.php:93
+ * @see app/Http/Controllers/Admin/SupportController.php:85
  * @route '/admin/support/tickets/{ticket}'
  */
 show.url = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -127,7 +127,7 @@ show.url = (args: { ticket: number | { id: number } } | [ticket: number | { id: 
 
 /**
 * @see \App\Http\Controllers\Admin\SupportController::show
- * @see app/Http/Controllers/Admin/SupportController.php:93
+ * @see app/Http/Controllers/Admin/SupportController.php:85
  * @route '/admin/support/tickets/{ticket}'
  */
 show.get = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -136,7 +136,7 @@ show.get = (args: { ticket: number | { id: number } } | [ticket: number | { id: 
 })
 /**
 * @see \App\Http\Controllers\Admin\SupportController::show
- * @see app/Http/Controllers/Admin/SupportController.php:93
+ * @see app/Http/Controllers/Admin/SupportController.php:85
  * @route '/admin/support/tickets/{ticket}'
  */
 show.head = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -146,7 +146,7 @@ show.head = (args: { ticket: number | { id: number } } | [ticket: number | { id:
 
     /**
 * @see \App\Http\Controllers\Admin\SupportController::show
- * @see app/Http/Controllers/Admin/SupportController.php:93
+ * @see app/Http/Controllers/Admin/SupportController.php:85
  * @route '/admin/support/tickets/{ticket}'
  */
     const showForm = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -156,7 +156,7 @@ show.head = (args: { ticket: number | { id: number } } | [ticket: number | { id:
 
             /**
 * @see \App\Http\Controllers\Admin\SupportController::show
- * @see app/Http/Controllers/Admin/SupportController.php:93
+ * @see app/Http/Controllers/Admin/SupportController.php:85
  * @route '/admin/support/tickets/{ticket}'
  */
         showForm.get = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -165,7 +165,7 @@ show.head = (args: { ticket: number | { id: number } } | [ticket: number | { id:
         })
             /**
 * @see \App\Http\Controllers\Admin\SupportController::show
- * @see app/Http/Controllers/Admin/SupportController.php:93
+ * @see app/Http/Controllers/Admin/SupportController.php:85
  * @route '/admin/support/tickets/{ticket}'
  */
         showForm.head = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -181,7 +181,7 @@ show.head = (args: { ticket: number | { id: number } } | [ticket: number | { id:
     show.form = showForm
 /**
 * @see \App\Http\Controllers\Admin\SupportController::reply
- * @see app/Http/Controllers/Admin/SupportController.php:106
+ * @see app/Http/Controllers/Admin/SupportController.php:102
  * @route '/admin/support/tickets/{ticket}/reply'
  */
 export const reply = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -196,7 +196,7 @@ reply.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\SupportController::reply
- * @see app/Http/Controllers/Admin/SupportController.php:106
+ * @see app/Http/Controllers/Admin/SupportController.php:102
  * @route '/admin/support/tickets/{ticket}/reply'
  */
 reply.url = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -229,7 +229,7 @@ reply.url = (args: { ticket: number | { id: number } } | [ticket: number | { id:
 
 /**
 * @see \App\Http\Controllers\Admin\SupportController::reply
- * @see app/Http/Controllers/Admin/SupportController.php:106
+ * @see app/Http/Controllers/Admin/SupportController.php:102
  * @route '/admin/support/tickets/{ticket}/reply'
  */
 reply.post = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -239,7 +239,7 @@ reply.post = (args: { ticket: number | { id: number } } | [ticket: number | { id
 
     /**
 * @see \App\Http\Controllers\Admin\SupportController::reply
- * @see app/Http/Controllers/Admin/SupportController.php:106
+ * @see app/Http/Controllers/Admin/SupportController.php:102
  * @route '/admin/support/tickets/{ticket}/reply'
  */
     const replyForm = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -249,7 +249,7 @@ reply.post = (args: { ticket: number | { id: number } } | [ticket: number | { id
 
             /**
 * @see \App\Http\Controllers\Admin\SupportController::reply
- * @see app/Http/Controllers/Admin/SupportController.php:106
+ * @see app/Http/Controllers/Admin/SupportController.php:102
  * @route '/admin/support/tickets/{ticket}/reply'
  */
         replyForm.post = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -260,7 +260,7 @@ reply.post = (args: { ticket: number | { id: number } } | [ticket: number | { id
     reply.form = replyForm
 /**
 * @see \App\Http\Controllers\Admin\SupportController::close
- * @see app/Http/Controllers/Admin/SupportController.php:130
+ * @see app/Http/Controllers/Admin/SupportController.php:126
  * @route '/admin/support/tickets/{ticket}/close'
  */
 export const close = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -275,7 +275,7 @@ close.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\SupportController::close
- * @see app/Http/Controllers/Admin/SupportController.php:130
+ * @see app/Http/Controllers/Admin/SupportController.php:126
  * @route '/admin/support/tickets/{ticket}/close'
  */
 close.url = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -308,7 +308,7 @@ close.url = (args: { ticket: number | { id: number } } | [ticket: number | { id:
 
 /**
 * @see \App\Http\Controllers\Admin\SupportController::close
- * @see app/Http/Controllers/Admin/SupportController.php:130
+ * @see app/Http/Controllers/Admin/SupportController.php:126
  * @route '/admin/support/tickets/{ticket}/close'
  */
 close.post = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -318,7 +318,7 @@ close.post = (args: { ticket: number | { id: number } } | [ticket: number | { id
 
     /**
 * @see \App\Http\Controllers\Admin\SupportController::close
- * @see app/Http/Controllers/Admin/SupportController.php:130
+ * @see app/Http/Controllers/Admin/SupportController.php:126
  * @route '/admin/support/tickets/{ticket}/close'
  */
     const closeForm = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -328,7 +328,7 @@ close.post = (args: { ticket: number | { id: number } } | [ticket: number | { id
 
             /**
 * @see \App\Http\Controllers\Admin\SupportController::close
- * @see app/Http/Controllers/Admin/SupportController.php:130
+ * @see app/Http/Controllers/Admin/SupportController.php:126
  * @route '/admin/support/tickets/{ticket}/close'
  */
         closeForm.post = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -339,7 +339,7 @@ close.post = (args: { ticket: number | { id: number } } | [ticket: number | { id
     close.form = closeForm
 /**
 * @see \App\Http\Controllers\Admin\SupportController::destroy
- * @see app/Http/Controllers/Admin/SupportController.php:139
+ * @see app/Http/Controllers/Admin/SupportController.php:135
  * @route '/admin/support/tickets/{ticket}'
  */
 export const destroy = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -354,7 +354,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\SupportController::destroy
- * @see app/Http/Controllers/Admin/SupportController.php:139
+ * @see app/Http/Controllers/Admin/SupportController.php:135
  * @route '/admin/support/tickets/{ticket}'
  */
 destroy.url = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -387,7 +387,7 @@ destroy.url = (args: { ticket: number | { id: number } } | [ticket: number | { i
 
 /**
 * @see \App\Http\Controllers\Admin\SupportController::destroy
- * @see app/Http/Controllers/Admin/SupportController.php:139
+ * @see app/Http/Controllers/Admin/SupportController.php:135
  * @route '/admin/support/tickets/{ticket}'
  */
 destroy.delete = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -397,7 +397,7 @@ destroy.delete = (args: { ticket: number | { id: number } } | [ticket: number | 
 
     /**
 * @see \App\Http\Controllers\Admin\SupportController::destroy
- * @see app/Http/Controllers/Admin/SupportController.php:139
+ * @see app/Http/Controllers/Admin/SupportController.php:135
  * @route '/admin/support/tickets/{ticket}'
  */
     const destroyForm = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -412,7 +412,7 @@ destroy.delete = (args: { ticket: number | { id: number } } | [ticket: number | 
 
             /**
 * @see \App\Http\Controllers\Admin\SupportController::destroy
- * @see app/Http/Controllers/Admin/SupportController.php:139
+ * @see app/Http/Controllers/Admin/SupportController.php:135
  * @route '/admin/support/tickets/{ticket}'
  */
         destroyForm.delete = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

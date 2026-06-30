@@ -17,18 +17,17 @@ interface Props {
         data: Ticket[];
         links: Array<{ url: string | null; label: string; active: boolean }>;
     };
-    filters: { search?: string; status?: string; type?: string };
+    filters: { search?: string; status?: string };
     statuses: Record<string, { label: string; color: string }>;
     statusCounts: {
         customer: Record<string, number>;
-        guest: Record<string, number>;
     };
 }
 
 export default function SupportIndex({ tickets, filters, statuses, statusCounts }: Props) {
     const [search, setSearch] = useState(filters?.search || '');
     const [statusFilter, setStatusFilter] = useState(filters?.status || 'all');
-    const [ticketType, setTicketType] = useState(filters?.type || 'customer');
+    const ticketType = 'customer';
 
     const statusColors = useMemo(() => {
         const colors: Record<string, { bg: string; text: string; dot: string }> = {};
@@ -46,23 +45,17 @@ export default function SupportIndex({ tickets, filters, statuses, statusCounts 
         return statusColors[status] || { bg: 'rgba(107, 114, 128, 0.1)', text: '#6B7280', dot: '#6B7280' };
     };
 
-    const doSearch = (overrideStatus?: string, overrideType?: string) => {
+    const doSearch = (overrideStatus?: string) => {
         router.get('/admin/support', {
             search,
             status: (overrideStatus ?? statusFilter) === 'all' ? undefined : (overrideStatus ?? statusFilter),
-            type: overrideType ?? ticketType,
+            type: 'customer',
         }, { preserveState: true, replace: true });
     };
 
     useEffect(() => {
         if (search === '' && filters?.search) doSearch();
     }, [search]);
-
-    const handleTypeChange = (type: string) => {
-        setTicketType(type);
-        setStatusFilter('all');
-        doSearch('all', type);
-    };
 
     const handleStatusChange = (status: string) => {
         setStatusFilter(status);
@@ -76,8 +69,7 @@ export default function SupportIndex({ tickets, filters, statuses, statusCounts 
             });
         }
     };
-
-    const currentCounts = statusCounts?.[ticketType as 'customer' | 'guest'] ?? {};
+    const currentCounts = statusCounts?.customer ?? {};
 
     return (
         <AdminLayout>
@@ -85,23 +77,6 @@ export default function SupportIndex({ tickets, filters, statuses, statusCounts 
             <main className="flex-1 space-y-6 p-8">
                 <div className="flex items-center justify-between gap-4">
                     <h1 className="text-2xl font-semibold">Support Tickets</h1>
-                </div>
-
-                {/* Ticket Type Toggle */}
-                <div className="flex gap-2">
-                    {['customer', 'guest'].map((type) => (
-                        <button
-                            key={type}
-                            onClick={() => handleTypeChange(type)}
-                            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                                ticketType === type
-                                    ? 'bg-blue-600 text-white'
-                                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                            }`}
-                        >
-                            {type === 'customer' ? 'Customer' : 'Guest'} ({statusCounts?.[type as 'customer' | 'guest']?.all ?? 0})
-                        </button>
-                    ))}
                 </div>
 
                 {/* Search */}
@@ -158,7 +133,7 @@ export default function SupportIndex({ tickets, filters, statuses, statusCounts 
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    {ticketType === 'customer' ? 'Customer' : 'Guest'}
+                                    Customer
                                 </th>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
@@ -186,17 +161,8 @@ export default function SupportIndex({ tickets, filters, statuses, statusCounts 
                                                 <div className="font-medium text-gray-900">{ticket.subject}</div>
                                             </td>
                                             <td className="px-4 py-3">
-                                                {ticketType === 'customer' ? (
-                                                    <>
-                                                        <div className="font-medium">{ticket.user?.name ?? '—'}</div>
-                                                        <div className="text-xs text-muted-foreground">{ticket.user?.email}</div>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <div className="font-medium">{ticket.guest_name ?? '—'}</div>
-                                                        <div className="text-xs text-muted-foreground">{ticket.guest_email}</div>
-                                                    </>
-                                                )}
+                                                <div className="font-medium">{ticket.user?.name ?? '—'}</div>
+                                                <div className="text-xs text-muted-foreground">{ticket.user?.email}</div>
                                             </td>
                                             <td className="px-4 py-3">
                                                 <span
