@@ -60,6 +60,21 @@ export default function ShowTicket({ ticket, isGuest }: Props) {
         if (ticket?.messages) scrollToBottom();
     }, [ticket?.messages?.length]);
 
+    // Polling for new messages
+    useEffect(() => {
+        if (ticket?.status === 'closed') return;
+        
+        const interval = setInterval(() => {
+            router.reload({
+                only: ['ticket'],
+                preserveScroll: true,
+                preserveState: true,
+            });
+        }, 5000); // Poll every 5 seconds
+        
+        return () => clearInterval(interval);
+    }, [ticket?.status]);
+
     const submitReply = (e?: React.FormEvent) => {
         e?.preventDefault();
         if (isGuest || !canSend) return;
