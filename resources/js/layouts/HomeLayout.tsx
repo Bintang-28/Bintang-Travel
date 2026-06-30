@@ -172,12 +172,6 @@ export default function HomeLayout({ children }: Props) {
                             >
                                 Tentang Kami
                             </Link>
-                            <Link
-                                href="/contact"
-                                className={`font-bold transition-colors hover:text-blue-600 ${$page.url === '/contact' ? 'text-blue-600' : 'text-gray-600'}`}
-                            >
-                                Kontak
-                            </Link>
                         </div>
 
                         {/* Auth Buttons */}
@@ -295,7 +289,6 @@ export default function HomeLayout({ children }: Props) {
                                 <Link href="/" onClick={() => setMobileMenuOpen(false)} className={`block px-4 py-3 rounded-xl font-bold text-sm transition-colors ${$page.url === '/' ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50'}`}>Halaman Utama</Link>
                                 <Link href="/fleet" onClick={() => setMobileMenuOpen(false)} className={`block px-4 py-3 rounded-xl font-bold text-sm transition-colors ${$page.url.startsWith('/fleet') ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50'}`}>Armada</Link>
                                 <Link href="/about" onClick={() => setMobileMenuOpen(false)} className={`block px-4 py-3 rounded-xl font-bold text-sm transition-colors ${$page.url === '/about' ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50'}`}>Tentang Kami</Link>
-                                <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className={`block px-4 py-3 rounded-xl font-bold text-sm transition-colors ${$page.url === '/contact' ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50'}`}>Kontak</Link>
 
                                 {user ? (
                                     <div className="pt-3 border-t border-gray-100 space-y-1">
@@ -357,7 +350,6 @@ export default function HomeLayout({ children }: Props) {
                         <div className="space-y-6">
                             <h4 className="text-lg font-bold tracking-wide">Bantuan</h4>
                             <ul className="space-y-3 text-sm font-medium text-gray-400">
-                                <li><Link href="/contact" className="transition-colors hover:text-blue-400">Hubungi Kami</Link></li>
                                 <li><Link href="/client/support" className="transition-colors hover:text-blue-400">Pusat Bantuan</Link></li>
                                 <li><a href="#" className="transition-colors hover:text-blue-400">Syarat & Ketentuan</a></li>
                                 <li><a href="#" className="transition-colors hover:text-blue-400">Kebijakan Privasi</a></li>
@@ -404,6 +396,7 @@ export default function HomeLayout({ children }: Props) {
                 </div>
             </footer>
 
+            {/* Floating Chat Widget */}
             {/* Floating Chat Widget */}
             <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
                 {/* Chat Panel */}

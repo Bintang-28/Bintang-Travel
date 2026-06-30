@@ -91,31 +91,4 @@ class HomePagesController extends Controller
     {
         return inertia('About');
     }
-
-    public function contact()
-    {
-        return inertia('Contact');
-    }
-
-    public function guestContact(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string',
-        ]);
-
-        $ticket = Ticket::create([
-            'guest_name' => $request->name,
-            'guest_email' => $request->email,
-            'subject' => $request->subject,
-        ]);
-
-        $ticket->messages()->create([
-            'message' => $request->message,
-        ]);
-
-        return redirect()->route('contact')->with('success', 'Message sent successfully!');
-    }
 }

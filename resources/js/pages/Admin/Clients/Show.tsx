@@ -107,21 +107,21 @@ export default function ClientShow() {
             
             <main className="flex-1 p-6 lg:p-8 space-y-8 bg-slate-50 min-h-screen">
                 {/* Header, Back Button, & Aksi CRUD */}
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex items-center gap-3">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between w-full">
+                    <div className="flex items-start sm:items-center gap-3 min-w-0">
                         <Link 
                             href="/admin/clients" 
-                            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white border border-gray-200 text-gray-500 transition-colors hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
+                            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white border border-gray-200 text-gray-500 transition-colors hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
                         >
                             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
                         </Link>
-                        <div>
-                            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Profil Pengguna</h1>
-                            <p className="text-sm text-gray-500 font-medium">Detail informasi dan riwayat aktivitas akun pelanggan.</p>
+                        <div className="min-w-0 flex-1">
+                            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight truncate">Profil Pengguna</h1>
+                            <p className="text-sm text-gray-500 font-medium break-words">Detail informasi dan riwayat aktivitas akun pelanggan.</p>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap items-center gap-3 shrink-0">
                         <Link
                             href={`/admin/clients/${client.id}/edit`}
                             className="inline-flex items-center justify-center rounded-xl bg-blue-50 px-4 py-2.5 text-sm font-bold text-blue-600 transition-colors hover:bg-blue-100"
@@ -137,15 +137,15 @@ export default function ClientShow() {
                     </div>
                 </div>
 
-                <div className="grid gap-6 lg:grid-cols-3 items-start">
+                <div className="grid gap-6 lg:grid-cols-3 items-start w-full">
                     {/* Panel Kiri: Informasi Profil & Aksi */}
-                    <div className="lg:col-span-1 space-y-6">
-                        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm flex flex-col items-center text-center">
-                            <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-cyan-100 text-3xl font-extrabold text-blue-700">
+                    <div className="lg:col-span-1 space-y-6 min-w-0">
+                        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm flex flex-col items-center text-center w-full overflow-hidden">
+                            <div className="mb-4 flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-cyan-100 text-3xl font-extrabold text-blue-700">
                                 {client.name.charAt(0).toUpperCase()}
                             </div>
-                            <h2 className="text-xl font-bold text-gray-900">{client.name}</h2>
-                            <p className="text-sm font-medium text-gray-500">{client.email}</p>
+                            <h2 className="text-xl font-bold text-gray-900 break-words w-full">{client.name}</h2>
+                            <p className="text-sm font-medium text-gray-500 break-all w-full">{client.email}</p>
                             <p className="text-sm font-medium text-gray-500 mb-2">{client.phone || '—'}</p>
 
                             {client.role && (
@@ -190,7 +190,7 @@ export default function ClientShow() {
                     </div>
 
                     {/* Panel Kanan: Statistik Ringkasan & Tabel Keterangan Reservasi */}
-                    <div className="lg:col-span-2 space-y-6">
+                    <div className="lg:col-span-2 space-y-6 min-w-0">
                         <div className="grid gap-4 sm:grid-cols-3">
                             <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-5 shadow-sm">
                                 <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Total Reservasi</p>

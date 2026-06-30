@@ -38,8 +38,8 @@ export default function Index({ drivers }: Props) {
                         </Link>
                     </div>
 
-                    <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-                        <table className="w-full text-left text-sm">
+                    <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
+                        <table className="w-full text-left text-sm min-w-max">
                             <thead className="bg-gray-50 text-xs font-semibold uppercase text-gray-500">
                                 <tr>
                                     <th className="px-4 py-3">Nama</th>

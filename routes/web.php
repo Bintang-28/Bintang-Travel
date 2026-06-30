@@ -8,8 +8,6 @@ use Inertia\Inertia;
 Route::get('/', [HomePagesController::class, 'index'])->name('home');
 Route::get('/fleet', [HomePagesController::class, 'fleet'])->name('fleet');
 Route::get('/about', [HomePagesController::class, 'about'])->name('about');
-Route::get('/contact', [HomePagesController::class, 'contact'])->name('contact');
-Route::post('/contact/guestContact', [HomePagesController::class, 'guestContact'])->name('contact.guestContact');
 
 
 

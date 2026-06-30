@@ -1,5 +1,5 @@
 import HomeLayout from '@/layouts/HomeLayout';
-import { fleet, contact } from '@/routes';
+import { fleet } from '@/routes';
 import { Link } from '@inertiajs/react';
 
 export default function About() {
@@ -157,12 +157,7 @@ export default function About() {
                                 >
                                     Eksplorasi Armada
                                 </Link>
-                                <Link
-                                    href={contact().url}
-                                    className="rounded-xl border-2 border-white/50 bg-blue-600/20 px-8 py-4 font-bold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white hover:text-blue-600 hover:-translate-y-1"
-                                >
-                                    Hubungi Kami
-                                </Link>
+
                             </div>
                         </div>
                     </div>

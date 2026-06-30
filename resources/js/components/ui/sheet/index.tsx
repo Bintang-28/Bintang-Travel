@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const Sheet = SheetPrimitive.Root;
 const SheetTrigger = SheetPrimitive.Trigger;
@@ -27,7 +28,7 @@ const SheetContent = React.forwardRef<
         <SheetOverlay />
         <SheetPrimitive.Content
             ref={ref}
-            className={`fixed z-50 gap-4 bg-white p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:duration-500 data-[state=closed]:duration-300 h-full w-3/4 max-w-sm border-r border-gray-200 inset-y-0 left-0 data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left dark:bg-zinc-950 ${className}`}
+            className={cn("fixed z-50 gap-4 bg-white p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:duration-500 data-[state=closed]:duration-300 h-full w-3/4 max-w-sm border-r border-gray-200 inset-y-0 left-0 data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left dark:bg-zinc-950", className)}
             {...props}
         >
             {children}
