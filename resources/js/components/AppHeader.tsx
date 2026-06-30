@@ -17,6 +17,7 @@ import {
 import {
     Sheet,
     SheetContent,
+    SheetDescription,
     SheetHeader,
     SheetTitle,
     SheetTrigger,
@@ -100,6 +101,9 @@ export default function AppHeader({ breadcrumbs = [] }: Props) {
                                 <SheetTitle className="sr-only">
                                     Navigation Menu
                                 </SheetTitle>
+                                <SheetDescription className="sr-only">
+                                    Navigation Menu Description
+                                </SheetDescription>
                                 <SheetHeader className="flex justify-start text-left">
                                     <AppLogoIcon className="size-6 fill-current text-black dark:text-white" />
                                 </SheetHeader>
