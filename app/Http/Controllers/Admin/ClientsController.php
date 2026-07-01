@@ -127,7 +127,7 @@ class ClientsController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'role' => ['required', 'string', Rule::in(['client', 'super_admin', 'admin', 'kepala_travel', 'owner'])],
+            'role' => ['required', 'string', Rule::in(['client', 'super_admin', 'admin', 'owner'])],
         ]);
 
         $roleEnum = UserRole::from($validated['role']);
@@ -165,7 +165,7 @@ class ClientsController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $client->id],
             'phone' => ['required', 'string', 'max:20'],
             'password' => ['nullable', 'string', 'min:8'],
-            'role' => ['required', 'string', Rule::in(['client', 'super_admin', 'admin', 'kepala_travel', 'owner'])],
+            'role' => ['required', 'string', Rule::in(['client', 'super_admin', 'admin', 'owner'])],
         ]);
 
         $client->name = $validated['name'];

@@ -26,25 +26,13 @@ class DemoUsersSeeder extends Seeder
             ]
         );
 
-        // Admin (Input Data only)
+        // Admin (Input Data & Reservations)
         User::query()->updateOrCreate(
             ['email' => 'bintangdata@example.com'],
             [
-                'name' => 'Admin Input Data',
+                'name' => 'Admin Travel',
                 'password' => Hash::make('00000000'),
                 'role' => UserRole::ADMIN,
-                'is_active' => true,
-                'email_verified_at' => now(),
-            ]
-        );
-
-        // Kepala Travel (Reservations only)
-        User::query()->updateOrCreate(
-            ['email' => 'bintangtravel@example.com'],
-            [
-                'name' => 'Kepala Travel',
-                'password' => Hash::make('00000000'),
-                'role' => UserRole::KEPALA_TRAVEL,
                 'is_active' => true,
                 'email_verified_at' => now(),
             ]

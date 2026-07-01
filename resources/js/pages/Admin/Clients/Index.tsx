@@ -49,8 +49,7 @@ function hexToRgba(hex: string, alpha: number) {
 
 const roleLabels: Record<string, { label: string; color: string }> = {
     super_admin: { label: 'Super Admin', color: '#6366F1' },
-    admin: { label: 'Admin (Data)', color: '#A855F7' },
-    kepala_travel: { label: 'Admin Reservasi', color: '#10B981' },
+    admin: { label: 'Admin Travel', color: '#A855F7' },
     owner: { label: 'Owner', color: '#F59E0B' },
     client: { label: 'Klien', color: '#3B82F6' },
 };
@@ -393,11 +392,7 @@ export default function ClientsIndex() {
                                         </label>
                                         <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'admin' ? 'border-purple-500 bg-purple-50 text-purple-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
                                             <input type="radio" value="admin" checked={data.role === 'admin'} onChange={(e) => setData('role', e.target.value)} className="hidden" />
-                                            <span className="font-bold text-sm">Admin (Data Input)</span>
-                                        </label>
-                                        <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'kepala_travel' ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
-                                            <input type="radio" value="kepala_travel" checked={data.role === 'kepala_travel'} onChange={(e) => setData('role', e.target.value)} className="hidden" />
-                                            <span className="font-bold text-sm">Admin Reservasi</span>
+                                            <span className="font-bold text-sm">Admin Travel</span>
                                         </label>
                                         <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'owner' ? 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
                                             <input type="radio" value="owner" checked={data.role === 'owner'} onChange={(e) => setData('role', e.target.value)} className="hidden" />

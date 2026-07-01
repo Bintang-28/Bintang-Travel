@@ -36,11 +36,11 @@ export default function AppSidebar({ children }: { children?: React.ReactNode })
             { title: 'Drivers', href: driversIndex().url, icon: UserCheck, roles: ['super_admin', 'admin'] },
             { title: 'Maintenance', href: maintenanceIndex().url, icon: Wrench, roles: ['super_admin', 'admin'] },
             { title: 'Reminders', href: remindersIndex().url, icon: Bell, roles: ['super_admin', 'admin'] },
-            { title: 'Reservations', href: reservationsIndex().url, icon: Calendar, roles: ['super_admin', 'kepala_travel'] },
+            { title: 'Reservations', href: reservationsIndex().url, icon: Calendar, roles: ['super_admin', 'admin'] },
             { title: 'Clients', href: clientsIndex().url, icon: User, roles: ['super_admin'] },
             { title: 'Payments', href: paymentsIndex().url, icon: CreditCard, roles: ['super_admin', 'owner'] },
             { title: 'Reports', href: reportsIndex().url, icon: BarChart, roles: ['super_admin', 'owner'] },
-            { title: 'Support', href: supportIndex().url, icon: LifeBuoy, roles: ['super_admin', 'kepala_travel'] },
+            { title: 'Support', href: supportIndex().url, icon: LifeBuoy, roles: ['super_admin', 'admin'] },
         ];
 
         return allItems.filter(item => item.roles.includes(userRole));

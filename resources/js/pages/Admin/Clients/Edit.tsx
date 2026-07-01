@@ -122,13 +122,8 @@ export default function ClientEdit({ client }: Props) {
                                 </label>
                                 <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'admin' ? 'border-purple-500 bg-purple-50 text-purple-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
                                     <input type="radio" value="admin" checked={data.role === 'admin'} onChange={(e) => setData('role', e.target.value)} className="hidden" />
-                                    <span className="font-bold text-sm">Admin (Data Input)</span>
-                                    <span className="text-[10px] text-gray-400 mt-1">Input data armada</span>
-                                </label>
-                                <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'kepala_travel' ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
-                                    <input type="radio" value="kepala_travel" checked={data.role === 'kepala_travel'} onChange={(e) => setData('role', e.target.value)} className="hidden" />
-                                    <span className="font-bold text-sm">Admin Reservasi</span>
-                                    <span className="text-[10px] text-gray-400 mt-1">Kelola reservasi</span>
+                                    <span className="font-bold text-sm">Admin Travel</span>
+                                    <span className="text-[10px] text-gray-400 mt-1">Data & Reservasi</span>
                                 </label>
                                 <label className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all flex flex-col justify-center items-center ${data.role === 'owner' ? 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm' : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}`}>
                                     <input type="radio" value="owner" checked={data.role === 'owner'} onChange={(e) => setData('role', e.target.value)} className="hidden" />

@@ -20,8 +20,6 @@ Route::middleware(['auth', 'verified', 'active', 'admin'])
             $user = auth()->user();
             if ($user->role === \App\Enums\UserRole::SUPER_ADMIN || $user->role === \App\Enums\UserRole::ADMIN) {
                 return redirect()->route('admin.cars.index');
-            } elseif ($user->role === \App\Enums\UserRole::KEPALA_TRAVEL) {
-                return redirect()->route('admin.reservations.index');
             } elseif ($user->role === \App\Enums\UserRole::OWNER) {
                 return redirect()->route('admin.reports.index');
             }

@@ -36,18 +36,12 @@ class AdminMiddleware
                 return $next($request);
 
             case UserRole::ADMIN:
-                // Admin (Input Data): Cars, Drivers, Maintenance, Reminders
+                // Admin: Cars, Drivers, Maintenance, Reminders, Reservations, Support
                 $allowedPrefixes = [
                     'admin.cars.',
                     'admin.drivers.',
                     'admin.maintenance.',
                     'admin.reminders.',
-                ];
-                break;
-
-            case UserRole::KEPALA_TRAVEL:
-                // Kepala Travel: Reservations & Support
-                $allowedPrefixes = [
                     'admin.reservations.',
                     'admin.support.',
                 ];

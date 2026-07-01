@@ -62,8 +62,7 @@ export default function ClientShow() {
 
     const roleLabels: Record<string, string> = {
         super_admin: 'Super Admin',
-        admin: 'Admin (Data Input)',
-        kepala_travel: 'Admin Reservasi',
+        admin: 'Admin Travel',
         owner: 'Owner',
         client: 'Klien (Pelanggan)',
     };
