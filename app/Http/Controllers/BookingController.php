@@ -34,12 +34,14 @@ class BookingController extends Controller
                         ReservationStatus::CONFIRMED,
                         ReservationStatus::ACTIVE
                     ])
-                    ->select('start_date', 'end_date')
+                    ->select('start_date', 'end_date', 'pickup_time', 'return_time')
                     ->get()
                     ->map(function ($res) {
                         return [
                             'start' => $res->start_date->format('Y-m-d'),
-                            'end' => $res->end_date->format('Y-m-d')
+                            'end' => $res->end_date->format('Y-m-d'),
+                            'pickup_time' => $res->pickup_time ? Carbon::parse($res->pickup_time)->format('H:i') : '00:00',
+                            'return_time' => $res->return_time ? Carbon::parse($res->return_time)->format('H:i') : '00:00',
                         ];
                     });
 
@@ -58,12 +60,14 @@ class BookingController extends Controller
                 ReservationStatus::CONFIRMED,
                 ReservationStatus::ACTIVE
             ])
-            ->select('start_date', 'end_date')
+            ->select('start_date', 'end_date', 'pickup_time', 'return_time')
             ->get()
             ->map(function ($reservation) {
                 return [
                     'start' => $reservation->start_date->format('Y-m-d'),
-                    'end' => $reservation->end_date->format('Y-m-d')
+                    'end' => $reservation->end_date->format('Y-m-d'),
+                    'pickup_time' => $reservation->pickup_time ? Carbon::parse($reservation->pickup_time)->format('H:i') : '00:00',
+                    'return_time' => $reservation->return_time ? Carbon::parse($reservation->return_time)->format('H:i') : '00:00',
                 ];
             });
 
@@ -83,11 +87,28 @@ class BookingController extends Controller
         $request->validate([
             'start_date'       => 'required|date',
             'end_date'         => 'required|date|after_or_equal:start_date',
+            'pickup_time'      => 'required|date_format:H:i',
+            'return_time'      => 'required|date_format:H:i',
             'delivery_type'    => 'required|in:self_pickup,delivery',
             'delivery_address' => 'required_if:delivery_type,delivery|nullable|string|max:255',
             'with_driver'      => 'boolean',
             'driver_id'        => 'nullable|exists:drivers,id',
         ]);
+
+        $startDateTime = Carbon::parse($request->start_date . ' ' . $request->pickup_time);
+        $endDateTime   = Carbon::parse($request->end_date . ' ' . $request->return_time);
+
+        if ($startDateTime->isPast()) {
+            return back()->withErrors([
+                'pickup_time' => 'Waktu pengambilan tidak boleh di masa lalu.',
+            ])->withInput();
+        }
+
+        if ($endDateTime->lte($startDateTime)) {
+            return back()->withErrors([
+                'return_time' => 'Waktu pengembalian harus setelah waktu pengambilan.',
+            ])->withInput();
+        }
 
         // check if start_date or end_date overlaps with any existing booking
         $overlap = Reservation::where('car_id', $car->id)
@@ -138,9 +159,21 @@ class BookingController extends Controller
             }
         }
 
-        $startDate  = Carbon::parse($request->start_date);
-        $endDate    = Carbon::parse($request->end_date);
-        $days       = max(1, $startDate->diffInDays($endDate));
+        $startDateTime = Carbon::parse($request->start_date . ' ' . $request->pickup_time);
+        $endDateTime   = Carbon::parse($request->end_date . ' ' . $request->return_time);
+        
+        $totalHours = $startDateTime->diffInHours($endDateTime);
+        $fullDays = floor($totalHours / 24);
+        $remainderHours = $totalHours % 24;
+        
+        if ($remainderHours > 0 && $remainderHours <= 12) {
+            $days = $fullDays + 0.5;
+        } elseif ($remainderHours > 12) {
+            $days = $fullDays + 1;
+        } else {
+            $days = max(0.5, $fullDays); // Minimum 0.5 days if someone books for 0 hours (which shouldn't happen due to validation, but just in case)
+        }
+
         $dailyRate  = abs($car->price_per_day);
 
         // Subtotal hanya biaya mobil
@@ -161,8 +194,10 @@ class BookingController extends Controller
         $reservation = Reservation::create([
             'car_id'           => $car->id,
             'user_id'          => Auth::id(),
-            'start_date'       => $startDate,
-            'end_date'         => $endDate,
+            'start_date'       => $startDateTime->toDateString(),
+            'end_date'         => $endDateTime->toDateString(),
+            'pickup_time'      => $request->pickup_time,
+            'return_time'      => $request->return_time,
             'pickup_location'  => $pickupLocation,
             'return_location'  => $pickupLocation,
             'delivery_type'    => $request->delivery_type,

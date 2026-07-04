@@ -127,7 +127,7 @@ export default function Edit({ maintenance, cars }: Props) {
                             </div>
 
                             <div>
-                                <label htmlFor="service_date" className="mb-1 block text-sm font-medium">Tanggal Servis</label>
+                                <label htmlFor="service_date" className="mb-1 block text-sm font-medium">Tanggal Mulai Perbaikan</label>
                                 <input
                                     id="service_date"
                                     type="date"
@@ -139,51 +139,17 @@ export default function Edit({ maintenance, cars }: Props) {
                             </div>
 
                             <div>
-                                <label htmlFor="next_service_date" className="mb-1 block text-sm font-medium">
-                                    Tanggal Servis Berikutnya <span className="text-gray-400">(opsional)</span>
+                                <label htmlFor="estimated_completion_date" className="mb-1 block text-sm font-medium">
+                                    Tanggal Selesai Perbaikan <span className="text-gray-400">(opsional)</span>
                                 </label>
                                 <input
-                                    id="next_service_date"
+                                    id="estimated_completion_date"
                                     type="date"
-                                    value={data.next_service_date}
-                                    onChange={(e) => setData('next_service_date', e.target.value)}
+                                    value={data.estimated_completion_date}
+                                    onChange={(e) => setData('estimated_completion_date', e.target.value)}
                                     className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                                 />
-                                {errors.next_service_date && <p className="mt-1 text-sm text-red-600">{errors.next_service_date}</p>}
-                            </div>
-
-                            {/* Tanggal Selesai - dengan highlight khusus karena mempengaruhi status mobil */}
-                            <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
-                                <label htmlFor="completed_at" className="mb-1 block text-sm font-medium text-blue-800">
-                                    Tanggal Selesai Service <span className="text-blue-400">(opsional)</span>
-                                </label>
-                                <input
-                                    id="completed_at"
-                                    type="date"
-                                    value={data.completed_at}
-                                    onChange={(e) => setData('completed_at', e.target.value)}
-                                    className="w-full rounded-lg border border-blue-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                />
-                                <p className="mt-1.5 text-xs text-blue-600">
-                                    ⚠️ Mengisi tanggal ini akan otomatis mengubah status mobil menjadi <strong>Tersedia</strong>.
-                                </p>
-                                {errors.completed_at && <p className="mt-1 text-sm text-red-600">{errors.completed_at}</p>}
-                            </div>
-
-                            <div>
-                                <label htmlFor="odometer_km" className="mb-1 block text-sm font-medium">
-                                    Odometer (KM) <span className="text-gray-400">(opsional)</span>
-                                </label>
-                                <input
-                                    id="odometer_km"
-                                    type="number"
-                                    min="0"
-                                    value={data.odometer_km}
-                                    onChange={(e) => setData('odometer_km', e.target.value)}
-                                    placeholder="Contoh: 25000"
-                                    className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                />
-                                {errors.odometer_km && <p className="mt-1 text-sm text-red-600">{errors.odometer_km}</p>}
+                                {errors.estimated_completion_date && <p className="mt-1 text-sm text-red-600">{errors.estimated_completion_date}</p>}
                             </div>
 
                             <div className="md:col-span-2">

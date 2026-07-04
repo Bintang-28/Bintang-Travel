@@ -229,20 +229,22 @@
                 <div class="info-row">
                     <span class="info-label">Durasi</span>
                     <span class="info-sep">:</span>
-                    <span class="info-value">{{ $reservation->total_days }} hari</span>
+                    <span class="info-value">{{ floatval($reservation->total_days) }} hari</span>
                 </div>
             </div>
             <div>
                 <div class="info-row">
-                    <span class="info-label">Lokasi Penjemputan</span>
+                    <span class="info-label">Metode</span>
                     <span class="info-sep">:</span>
-                    <span class="info-value">{{ $reservation->pickup_location ?? '—' }}</span>
+                    <span class="info-value">{{ $reservation->delivery_type === 'delivery' ? 'Diantar ke Lokasi' : 'Ambil Sendiri' }}</span>
                 </div>
-                <div class="info-row">
-                    <span class="info-label">Lokasi Pengembalian</span>
-                    <span class="info-sep">:</span>
-                    <span class="info-value">{{ $reservation->return_location ?? '—' }}</span>
+                @if($reservation->delivery_type === 'delivery' && $reservation->delivery_address)
+                <div class="info-row" style="margin-top: 5px;">
+                    <span class="info-label" style="align-self: flex-start;">Alamat</span>
+                    <span class="info-sep" style="align-self: flex-start;">:</span>
+                    <span class="info-value">{{ $reservation->delivery_address }}</span>
                 </div>
+                @endif
             </div>
             <div>
                 <div class="info-row">
@@ -313,7 +315,7 @@
 
     {{-- ════════ RINCIAN BIAYA ════════ --}}
     @php
-        $driverFee = (float)$reservation->total_amount - (float)$reservation->subtotal + (float)$reservation->discount_amount;
+        $driverFee = (float)$reservation->total_amount - (float)$reservation->subtotal + (float)$reservation->discount_amount - (float)$reservation->penalty_amount;
     @endphp
     <div class="section">
         <div class="section-header">Rincian Biaya</div>
@@ -334,8 +336,14 @@
             @endif
             <div class="cost-row">
                 <span class="cost-label">Diskon</span>
-                <span class="cost-value" style="color:#DC2626;">- {{ $currency }}{{ number_format((float)$reservation->discount_amount, 2) }}</span>
+                <span class="cost-value" style="color:#16A34A;">- {{ $currency }}{{ number_format((float)$reservation->discount_amount, 2) }}</span>
             </div>
+            @if((float)$reservation->penalty_amount > 0)
+            <div class="cost-row">
+                <span class="cost-label">Denda Keterlambatan</span>
+                <span class="cost-value" style="color:#DC2626;">+ {{ $currency }}{{ number_format((float)$reservation->penalty_amount, 2) }}</span>
+            </div>
+            @endif
             <div class="cost-total">
                 <span class="cost-label">Total</span>
                 <span class="cost-value">{{ $currency }}{{ number_format((float)$reservation->total_amount, 2) }}</span>

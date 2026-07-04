@@ -30,6 +30,7 @@ class Car extends Model
         'license_plate',
         'color',
         'price_per_day',
+        'penalty_per_hour',
         'mileage',
         'transmission',
         'seats',
@@ -47,6 +48,7 @@ class Car extends Model
     protected $casts = [
         'year' => 'integer',
         'price_per_day' => 'decimal:2',
+        'penalty_per_hour' => 'decimal:2',
         'mileage' => 'integer',
         'seats' => 'integer',
         'status' => CarStatus::class,

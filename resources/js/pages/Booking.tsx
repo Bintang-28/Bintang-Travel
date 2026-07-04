@@ -45,6 +45,8 @@ export default function BookCar() {
     const { data, setData, post, processing, errors } = useForm({
         start_date: '',
         end_date: '',
+        pickup_time: '09:00',
+        return_time: '18:00',
         delivery_type: 'self_pickup' as 'self_pickup' | 'delivery',
         delivery_address: '',
         with_driver: false,
@@ -52,11 +54,24 @@ export default function BookCar() {
     });
 
     const rentalDays = useMemo(() => {
-        if (!data.start_date || !data.end_date) return 0;
-        const start = new Date(data.start_date);
-        const end = new Date(data.end_date);
-        return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
-    }, [data.start_date, data.end_date]);
+        if (!data.start_date || !data.end_date || !data.pickup_time || !data.return_time) return 0;
+        const start = new Date(`${data.start_date}T${data.pickup_time}`);
+        const end = new Date(`${data.end_date}T${data.return_time}`);
+        
+        const diffMs = end.getTime() - start.getTime();
+        if (diffMs <= 0) return 0;
+        
+        const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
+        const fullDays = Math.floor(totalHours / 24);
+        const remainderHours = totalHours % 24;
+        
+        if (remainderHours > 0 && remainderHours <= 12) {
+            return fullDays + 0.5;
+        } else if (remainderHours > 12) {
+            return fullDays + 1;
+        }
+        return Math.max(0.5, fullDays);
+    }, [data.start_date, data.end_date, data.pickup_time, data.return_time]);
 
     const isDateOverlapping = useMemo(() => {
         if (!data.start_date || !data.end_date) return false;
@@ -98,12 +113,25 @@ export default function BookCar() {
     const driverFee = useMemo(() => data.with_driver ? DRIVER_FEE_PER_DAY * rentalDays : 0, [data.with_driver, rentalDays]);
     const total = useMemo(() => subtotal + driverFee, [subtotal, driverFee]);
 
+    const isTimeValid = useMemo(() => {
+        if (!data.start_date || !data.pickup_time || !data.end_date || !data.return_time) return true;
+
+        const startDateTime = new Date(`${data.start_date}T${data.pickup_time}`);
+        const endDateTime = new Date(`${data.end_date}T${data.return_time}`);
+        const now = new Date();
+
+        if (startDateTime < now) return false;
+        if (endDateTime <= startDateTime) return false;
+
+        return true;
+    }, [data.start_date, data.pickup_time, data.end_date, data.return_time]);
+
     const canSubmit = useMemo(() => {
-        const baseValid = !!data.start_date && !!data.end_date && rentalDays > 0 && !isDateOverlapping;
+        const baseValid = !!data.start_date && !!data.end_date && rentalDays > 0 && !isDateOverlapping && isTimeValid;
         const deliveryValid = data.delivery_type === 'self_pickup' || (data.delivery_type === 'delivery' && data.delivery_address.trim() !== '');
         const driverValid = !data.with_driver || (data.driver_id !== '' && !isDriverOverlapping);
         return baseValid && deliveryValid && driverValid;
-    }, [data, rentalDays, isDateOverlapping, isDriverOverlapping]);
+    }, [data, rentalDays, isDateOverlapping, isTimeValid, isDriverOverlapping]);
 
     const submitBooking = () => {
         if (!auth.user) { router.get(login().url); return; }
@@ -203,9 +231,9 @@ export default function BookCar() {
                                                 <div className="flex flex-wrap gap-2">
                                                     {bookedRanges.map((range: any, idx: number) => (
                                                         <span key={idx} className="inline-flex items-center gap-1 rounded-lg bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-800 border border-amber-200">
-                                                            {new Date(range.start).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+                                                            {new Date(range.start).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })} {range.pickup_time}
                                                             <span> - </span>
-                                                            {new Date(range.end).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                                            {new Date(range.end).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })} {range.return_time}
                                                         </span>
                                                     ))}
                                                 </div>
@@ -230,12 +258,36 @@ export default function BookCar() {
                                                 {errors.end_date && <span className="text-xs text-red-500">{errors.end_date}</span>}
                                             </div>
 
+                                            <div className="relative">
+                                                <label className="absolute left-3 -top-2.5 bg-white px-2 text-xs font-semibold text-blue-600 z-10">Jam Pengambilan</label>
+                                                <input type="time" value={data.pickup_time}
+                                                    onChange={(e) => setData('pickup_time', e.target.value)}
+                                                    className={`w-full rounded-xl border-2 bg-transparent px-4 py-3.5 text-gray-900 transition-colors focus:border-blue-600 focus:outline-none ${errors.pickup_time ? 'border-red-500' : 'border-gray-200 hover:border-gray-300'}`} />
+                                                {errors.pickup_time && <span className="text-xs text-red-500">{errors.pickup_time}</span>}
+                                            </div>
+                                            <div className="relative">
+                                                <label className="absolute left-3 -top-2.5 bg-white px-2 text-xs font-semibold text-blue-600 z-10">Jam Pengembalian</label>
+                                                <input type="time" value={data.return_time}
+                                                    onChange={(e) => setData('return_time', e.target.value)}
+                                                    className={`w-full rounded-xl border-2 bg-transparent px-4 py-3.5 text-gray-900 transition-colors focus:border-blue-600 focus:outline-none ${errors.return_time ? 'border-red-500' : 'border-gray-200 hover:border-gray-300'}`} />
+                                                {errors.return_time && <span className="text-xs text-red-500">{errors.return_time}</span>}
+                                            </div>
+
                                             {isDateOverlapping && (
                                                 <div className="col-span-2 mt-3 rounded-xl border border-red-200 bg-red-50 p-3.5 text-xs font-bold text-red-600 flex items-center gap-2">
                                                     <svg className="h-5 w-5 shrink-0 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
                                                     </svg>
                                                     Mobil sudah dipesan pada tanggal tersebut. Silakan pilih tanggal lain yang tersedia.
+                                                </div>
+                                            )}
+
+                                            {!isTimeValid && !isDateOverlapping && data.start_date && data.pickup_time && (
+                                                <div className="col-span-2 mt-3 rounded-xl border border-red-200 bg-red-50 p-3.5 text-xs font-bold text-red-600 flex items-center gap-2">
+                                                    <svg className="h-5 w-5 shrink-0 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                                                    </svg>
+                                                    Waktu pengambilan tidak boleh di masa lalu, dan waktu pengembalian harus setelah waktu pengambilan.
                                                 </div>
                                             )}
                                         </div>

@@ -34,25 +34,24 @@ class MaintenanceController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-        'car_id'                    => 'required|exists:cars,id',
-        'type'                      => 'required|string|max:255',
-        'description'               => 'nullable|string',
-        'cost'                      => 'required|numeric|min:0',
-        'vendor'                    => 'nullable|string|max:255',
-        'service_date'              => 'required|date',
-        'estimated_completion_date' => 'nullable|date|after_or_equal:service_date',
-        'next_service_date'         => 'nullable|date|after:service_date',
-        'completed_at'              => 'nullable|date',
-        'odometer_km'                => 'nullable|integer|min:0',
-    ]);
+            'car_id'                    => 'required|exists:cars,id',
+            'type'                      => 'required|string|max:255',
+            'description'               => 'nullable|string',
+            'cost'                      => 'required|numeric|min:0',
+            'vendor'                    => 'nullable|string|max:255',
+            'service_date'              => 'required|date',
+            'estimated_completion_date' => 'nullable|date|after_or_equal:service_date',
+        ]);
 
         VehicleMaintenance::create($validated);
 
-        // Ubah status + simpan keterangan dari field type
-        Car::where('id', $validated['car_id'])->update([
-            'status'           => CarStatus::MAINTENANCE,
-            'maintenance_note' => $validated['type'], // ← "Ganti Ban", "Ganti Oli", dll
-        ]);
+        // Hanya ubah status mobil jika tanggal mulai perbaikan adalah hari ini atau masa lalu
+        if (\Carbon\Carbon::parse($validated['service_date'])->isPast() || \Carbon\Carbon::parse($validated['service_date'])->isToday()) {
+            Car::where('id', $validated['car_id'])->update([
+                'status'           => CarStatus::MAINTENANCE,
+                'maintenance_note' => $validated['type'], // ← "Ganti Ban", "Ganti Oli", dll
+            ]);
+        }
 
         return redirect()->route('admin.maintenance.index')
             ->with('success', 'Data perbaikan berhasil disimpan.');
@@ -71,41 +70,37 @@ class MaintenanceController extends Controller
     public function update(Request $request, VehicleMaintenance $maintenance)
     {
         $validated = $request->validate([
-        'car_id'                    => 'required|exists:cars,id',
-        'type'                      => 'required|string|max:255',
-        'description'               => 'nullable|string',
-        'cost'                      => 'required|numeric|min:0',
-        'vendor'                    => 'nullable|string|max:255',
-        'service_date'              => 'required|date',
-        'estimated_completion_date' => 'nullable|date|after_or_equal:service_date',
-        'next_service_date'         => 'nullable|date|after:service_date',
-        'completed_at'              => 'nullable|date',
-        'odometer_km'                => 'nullable|integer|min:0',
-    ]);
+            'car_id'                    => 'required|exists:cars,id',
+            'type'                      => 'required|string|max:255',
+            'description'               => 'nullable|string',
+            'cost'                      => 'required|numeric|min:0',
+            'vendor'                    => 'nullable|string|max:255',
+            'service_date'              => 'required|date',
+            'estimated_completion_date' => 'nullable|date|after_or_equal:service_date',
+        ]);
 
         $oldCarId = $maintenance->car_id;
         $maintenance->update($validated);
 
-        if (!empty($validated['completed_at'])) {
-            // Selesai service → hapus note, kembalikan ke available
-            Car::where('id', $validated['car_id'])->update([
-                'status'           => CarStatus::AVAILABLE,
-                'maintenance_note' => null,
-            ]);
-        } elseif ($oldCarId !== (int) $validated['car_id']) {
-            // Ganti mobil → kembalikan mobil lama, set mobil baru ke maintenance
+        if ($oldCarId !== (int) $validated['car_id']) {
+            // Ganti mobil → kembalikan mobil lama ke available, biarkan command yg urus mobil baru
             Car::where('id', $oldCarId)->update([
                 'status'           => CarStatus::AVAILABLE,
                 'maintenance_note' => null,
             ]);
+        }
+
+        // Cek apakah tanggal servis hari ini/masa lalu
+        if (\Carbon\Carbon::parse($validated['service_date'])->isPast() || \Carbon\Carbon::parse($validated['service_date'])->isToday()) {
             Car::where('id', $validated['car_id'])->update([
                 'status'           => CarStatus::MAINTENANCE,
                 'maintenance_note' => $validated['type'],
             ]);
         } else {
-            // Update note jika type berubah
+            // Jika diedit jadi masa depan, kembalikan mobil ke available
             Car::where('id', $validated['car_id'])->update([
-                'maintenance_note' => $validated['type'],
+                'status'           => CarStatus::AVAILABLE,
+                'maintenance_note' => null,
             ]);
         }
 

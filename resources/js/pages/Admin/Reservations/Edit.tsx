@@ -35,14 +35,32 @@ export default function EditReservation({ reservation, enums, drivers = [] }: Pr
         end_date: formatDateForInput(reservation?.end_date) || '',
         pickup_time: reservation?.pickup_time || '09:00',
         return_time: reservation?.return_time || '18:00',
-        pickup_location: reservation?.pickup_location || '',
-        return_location: reservation?.return_location || '',
+        delivery_type: reservation?.delivery_type || 'self_pickup',
+        delivery_address: reservation?.delivery_address || '',
         discount_amount: reservation?.discount_amount || 0,
+        penalty_amount: reservation?.penalty_amount || 0,
         notes: reservation?.notes || '',
         status: reservation?.status || 'pending',
         cancellation_reason: reservation?.cancellation_reason || '',
         driver_id: reservation?.driver_id ? String(reservation.driver_id) : '',
     });
+
+    const calculateSuggestedPenalty = () => {
+        if (!reservation?.car?.penalty_per_hour) return 0;
+        if (!reservation?.end_date || !reservation?.return_time) return 0;
+
+        const returnDateTime = new Date(`${reservation.end_date.split('T')[0]}T${reservation.return_time}`);
+        const now = new Date();
+        
+        if (now <= returnDateTime) return 0;
+        
+        const diffMs = now.getTime() - returnDateTime.getTime();
+        const diffHours = Math.ceil(diffMs / (1000 * 60 * 60));
+        
+        return diffHours * Number(reservation.car.penalty_per_hour);
+    };
+
+    const suggestedPenalty = calculateSuggestedPenalty();
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -109,25 +127,47 @@ export default function EditReservation({ reservation, enums, drivers = [] }: Pr
                             <InputError message={form.errors.return_time} className="mt-1" />
                         </div>
 
-                        {/* Lokasi Pengambilan */}
+                        {/* Metode Pengambilan */}
                         <div>
-                            <Label htmlFor="pickup_location">Lokasi Pengambilan</Label>
-                            <Input id="pickup_location" placeholder="Kantor Pusat" value={form.data.pickup_location} onChange={e => form.setData('pickup_location', e.target.value)} />
-                            <InputError message={form.errors.pickup_location} className="mt-1" />
+                            <Label htmlFor="delivery_type">Metode Pengambilan</Label>
+                            <select
+                                id="delivery_type"
+                                value={form.data.delivery_type}
+                                onChange={e => form.setData('delivery_type', e.target.value)}
+                                className="mt-1 block w-full rounded-md border border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                            >
+                                <option value="self_pickup">Ambil Sendiri di Kantor</option>
+                                <option value="delivery">Diantar / Dijemput ke Lokasi Klien</option>
+                            </select>
+                            <InputError message={form.errors.delivery_type as string} className="mt-1" />
                         </div>
 
-                        {/* Lokasi Pengembalian */}
-                        <div>
-                            <Label htmlFor="return_location">Lokasi Pengembalian</Label>
-                            <Input id="return_location" placeholder="Kantor Pusat" value={form.data.return_location} onChange={e => form.setData('return_location', e.target.value)} />
-                            <InputError message={form.errors.return_location} className="mt-1" />
-                        </div>
+                        {/* Alamat Pengiriman */}
+                        {form.data.delivery_type === 'delivery' && (
+                            <div>
+                                <Label htmlFor="delivery_address">Alamat Pengiriman</Label>
+                                <Input id="delivery_address" placeholder="Masukkan alamat lengkap..." value={form.data.delivery_address} onChange={e => form.setData('delivery_address', e.target.value)} />
+                                <InputError message={form.errors.delivery_address as string} className="mt-1" />
+                            </div>
+                        )}
 
                         {/* Diskon */}
                         <div>
-                            <Label htmlFor="discount_amount">Diskon</Label>
-                            <Input id="discount_amount" type="number" step="0.01" min="0" value={form.data.discount_amount} onChange={e => form.setData('discount_amount', parseFloat(e.target.value))} />
+                            <Label htmlFor="discount_amount">Diskon (Rp)</Label>
+                            <Input id="discount_amount" type="number" step="0.01" min="0" value={form.data.discount_amount} onChange={e => form.setData('discount_amount', parseFloat(e.target.value) || 0)} />
                             <InputError message={form.errors.discount_amount} className="mt-1" />
+                        </div>
+
+                        {/* Denda */}
+                        <div>
+                            <Label htmlFor="penalty_amount">Total Denda (Rp)</Label>
+                            <Input id="penalty_amount" type="number" step="0.01" min="0" value={form.data.penalty_amount} onChange={e => form.setData('penalty_amount', parseFloat(e.target.value) || 0)} />
+                            {suggestedPenalty > 0 && (
+                                <p className="mt-1 text-xs text-amber-600 font-medium">
+                                    Saran Denda Keterlambatan: Rp {suggestedPenalty.toLocaleString('id-ID')}
+                                </p>
+                            )}
+                            <InputError message={form.errors.penalty_amount as string} className="mt-1" />
                         </div>
 
                         {/* Status */}
@@ -139,7 +179,9 @@ export default function EditReservation({ reservation, enums, drivers = [] }: Pr
                                 onChange={e => form.setData('status', e.target.value)}
                                 className="mt-1 block w-full rounded-md border border-gray-300 py-2 pr-10 pl-3 text-base focus:border-blue-500 focus:ring-blue-500 focus:outline-none sm:text-sm"
                             >
-                                {statuses.map(s => (
+                                {statuses
+                                    .filter(s => !['active', 'no_show'].includes(s.value))
+                                    .map(s => (
                                     <option key={s.value} value={s.value}>{s.label}</option>
                                 ))}
                             </select>

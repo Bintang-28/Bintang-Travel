@@ -237,11 +237,11 @@ export default function BookingConfirmation() {
                                         <div className="space-y-3">
                                             <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
                                                 <span className="text-sm font-medium text-gray-600">Pengambilan</span>
-                                                <span className="font-bold text-gray-900">{formatDate(reservation.start_date)}</span>
+                                                <span className="font-bold text-gray-900">{formatDate(reservation.start_date)} {reservation.pickup_time ? reservation.pickup_time.substring(0, 5) : ''}</span>
                                             </div>
                                             <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
                                                 <span className="text-sm font-medium text-gray-600">Pengembalian</span>
-                                                <span className="font-bold text-gray-900">{formatDate(reservation.end_date)}</span>
+                                                <span className="font-bold text-gray-900">{formatDate(reservation.end_date)} {reservation.return_time ? reservation.return_time.substring(0, 5) : ''}</span>
                                             </div>
                                             <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
                                                 <span className="text-sm font-medium text-gray-600">Durasi</span>

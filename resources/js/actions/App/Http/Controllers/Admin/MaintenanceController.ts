@@ -309,7 +309,7 @@ show.head = (args: { maintenance: string | number } | [maintenance: string | num
     show.form = showForm
 /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::edit
- * @see app/Http/Controllers/Admin/MaintenanceController.php:61
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:60
  * @route '/admin/maintenance/{maintenance}/edit'
  */
 export const edit = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -324,7 +324,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::edit
- * @see app/Http/Controllers/Admin/MaintenanceController.php:61
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:60
  * @route '/admin/maintenance/{maintenance}/edit'
  */
 edit.url = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -357,7 +357,7 @@ edit.url = (args: { maintenance: number | { id: number } } | [maintenance: numbe
 
 /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::edit
- * @see app/Http/Controllers/Admin/MaintenanceController.php:61
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:60
  * @route '/admin/maintenance/{maintenance}/edit'
  */
 edit.get = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -366,7 +366,7 @@ edit.get = (args: { maintenance: number | { id: number } } | [maintenance: numbe
 })
 /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::edit
- * @see app/Http/Controllers/Admin/MaintenanceController.php:61
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:60
  * @route '/admin/maintenance/{maintenance}/edit'
  */
 edit.head = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -376,7 +376,7 @@ edit.head = (args: { maintenance: number | { id: number } } | [maintenance: numb
 
     /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::edit
- * @see app/Http/Controllers/Admin/MaintenanceController.php:61
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:60
  * @route '/admin/maintenance/{maintenance}/edit'
  */
     const editForm = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -386,7 +386,7 @@ edit.head = (args: { maintenance: number | { id: number } } | [maintenance: numb
 
             /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::edit
- * @see app/Http/Controllers/Admin/MaintenanceController.php:61
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:60
  * @route '/admin/maintenance/{maintenance}/edit'
  */
         editForm.get = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -395,7 +395,7 @@ edit.head = (args: { maintenance: number | { id: number } } | [maintenance: numb
         })
             /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::edit
- * @see app/Http/Controllers/Admin/MaintenanceController.php:61
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:60
  * @route '/admin/maintenance/{maintenance}/edit'
  */
         editForm.head = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -411,7 +411,7 @@ edit.head = (args: { maintenance: number | { id: number } } | [maintenance: numb
     edit.form = editForm
 /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::update
- * @see app/Http/Controllers/Admin/MaintenanceController.php:71
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:70
  * @route '/admin/maintenance/{maintenance}'
  */
 export const update = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -426,7 +426,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::update
- * @see app/Http/Controllers/Admin/MaintenanceController.php:71
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:70
  * @route '/admin/maintenance/{maintenance}'
  */
 update.url = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -459,7 +459,7 @@ update.url = (args: { maintenance: number | { id: number } } | [maintenance: num
 
 /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::update
- * @see app/Http/Controllers/Admin/MaintenanceController.php:71
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:70
  * @route '/admin/maintenance/{maintenance}'
  */
 update.put = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -468,7 +468,7 @@ update.put = (args: { maintenance: number | { id: number } } | [maintenance: num
 })
 /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::update
- * @see app/Http/Controllers/Admin/MaintenanceController.php:71
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:70
  * @route '/admin/maintenance/{maintenance}'
  */
 update.patch = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -478,7 +478,7 @@ update.patch = (args: { maintenance: number | { id: number } } | [maintenance: n
 
     /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::update
- * @see app/Http/Controllers/Admin/MaintenanceController.php:71
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:70
  * @route '/admin/maintenance/{maintenance}'
  */
     const updateForm = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -493,7 +493,7 @@ update.patch = (args: { maintenance: number | { id: number } } | [maintenance: n
 
             /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::update
- * @see app/Http/Controllers/Admin/MaintenanceController.php:71
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:70
  * @route '/admin/maintenance/{maintenance}'
  */
         updateForm.put = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -507,7 +507,7 @@ update.patch = (args: { maintenance: number | { id: number } } | [maintenance: n
         })
             /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::update
- * @see app/Http/Controllers/Admin/MaintenanceController.php:71
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:70
  * @route '/admin/maintenance/{maintenance}'
  */
         updateForm.patch = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -523,7 +523,7 @@ update.patch = (args: { maintenance: number | { id: number } } | [maintenance: n
     update.form = updateForm
 /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::destroy
- * @see app/Http/Controllers/Admin/MaintenanceController.php:116
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:111
  * @route '/admin/maintenance/{maintenance}'
  */
 export const destroy = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -538,7 +538,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::destroy
- * @see app/Http/Controllers/Admin/MaintenanceController.php:116
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:111
  * @route '/admin/maintenance/{maintenance}'
  */
 destroy.url = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -571,7 +571,7 @@ destroy.url = (args: { maintenance: number | { id: number } } | [maintenance: nu
 
 /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::destroy
- * @see app/Http/Controllers/Admin/MaintenanceController.php:116
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:111
  * @route '/admin/maintenance/{maintenance}'
  */
 destroy.delete = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -581,7 +581,7 @@ destroy.delete = (args: { maintenance: number | { id: number } } | [maintenance:
 
     /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::destroy
- * @see app/Http/Controllers/Admin/MaintenanceController.php:116
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:111
  * @route '/admin/maintenance/{maintenance}'
  */
     const destroyForm = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -596,7 +596,7 @@ destroy.delete = (args: { maintenance: number | { id: number } } | [maintenance:
 
             /**
 * @see \App\Http\Controllers\Admin\MaintenanceController::destroy
- * @see app/Http/Controllers/Admin/MaintenanceController.php:116
+ * @see app/Http/Controllers/Admin/MaintenanceController.php:111
  * @route '/admin/maintenance/{maintenance}'
  */
         destroyForm.delete = (args: { maintenance: number | { id: number } } | [maintenance: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

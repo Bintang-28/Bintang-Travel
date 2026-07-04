@@ -113,9 +113,10 @@ class ReservationsController extends Controller
             'end_date'            => ['required', 'date', 'after_or_equal:start_date'],
             'pickup_time'         => ['nullable', 'date_format:H:i'],
             'return_time'         => ['nullable', 'date_format:H:i'],
-            'pickup_location'     => ['nullable', 'string', 'max:255'],
-            'return_location'     => ['nullable', 'string', 'max:255'],
+            'delivery_type'       => ['required', 'string', 'in:self_pickup,delivery'],
+            'delivery_address'    => ['nullable', 'string'],
             'discount_amount'     => ['nullable', 'numeric', 'min:0'],
+            'penalty_amount'      => ['nullable', 'numeric', 'min:0'],
             'notes'               => ['nullable', 'string'],
             'status'              => ['required', 'string', Rule::enum(ReservationStatus::class)],
             'cancellation_reason' => ['nullable', 'string'],
@@ -131,9 +132,20 @@ class ReservationsController extends Controller
         $reservation->driver_id = $request->filled('driver_id') ? $request->driver_id : null;
 
         // Hitung ulang total ketika tanggal atau diskon berubah
-        $start     = Carbon::parse($validated['start_date']);
-        $end       = Carbon::parse($validated['end_date']);
-        $totalDays = $start->diffInDays($end);
+        $start = Carbon::parse($validated['start_date'] . ' ' . ($validated['pickup_time'] ?? '00:00'));
+        $end   = Carbon::parse($validated['end_date'] . ' ' . ($validated['return_time'] ?? '00:00'));
+        
+        $totalHours = $start->diffInHours($end);
+        $fullDays = floor($totalHours / 24);
+        $remainderHours = $totalHours % 24;
+        
+        if ($remainderHours > 0 && $remainderHours <= 12) {
+            $totalDays = $fullDays + 0.5;
+        } elseif ($remainderHours > 12) {
+            $totalDays = $fullDays + 1;
+        } else {
+            $totalDays = max(0.5, $fullDays);
+        }
 
         $reservation->total_days  = $totalDays;
         $reservation->subtotal    = $reservation->daily_rate * $totalDays;
@@ -146,7 +158,8 @@ class ReservationsController extends Controller
 
         $reservation->total_amount = $reservation->subtotal
             + $driverFee
-            - (float) ($validated['discount_amount'] ?? 0);
+            - (float) ($validated['discount_amount'] ?? 0)
+            + (float) ($validated['penalty_amount'] ?? 0);
 
         // Kelola metadata pembatalan
         if ($reservation->status === ReservationStatus::CANCELLED && !$reservation->cancelled_at) {
@@ -209,6 +222,9 @@ class ReservationsController extends Controller
             ReservationStatus::NO_SHOW,
         ])) {
             $reservation->car?->update(['status' => CarStatus::AVAILABLE]);
+            
+            // Hapus tagihan (payment) yang masih pending agar tidak muncul di halaman Payments
+            $reservation->payments()->where('status', PaymentStatus::PENDING)->delete();
         }
 
         $this->syncDriverStatus($reservation, $previousDriverId, $statusChanged);

@@ -18,7 +18,7 @@ interface Maintenance {
     cost: string | number;
     vendor: string | null;
     service_date: string;
-    next_service_date: string | null;
+    estimated_completion_date: string | null;
     odometer_km: number | null;
 }
 
@@ -80,8 +80,8 @@ export default function Index({ maintenances }: Props) {
                                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jenis</th>
                                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Biaya</th>
                                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bengkel</th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Servis</th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Servis Berikutnya</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Mulai Perbaikan</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Selesai Servis</th>
                                     <th className="px-4 py-3"></th>
                                 </tr>
                             </thead>
@@ -118,8 +118,8 @@ export default function Index({ maintenances }: Props) {
                                                 })}
                                             </td>
                                             <td className="px-4 py-3 text-sm">
-                                                {item.next_service_date
-                                                    ? new Date(item.next_service_date).toLocaleDateString('id-ID', {
+                                                {item.estimated_completion_date
+                                                    ? new Date(item.estimated_completion_date).toLocaleDateString('id-ID', {
                                                           day: 'numeric',
                                                           month: 'long',
                                                           year: 'numeric',

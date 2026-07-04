@@ -44,6 +44,7 @@ export default function Edit({ car, imageFiles, enums }: Props) {
         license_plate: car?.license_plate ?? '',
         color: (car?.color || 'white').toLowerCase(),
         price_per_day: car?.price_per_day ?? '',
+        penalty_per_hour: car?.penalty_per_hour ?? '',
         mileage: car?.mileage ?? '',
         transmission: car?.transmission ?? 'automatic',
         seats: car?.seats ?? '',
@@ -185,6 +186,25 @@ export default function Edit({ car, imageFiles, enums }: Props) {
                                         />
                                     </div>
                                     {errors.price_per_day && <p className="mt-1 text-sm text-red-600">{errors.price_per_day}</p>}
+                                </div>
+
+                                <div>
+                                    <label htmlFor="penalty_per_hour" className="mb-1 block text-sm font-medium">Denda Keterlambatan per Jam (Rp)</label>
+                                    <div className="relative mt-1 rounded-md shadow-sm">
+                                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <span className="text-gray-500 sm:text-sm">Rp</span>
+                                        </div>
+                                        <input
+                                            id="penalty_per_hour"
+                                            type="number"
+                                            min="0"
+                                            value={data.penalty_per_hour}
+                                            onChange={(e) => setData('penalty_per_hour', e.target.value)}
+                                            placeholder="50000"
+                                            className="block w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-3 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                        />
+                                    </div>
+                                    {errors.penalty_per_hour && <p className="mt-1 text-sm text-red-600">{errors.penalty_per_hour}</p>}
                                 </div>
 
                                 <div>

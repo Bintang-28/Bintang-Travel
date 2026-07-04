@@ -29,7 +29,7 @@ export default function ShowReservation({ reservation, statusMeta, currency }: P
     };
 
     const fmtDate = (d?: string) => d ? new Date(d).toLocaleDateString() : '—';
-    const fmtMoney = (n?: number | string) => `${currency.symbol}${Number(n ?? 0).toFixed(2)}`;
+    const fmtMoney = (n?: number | string) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: currency.code || 'IDR', minimumFractionDigits: 0 }).format(Number(n ?? 0));
 
     return (
         <AdminLayout>
@@ -88,13 +88,34 @@ export default function ShowReservation({ reservation, statusMeta, currency }: P
                         <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div><div className="text-sm text-muted-foreground">Tanggal Mulai</div><div className="font-medium">{fmtDate(reservation.start_date)} {reservation.pickup_time}</div></div>
                             <div><div className="text-sm text-muted-foreground">Tanggal Selesai</div><div className="font-medium">{fmtDate(reservation.end_date)} {reservation.return_time}</div></div>
-                            <div><div className="text-sm text-muted-foreground">Durasi</div><div className="font-medium">{reservation.total_days} hari</div></div>
-                            <div><div className="text-sm text-muted-foreground">Lokasi Pengambilan</div><div className="font-medium">{reservation.pickup_location || '—'}</div></div>
-                            <div><div className="text-sm text-muted-foreground">Lokasi Pengembalian</div><div className="font-medium">{reservation.return_location || '—'}</div></div>
-                            <div><div className="text-sm text-muted-foreground">Metode Pengambilan</div><div className="font-medium">{reservation.delivery_type === 'delivery' ? 'Diantar ke Lokasi' : 'Ambil Sendiri'}</div></div>
-                            {reservation.delivery_type === 'delivery' && reservation.delivery_address && (
-                                <div><div className="text-sm text-muted-foreground">Alamat Pengiriman</div><div className="font-medium">{reservation.delivery_address}</div></div>
-                            )}
+                            <div><div className="text-sm text-muted-foreground">Durasi</div><div className="font-medium">{Number(reservation.total_days)} hari</div></div>
+                            <div className="md:col-span-3 mt-4 rounded-xl border border-blue-100 bg-blue-50/50 p-5">
+                                <div className="text-sm font-semibold text-blue-900 mb-4">Metode Pengambilan & Pengembalian</div>
+                                {reservation.delivery_type === 'self_pickup' ? (
+                                    <div className="flex items-center gap-4">
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                                            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                        </div>
+                                        <div>
+                                            <p className="text-base font-semibold text-gray-900">Ambil Sendiri di Kantor (-)</p>
+                                            <p className="text-sm text-gray-500 mt-0.5">Klien akan datang langsung ke lokasi Bintang Travel</p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-start gap-4">
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600 shrink-0">
+                                            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                        </div>
+                                        <div className="flex-1">
+                                            <p className="text-base font-semibold text-gray-900">Diantar / Dijemput ke Lokasi Klien</p>
+                                            <div className="mt-2 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg p-3 shadow-sm">
+                                                <span className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Alamat Pengiriman:</span>
+                                                {reservation.delivery_address || 'Belum ada alamat pengiriman yang diberikan'}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                             {reservation.status === 'cancelled' && (
                                 <div>
                                     <div className="text-sm text-muted-foreground">Dibatalkan Pada</div>
@@ -148,9 +169,12 @@ export default function ShowReservation({ reservation, statusMeta, currency }: P
                             <div className="flex items-center justify-between"><div className="text-sm">Tarif per Hari</div><div className="font-medium">{fmtMoney(reservation.daily_rate)}</div></div>
                             <div className="flex items-center justify-between"><div className="text-sm">Subtotal Mobil</div><div className="font-medium">{fmtMoney(reservation.subtotal)}</div></div>
                             {reservation.driver && (
-                                <div className="flex items-center justify-between"><div className="text-sm">Biaya Sopir</div><div className="font-medium">{fmtMoney(Number(reservation.total_amount) - Number(reservation.subtotal))}</div></div>
+                                <div className="flex items-center justify-between"><div className="text-sm">Biaya Sopir</div><div className="font-medium">{fmtMoney(Number(reservation.total_amount) - Number(reservation.subtotal) + Number(reservation.discount_amount || 0) - Number(reservation.penalty_amount || 0))}</div></div>
                             )}
-                            <div className="flex items-center justify-between"><div className="text-sm">Diskon</div><div className="font-medium">-{fmtMoney(reservation.discount_amount)}</div></div>
+                            <div className="flex items-center justify-between"><div className="text-sm">Diskon</div><div className="font-medium text-green-600">-{fmtMoney(reservation.discount_amount)}</div></div>
+                            {Number(reservation.penalty_amount) > 0 && (
+                                <div className="flex items-center justify-between"><div className="text-sm">Denda Keterlambatan</div><div className="font-medium text-red-600">+{fmtMoney(reservation.penalty_amount)}</div></div>
+                            )}
                             <div className="border-t pt-2 flex items-center justify-between"><div className="text-sm font-semibold">Total</div><div className="text-lg font-semibold">{fmtMoney(reservation.total_amount)}</div></div>
                         </div>
                     </div>
