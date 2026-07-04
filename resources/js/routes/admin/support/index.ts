@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../wayfinder'
 import tickets from './tickets'
 /**
 * @see \App\Http\Controllers\Admin\SupportController::index
@@ -43,41 +43,6 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     method: 'head',
 })
 
-    /**
-* @see \App\Http\Controllers\Admin\SupportController::index
- * @see app/Http/Controllers/Admin/SupportController.php:15
- * @route '/admin/support'
- */
-    const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: index.url(options),
-        method: 'get',
-    })
-
-            /**
-* @see \App\Http\Controllers\Admin\SupportController::index
- * @see app/Http/Controllers/Admin/SupportController.php:15
- * @route '/admin/support'
- */
-        indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: index.url(options),
-            method: 'get',
-        })
-            /**
-* @see \App\Http\Controllers\Admin\SupportController::index
- * @see app/Http/Controllers/Admin/SupportController.php:15
- * @route '/admin/support'
- */
-        indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: index.url({
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'HEAD',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'get',
-        })
-    
-    index.form = indexForm
 /**
 * @see \App\Http\Controllers\Admin\SupportController::show
  * @see app/Http/Controllers/Admin/SupportController.php:85
@@ -145,41 +110,6 @@ show.head = (args: { ticket: number | { id: number } } | [ticket: number | { id:
     method: 'head',
 })
 
-    /**
-* @see \App\Http\Controllers\Admin\SupportController::show
- * @see app/Http/Controllers/Admin/SupportController.php:85
- * @route '/admin/support/tickets/{ticket}'
- */
-    const showForm = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: show.url(args, options),
-        method: 'get',
-    })
-
-            /**
-* @see \App\Http\Controllers\Admin\SupportController::show
- * @see app/Http/Controllers/Admin/SupportController.php:85
- * @route '/admin/support/tickets/{ticket}'
- */
-        showForm.get = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: show.url(args, options),
-            method: 'get',
-        })
-            /**
-* @see \App\Http\Controllers\Admin\SupportController::show
- * @see app/Http/Controllers/Admin/SupportController.php:85
- * @route '/admin/support/tickets/{ticket}'
- */
-        showForm.head = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: show.url(args, {
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'HEAD',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'get',
-        })
-    
-    show.form = showForm
 /**
 * @see \App\Http\Controllers\Admin\SupportController::reply
  * @see app/Http/Controllers/Admin/SupportController.php:102
@@ -238,27 +168,6 @@ reply.post = (args: { ticket: number | { id: number } } | [ticket: number | { id
     method: 'post',
 })
 
-    /**
-* @see \App\Http\Controllers\Admin\SupportController::reply
- * @see app/Http/Controllers/Admin/SupportController.php:102
- * @route '/admin/support/tickets/{ticket}/reply'
- */
-    const replyForm = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-        action: reply.url(args, options),
-        method: 'post',
-    })
-
-            /**
-* @see \App\Http\Controllers\Admin\SupportController::reply
- * @see app/Http/Controllers/Admin/SupportController.php:102
- * @route '/admin/support/tickets/{ticket}/reply'
- */
-        replyForm.post = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-            action: reply.url(args, options),
-            method: 'post',
-        })
-    
-    reply.form = replyForm
 /**
 * @see \App\Http\Controllers\Admin\SupportController::close
  * @see app/Http/Controllers/Admin/SupportController.php:126
@@ -316,28 +225,6 @@ close.post = (args: { ticket: number | { id: number } } | [ticket: number | { id
     url: close.url(args, options),
     method: 'post',
 })
-
-    /**
-* @see \App\Http\Controllers\Admin\SupportController::close
- * @see app/Http/Controllers/Admin/SupportController.php:126
- * @route '/admin/support/tickets/{ticket}/close'
- */
-    const closeForm = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-        action: close.url(args, options),
-        method: 'post',
-    })
-
-            /**
-* @see \App\Http\Controllers\Admin\SupportController::close
- * @see app/Http/Controllers/Admin/SupportController.php:126
- * @route '/admin/support/tickets/{ticket}/close'
- */
-        closeForm.post = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-            action: close.url(args, options),
-            method: 'post',
-        })
-    
-    close.form = closeForm
 const support = {
     index: Object.assign(index, index),
 show: Object.assign(show, show),

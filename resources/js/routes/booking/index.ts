@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\BookingController::confirmation
  * @see app/Http/Controllers/BookingController.php:217
@@ -65,42 +65,6 @@ confirmation.head = (args: { reservation: number | { id: number } } | [reservati
     url: confirmation.url(args, options),
     method: 'head',
 })
-
-    /**
-* @see \App\Http\Controllers\BookingController::confirmation
- * @see app/Http/Controllers/BookingController.php:217
- * @route '/booking/{reservation}'
- */
-    const confirmationForm = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: confirmation.url(args, options),
-        method: 'get',
-    })
-
-            /**
-* @see \App\Http\Controllers\BookingController::confirmation
- * @see app/Http/Controllers/BookingController.php:217
- * @route '/booking/{reservation}'
- */
-        confirmationForm.get = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: confirmation.url(args, options),
-            method: 'get',
-        })
-            /**
-* @see \App\Http\Controllers\BookingController::confirmation
- * @see app/Http/Controllers/BookingController.php:217
- * @route '/booking/{reservation}'
- */
-        confirmationForm.head = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: confirmation.url(args, {
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'HEAD',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'get',
-        })
-    
-    confirmation.form = confirmationForm
 const booking = {
     confirmation: Object.assign(confirmation, confirmation),
 }

@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\HomePagesController::index
  * @see app/Http/Controllers/HomePagesController.php:13
@@ -42,41 +42,6 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     method: 'head',
 })
 
-    /**
-* @see \App\Http\Controllers\HomePagesController::index
- * @see app/Http/Controllers/HomePagesController.php:13
- * @route '/'
- */
-    const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: index.url(options),
-        method: 'get',
-    })
-
-            /**
-* @see \App\Http\Controllers\HomePagesController::index
- * @see app/Http/Controllers/HomePagesController.php:13
- * @route '/'
- */
-        indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: index.url(options),
-            method: 'get',
-        })
-            /**
-* @see \App\Http\Controllers\HomePagesController::index
- * @see app/Http/Controllers/HomePagesController.php:13
- * @route '/'
- */
-        indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: index.url({
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'HEAD',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'get',
-        })
-    
-    index.form = indexForm
 /**
 * @see \App\Http\Controllers\HomePagesController::fleet
  * @see app/Http/Controllers/HomePagesController.php:34
@@ -120,41 +85,6 @@ fleet.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     method: 'head',
 })
 
-    /**
-* @see \App\Http\Controllers\HomePagesController::fleet
- * @see app/Http/Controllers/HomePagesController.php:34
- * @route '/fleet'
- */
-    const fleetForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: fleet.url(options),
-        method: 'get',
-    })
-
-            /**
-* @see \App\Http\Controllers\HomePagesController::fleet
- * @see app/Http/Controllers/HomePagesController.php:34
- * @route '/fleet'
- */
-        fleetForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: fleet.url(options),
-            method: 'get',
-        })
-            /**
-* @see \App\Http\Controllers\HomePagesController::fleet
- * @see app/Http/Controllers/HomePagesController.php:34
- * @route '/fleet'
- */
-        fleetForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: fleet.url({
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'HEAD',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'get',
-        })
-    
-    fleet.form = fleetForm
 /**
 * @see \App\Http\Controllers\HomePagesController::about
  * @see app/Http/Controllers/HomePagesController.php:90
@@ -197,42 +127,6 @@ about.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: about.url(options),
     method: 'head',
 })
-
-    /**
-* @see \App\Http\Controllers\HomePagesController::about
- * @see app/Http/Controllers/HomePagesController.php:90
- * @route '/about'
- */
-    const aboutForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: about.url(options),
-        method: 'get',
-    })
-
-            /**
-* @see \App\Http\Controllers\HomePagesController::about
- * @see app/Http/Controllers/HomePagesController.php:90
- * @route '/about'
- */
-        aboutForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: about.url(options),
-            method: 'get',
-        })
-            /**
-* @see \App\Http\Controllers\HomePagesController::about
- * @see app/Http/Controllers/HomePagesController.php:90
- * @route '/about'
- */
-        aboutForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: about.url({
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'HEAD',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'get',
-        })
-    
-    about.form = aboutForm
 const HomePagesController = { index, fleet, about }
 
 export default HomePagesController

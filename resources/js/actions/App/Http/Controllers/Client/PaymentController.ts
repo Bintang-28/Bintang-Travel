@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Client\PaymentController::store
  * @see app/Http/Controllers/Client/PaymentController.php:17
@@ -56,28 +56,6 @@ store.post = (args: { reservation: number | { id: number } } | [reservation: num
     url: store.url(args, options),
     method: 'post',
 })
-
-    /**
-* @see \App\Http\Controllers\Client\PaymentController::store
- * @see app/Http/Controllers/Client/PaymentController.php:17
- * @route '/client/reservations/{reservation}/payment'
- */
-    const storeForm = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-        action: store.url(args, options),
-        method: 'post',
-    })
-
-            /**
-* @see \App\Http\Controllers\Client\PaymentController::store
- * @see app/Http/Controllers/Client/PaymentController.php:17
- * @route '/client/reservations/{reservation}/payment'
- */
-        storeForm.post = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-            action: store.url(args, options),
-            method: 'post',
-        })
-    
-    store.form = storeForm
 const PaymentController = { store }
 
 export default PaymentController

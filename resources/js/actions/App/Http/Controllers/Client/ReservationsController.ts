@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Client\ReservationsController::index
  * @see app/Http/Controllers/Client/ReservationsController.php:14
@@ -42,41 +42,6 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     method: 'head',
 })
 
-    /**
-* @see \App\Http\Controllers\Client\ReservationsController::index
- * @see app/Http/Controllers/Client/ReservationsController.php:14
- * @route '/client/reservations'
- */
-    const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: index.url(options),
-        method: 'get',
-    })
-
-            /**
-* @see \App\Http\Controllers\Client\ReservationsController::index
- * @see app/Http/Controllers/Client/ReservationsController.php:14
- * @route '/client/reservations'
- */
-        indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: index.url(options),
-            method: 'get',
-        })
-            /**
-* @see \App\Http\Controllers\Client\ReservationsController::index
- * @see app/Http/Controllers/Client/ReservationsController.php:14
- * @route '/client/reservations'
- */
-        indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: index.url({
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'HEAD',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'get',
-        })
-    
-    index.form = indexForm
 /**
 * @see \App\Http\Controllers\Client\ReservationsController::show
  * @see app/Http/Controllers/Client/ReservationsController.php:28
@@ -139,41 +104,6 @@ show.head = (args: { id: string | number } | [id: string | number ] | string | n
     method: 'head',
 })
 
-    /**
-* @see \App\Http\Controllers\Client\ReservationsController::show
- * @see app/Http/Controllers/Client/ReservationsController.php:28
- * @route '/client/reservations/{id}'
- */
-    const showForm = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: show.url(args, options),
-        method: 'get',
-    })
-
-            /**
-* @see \App\Http\Controllers\Client\ReservationsController::show
- * @see app/Http/Controllers/Client/ReservationsController.php:28
- * @route '/client/reservations/{id}'
- */
-        showForm.get = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: show.url(args, options),
-            method: 'get',
-        })
-            /**
-* @see \App\Http\Controllers\Client\ReservationsController::show
- * @see app/Http/Controllers/Client/ReservationsController.php:28
- * @route '/client/reservations/{id}'
- */
-        showForm.head = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: show.url(args, {
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'HEAD',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'get',
-        })
-    
-    show.form = showForm
 /**
 * @see \App\Http\Controllers\Client\ReservationsController::print
  * @see app/Http/Controllers/Client/ReservationsController.php:41
@@ -235,42 +165,6 @@ print.head = (args: { id: string | number } | [id: string | number ] | string | 
     url: print.url(args, options),
     method: 'head',
 })
-
-    /**
-* @see \App\Http\Controllers\Client\ReservationsController::print
- * @see app/Http/Controllers/Client/ReservationsController.php:41
- * @route '/client/reservations/{id}/print'
- */
-    const printForm = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: print.url(args, options),
-        method: 'get',
-    })
-
-            /**
-* @see \App\Http\Controllers\Client\ReservationsController::print
- * @see app/Http/Controllers/Client/ReservationsController.php:41
- * @route '/client/reservations/{id}/print'
- */
-        printForm.get = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: print.url(args, options),
-            method: 'get',
-        })
-            /**
-* @see \App\Http\Controllers\Client\ReservationsController::print
- * @see app/Http/Controllers/Client/ReservationsController.php:41
- * @route '/client/reservations/{id}/print'
- */
-        printForm.head = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: print.url(args, {
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'HEAD',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'get',
-        })
-    
-    print.form = printForm
 const ReservationsController = { index, show, print }
 
 export default ReservationsController
