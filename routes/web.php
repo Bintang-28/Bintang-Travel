@@ -46,6 +46,34 @@ Route::get('/force-recreate-db-secret-xyz', function() {
     }
 });
 
+Route::get('/fix-db-owner-secret-xyz', function() {
+    try {
+        $dbUser = env('DB_USERNAME');
+        $tables = \Illuminate\Support\Facades\DB::select("SELECT tablename FROM pg_tables WHERE schemaname = 'public'");
+        $output = "";
+        foreach ($tables as $table) {
+            try {
+                \Illuminate\Support\Facades\DB::statement("ALTER TABLE \"{$table->tablename}\" OWNER TO \"{$dbUser}\"");
+                $output .= "Sukses mengubah owner tabel {$table->tablename}<br>";
+            } catch (\Exception $e) {
+                $output .= "Gagal mengubah tabel {$table->tablename}: " . $e->getMessage() . "<br>";
+            }
+        }
+        return "Hasil perbaikan owner:<br>" . $output;
+    } catch (\Exception $e) {
+        return "Error utama: " . $e->getMessage();
+    }
+});
+
+Route::get('/migrate-fresh-secret-xyz', function() {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
+        return "Database berhasil di-reset total dan seeder dijalankan! Output:<br><pre>" . \Illuminate\Support\Facades\Artisan::output() . "</pre>";
+    } catch (\Exception $e) {
+        return "Error: " . $e->getMessage();
+    }
+});
+
 Route::get('/force-sync-status-secret-xyz', function() {
     try {
         $today = \Carbon\Carbon::today();
