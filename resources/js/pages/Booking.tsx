@@ -332,18 +332,27 @@ export default function BookCar() {
                                             </button>
                                         </div>
 
-                                        {data.delivery_type === 'delivery' && (
-                                            <div className="mt-4 ml-11">
-                                                <div className="relative">
-                                                    <label className="absolute left-3 -top-2.5 bg-white px-2 text-xs font-semibold text-blue-600 z-10">Alamat Pengiriman</label>
-                                                    <input type="text" value={data.delivery_address}
-                                                        onChange={(e) => setData('delivery_address', e.target.value)}
-                                                        placeholder="Masukkan alamat lengkap..."
-                                                        className={`w-full rounded-xl border-2 bg-transparent px-4 py-3.5 text-gray-900 transition-colors focus:border-blue-600 focus:outline-none ${errors.delivery_address ? 'border-red-500' : 'border-gray-200 hover:border-gray-300'}`} />
-                                                    {errors.delivery_address && <span className="text-xs text-red-500">{errors.delivery_address}</span>}
-                                                </div>
+                                        <div className="mt-4 ml-11">
+                                            <div className="relative">
+                                                {data.delivery_type === 'self_pickup' ? (
+                                                    <>
+                                                        <label className="absolute left-3 -top-2.5 bg-white px-2 text-xs font-semibold text-blue-600 z-10">Lokasi Pengambilan</label>
+                                                        <input type="text" value="Jl. Ponorogo - Trenggalek (Kantor Bintang Travel)"
+                                                            readOnly
+                                                            className="w-full rounded-xl border-2 bg-gray-50 px-4 py-3.5 text-gray-600 border-gray-200 cursor-not-allowed focus:outline-none" />
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <label className="absolute left-3 -top-2.5 bg-white px-2 text-xs font-semibold text-blue-600 z-10">Alamat Pengiriman</label>
+                                                        <input type="text" value={data.delivery_address}
+                                                            onChange={(e) => setData('delivery_address', e.target.value)}
+                                                            placeholder="Masukkan alamat lengkap pengiriman..."
+                                                            className={`w-full rounded-xl border-2 bg-transparent px-4 py-3.5 text-gray-900 transition-colors focus:border-blue-600 focus:outline-none ${errors.delivery_address ? 'border-red-500' : 'border-gray-200 hover:border-gray-300'}`} />
+                                                        {errors.delivery_address && <span className="text-xs text-red-500">{errors.delivery_address}</span>}
+                                                    </>
+                                                )}
                                             </div>
-                                        )}
+                                        </div>
                                     </div>
 
                                     {/* Step 3: Sopir */}
