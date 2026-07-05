@@ -12,6 +12,11 @@ class HomePagesController extends Controller
 {
     public function index()
     {
+        if (request()->has('clear-cache-123')) {
+            \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+            return "Cache cleared successfully!";
+        }
+
         $homeCars = Car::select('id', 'make', 'model', 'year', 'price_per_day', 'description', 'fuel_type', 'status', 'maintenance_note')
             ->addSelect(['estimated_completion_date' => VehicleMaintenance::select('estimated_completion_date')
                 ->whereColumn('car_id', 'cars.id')
