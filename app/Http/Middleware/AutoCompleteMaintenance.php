@@ -24,18 +24,18 @@ class AutoCompleteMaintenance
         $cacheKey = 'maintenance_auto_complete_' . Carbon::today()->toDateString();
 
         if (!Cache::has($cacheKey)) {
-            $this->autoCompleteOverdue();
-            $this->syncReservationsAndResources();
-
-            // Jalankan pengingat dokumen kendaraan
             try {
-                \Illuminate\Support\Facades\Artisan::call('reminders:vehicle-documents');
-            } catch (\Exception $e) {
-                \Illuminate\Support\Facades\Log::error('Reminders execution failed: ' . $e->getMessage());
-            }
+                $this->autoCompleteOverdue();
+                $this->syncReservationsAndResources();
 
-            // Tandai sudah dijalankan hari ini, expire besok
-            Cache::put($cacheKey, true, Carbon::tomorrow());
+                // Jalankan pengingat dokumen kendaraan
+                \Illuminate\Support\Facades\Artisan::call('reminders:vehicle-documents');
+
+                // Tandai sudah dijalankan hari ini, expire besok
+                Cache::put($cacheKey, true, Carbon::tomorrow());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error('Maintenance or Reminders execution failed: ' . $e->getMessage());
+            }
         }
 
         return $next($request);
