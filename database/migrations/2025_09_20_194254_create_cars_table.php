@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('mileage');
             $table->enum('transmission', ['automatic', 'manual']);
             $table->integer('seats');
-            $table->string('fuel_type')->default(FuelType::GASOLINE->value);
+            $table->string('fuel_type')->default(FuelType::PERTAMAX->value);
             $table->text('description')->nullable();
             $table->string('status')->default(CarStatus::AVAILABLE->value);
             $table->timestamps();
