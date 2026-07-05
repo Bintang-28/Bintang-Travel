@@ -117,11 +117,13 @@ export default function ReservationsIndex({ reservations, filters, statuses, cur
                         <label className="inline-flex items-center">
                             <input type="radio" className="hidden" checked={statusFilter === 'all'} onChange={() => handleStatusChange('all')} />
                             <span className={`cursor-pointer rounded-full px-3 py-1.5 text-sm transition-colors ${statusFilter === 'all' ? 'bg-blue-600 text-white' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}>
-                                All ({Object.values(statuses).reduce((acc, curr) => acc + curr.count, 0)})
+                                All ({Object.entries(statuses).filter(([k]) => !['active', 'no_show'].includes(k)).reduce((acc, [k, curr]) => acc + curr.count, 0)})
                             </span>
                         </label>
 
-                        {Object.entries(statuses).map(([key, status]) => (
+                        {Object.entries(statuses)
+                            .filter(([key]) => !['active', 'no_show'].includes(key))
+                            .map(([key, status]) => (
                             <label key={key} className="inline-flex items-center">
                                 <input type="radio" className="hidden" checked={statusFilter === key} onChange={() => handleStatusChange(key)} />
                                 <span className={`flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-sm transition-colors ${statusFilter === key ? 'bg-blue-600 text-white' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}>

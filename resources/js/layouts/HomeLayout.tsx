@@ -340,19 +340,19 @@ export default function HomeLayout({ children }: Props) {
                         <div className="space-y-6">
                             <h4 className="text-lg font-bold tracking-wide">Layanan</h4>
                             <ul className="space-y-3 text-sm font-medium text-gray-400">
-                                <li><Link href="/fleet" className="transition-colors hover:text-blue-400">Sewa Mobil Mewah</Link></li>
-                                <li><Link href="/fleet" className="transition-colors hover:text-blue-400">Sewa Jangka Panjang</Link></li>
-                                <li><Link href="/fleet" className="transition-colors hover:text-blue-400">Solusi Perusahaan</Link></li>
-                                <li><Link href="/fleet" className="transition-colors hover:text-blue-400">Antar Jemput Bandara</Link></li>
+                                <li>Sewa Mobil Mewah</li>
+                                <li>Sewa Jangka Panjang</li>
+                                <li>Solusi Perusahaan</li>
+                                <li>Antar Jemput Bandara</li>
                             </ul>
                         </div>
 
                         <div className="space-y-6">
                             <h4 className="text-lg font-bold tracking-wide">Bantuan</h4>
                             <ul className="space-y-3 text-sm font-medium text-gray-400">
-                                <li><Link href="/client/support" className="transition-colors hover:text-blue-400">Pusat Bantuan</Link></li>
-                                <li><a href="#" className="transition-colors hover:text-blue-400">Syarat & Ketentuan</a></li>
-                                <li><a href="#" className="transition-colors hover:text-blue-400">Kebijakan Privasi</a></li>
+                                <li>Pusat Bantuan</li>
+                                <li>Syarat & Ketentuan</li>
+                                <li>Kebijakan Privasi</li>
                             </ul>
                         </div>
 
