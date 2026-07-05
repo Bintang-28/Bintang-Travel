@@ -285,7 +285,7 @@ export default function BookCar() {
                                                     <svg className="h-5 w-5 shrink-0 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
                                                     </svg>
-                                                    Mobil sudah dipesan pada tanggal tersebut. Silakan pilih tanggal lain yang tersedia.
+                                                    Jadwal bentrok! Mobil sudah dipesan pada rentang waktu tersebut (atau sedang dalam masa pembersihan 1 jam paska sewa). Silakan pilih waktu lain.
                                                 </div>
                                             )}
 
@@ -453,7 +453,7 @@ export default function BookCar() {
                                                                 <svg className="h-5 w-5 text-red-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                                                                 <div>
                                                                     <p className="font-bold">Jadwal Bentrok!</p>
-                                                                    <p className="text-xs text-red-600 mt-1">Sopir yang Anda pilih sudah terbooking untuk tanggal sewa tersebut. Silakan pilih sopir lain atau sesuaikan tanggal sewa Anda.</p>
+                                                                    <p className="text-xs text-red-600 mt-1">Sopir yang Anda pilih sudah memiliki jadwal menyetir pada waktu tersebut (termasuk 1 jam istirahat). Silakan pilih sopir lain atau geser waktu sewa Anda.</p>
                                                                 </div>
                                                             </div>
                                                         )}
