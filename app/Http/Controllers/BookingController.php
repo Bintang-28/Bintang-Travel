@@ -111,46 +111,42 @@ class BookingController extends Controller
         }
 
         // check if start_date or end_date overlaps with any existing booking
-        $overlap = Reservation::where('car_id', $car->id)
+        $activeReservations = Reservation::where('car_id', $car->id)
             ->whereIn('status', [
                 ReservationStatus::PENDING,
                 ReservationStatus::CONFIRMED,
                 ReservationStatus::ACTIVE
-            ])
-            ->where(function ($query) use ($request) {
-                $query->whereBetween('start_date', [$request->start_date, $request->end_date])
-                    ->orWhereBetween('end_date', [$request->start_date, $request->end_date])
-                    ->orWhere(function ($q) use ($request) {
-                        $q->where('start_date', '<=', $request->start_date)
-                          ->where('end_date', '>=', $request->end_date);
-                    });
-            })
-            ->exists();
+            ])->get();
+
+        $overlap = $activeReservations->some(function ($res) use ($startDateTime, $endDateTime) {
+            $existingStart = Carbon::parse($res->start_date->format('Y-m-d') . ' ' . ($res->pickup_time ?: '00:00'));
+            $existingEnd = Carbon::parse($res->end_date->format('Y-m-d') . ' ' . ($res->return_time ?: '23:59'))->addHour(); // 1 hour buffer
+
+            return $existingStart->lt($endDateTime) && $existingEnd->gt($startDateTime);
+        });
 
         if ($overlap) {
             return back()->withErrors([
-                'start_date' => 'Mobil ini sudah dipesan pada tanggal yang Anda pilih.',
-                'end_date' => 'Mobil ini sudah dipesan pada tanggal yang Anda pilih.',
+                'start_date' => 'Mobil ini sudah dipesan pada rentang waktu yang Anda pilih (termasuk waktu bersih-bersih).',
+                'end_date' => 'Mobil ini sudah dipesan pada rentang waktu yang Anda pilih (termasuk waktu bersih-bersih).',
             ]);
         }
 
         // Check if selected driver overlaps with any existing booking
         if ($request->with_driver && $request->driver_id) {
-            $driverOverlap = Reservation::where('driver_id', $request->driver_id)
+            $driverActiveReservations = Reservation::where('driver_id', $request->driver_id)
                 ->whereIn('status', [
                     ReservationStatus::PENDING,
                     ReservationStatus::CONFIRMED,
                     ReservationStatus::ACTIVE
-                ])
-                ->where(function ($query) use ($request) {
-                    $query->whereBetween('start_date', [$request->start_date, $request->end_date])
-                        ->orWhereBetween('end_date', [$request->start_date, $request->end_date])
-                        ->orWhere(function ($q) use ($request) {
-                            $q->where('start_date', '<=', $request->start_date)
-                              ->where('end_date', '>=', $request->end_date);
-                        });
-                })
-                ->exists();
+                ])->get();
+                
+            $driverOverlap = $driverActiveReservations->some(function ($res) use ($startDateTime, $endDateTime) {
+                $existingStart = Carbon::parse($res->start_date->format('Y-m-d') . ' ' . ($res->pickup_time ?: '00:00'));
+                $existingEnd = Carbon::parse($res->end_date->format('Y-m-d') . ' ' . ($res->return_time ?: '23:59'))->addHour(); // 1 hour buffer
+
+                return $existingStart->lt($endDateTime) && $existingEnd->gt($startDateTime);
+            });
 
             if ($driverOverlap) {
                 return back()->withErrors([

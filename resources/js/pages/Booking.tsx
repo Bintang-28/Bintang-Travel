@@ -82,6 +82,7 @@ export default function BookCar() {
         return (bookedRanges || []).some((range: any) => {
             const rangeStart = new Date(`${range.start}T${range.pickup_time || '00:00'}`);
             const rangeEnd = new Date(`${range.end}T${range.return_time || '23:59'}`);
+            rangeEnd.setHours(rangeEnd.getHours() + 1); // 1 jam waktu bersih-bersih
             return (start < rangeEnd && end > rangeStart);
         });
     }, [data.start_date, data.end_date, data.pickup_time, data.return_time, bookedRanges]);
@@ -98,6 +99,7 @@ export default function BookCar() {
         return (selectedDriver.bookedRanges || []).some((range: any) => {
             const rangeStart = new Date(`${range.start}T${range.pickup_time || '00:00'}`);
             const rangeEnd = new Date(`${range.end}T${range.return_time || '23:59'}`);
+            rangeEnd.setHours(rangeEnd.getHours() + 1); // 1 jam waktu istirahat
             return (start < rangeEnd && end > rangeStart);
         });
     }, [data.start_date, data.end_date, data.pickup_time, data.return_time, data.with_driver, data.driver_id, drivers]);
