@@ -74,28 +74,33 @@ export default function BookCar() {
     }, [data.start_date, data.end_date, data.pickup_time, data.return_time]);
 
     const isDateOverlapping = useMemo(() => {
-        if (!data.start_date || !data.end_date) return false;
-        const start = data.start_date;
-        const end = data.end_date;
+        if (!data.start_date || !data.end_date || !data.pickup_time || !data.return_time) return false;
         
-        return (bookedRanges || []).some((range: { start: string; end: string }) => {
-            return (start <= range.end && end >= range.start);
+        const start = new Date(`${data.start_date}T${data.pickup_time}`);
+        const end = new Date(`${data.end_date}T${data.return_time}`);
+        
+        return (bookedRanges || []).some((range: any) => {
+            const rangeStart = new Date(`${range.start}T${range.pickup_time || '00:00'}`);
+            const rangeEnd = new Date(`${range.end}T${range.return_time || '23:59'}`);
+            return (start < rangeEnd && end > rangeStart);
         });
-    }, [data.start_date, data.end_date, bookedRanges]);
+    }, [data.start_date, data.end_date, data.pickup_time, data.return_time, bookedRanges]);
 
     const isDriverOverlapping = useMemo(() => {
-        if (!data.start_date || !data.end_date || !data.with_driver || !data.driver_id) return false;
+        if (!data.start_date || !data.end_date || !data.pickup_time || !data.return_time || !data.with_driver || !data.driver_id) return false;
         
         const selectedDriver = drivers.find(d => d.id === parseInt(data.driver_id));
         if (!selectedDriver || !selectedDriver.bookedRanges) return false;
 
-        const start = data.start_date;
-        const end = data.end_date;
+        const start = new Date(`${data.start_date}T${data.pickup_time}`);
+        const end = new Date(`${data.end_date}T${data.return_time}`);
         
-        return (selectedDriver.bookedRanges || []).some((range: { start: string; end: string }) => {
-            return (start <= range.end && end >= range.start);
+        return (selectedDriver.bookedRanges || []).some((range: any) => {
+            const rangeStart = new Date(`${range.start}T${range.pickup_time || '00:00'}`);
+            const rangeEnd = new Date(`${range.end}T${range.return_time || '23:59'}`);
+            return (start < rangeEnd && end > rangeStart);
         });
-    }, [data.start_date, data.end_date, data.with_driver, data.driver_id, drivers]);
+    }, [data.start_date, data.end_date, data.pickup_time, data.return_time, data.with_driver, data.driver_id, drivers]);
 
     const selectedDriverSchedule = useMemo(() => {
         if (!data.driver_id) return [];
