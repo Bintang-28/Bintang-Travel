@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Admin\DriversController::index
  * @see app/Http/Controllers/Admin/DriversController.php:12
@@ -42,6 +42,41 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     method: 'head',
 })
 
+    /**
+* @see \App\Http\Controllers\Admin\DriversController::index
+ * @see app/Http/Controllers/Admin/DriversController.php:12
+ * @route '/admin/drivers'
+ */
+    const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: index.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\Admin\DriversController::index
+ * @see app/Http/Controllers/Admin/DriversController.php:12
+ * @route '/admin/drivers'
+ */
+        indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: index.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\Admin\DriversController::index
+ * @see app/Http/Controllers/Admin/DriversController.php:12
+ * @route '/admin/drivers'
+ */
+        indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: index.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    index.form = indexForm
 /**
 * @see \App\Http\Controllers\Admin\DriversController::create
  * @see app/Http/Controllers/Admin/DriversController.php:19
@@ -85,6 +120,41 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     method: 'head',
 })
 
+    /**
+* @see \App\Http\Controllers\Admin\DriversController::create
+ * @see app/Http/Controllers/Admin/DriversController.php:19
+ * @route '/admin/drivers/create'
+ */
+    const createForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: create.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\Admin\DriversController::create
+ * @see app/Http/Controllers/Admin/DriversController.php:19
+ * @route '/admin/drivers/create'
+ */
+        createForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: create.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\Admin\DriversController::create
+ * @see app/Http/Controllers/Admin/DriversController.php:19
+ * @route '/admin/drivers/create'
+ */
+        createForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: create.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    create.form = createForm
 /**
 * @see \App\Http\Controllers\Admin\DriversController::store
  * @see app/Http/Controllers/Admin/DriversController.php:24
@@ -119,6 +189,27 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     method: 'post',
 })
 
+    /**
+* @see \App\Http\Controllers\Admin\DriversController::store
+ * @see app/Http/Controllers/Admin/DriversController.php:24
+ * @route '/admin/drivers'
+ */
+    const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: store.url(options),
+        method: 'post',
+    })
+
+            /**
+* @see \App\Http\Controllers\Admin\DriversController::store
+ * @see app/Http/Controllers/Admin/DriversController.php:24
+ * @route '/admin/drivers'
+ */
+        storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: store.url(options),
+            method: 'post',
+        })
+    
+    store.form = storeForm
 /**
 * @see \App\Http\Controllers\Admin\DriversController::edit
  * @see app/Http/Controllers/Admin/DriversController.php:39
@@ -186,6 +277,41 @@ edit.head = (args: { driver: number | { id: number } } | [driver: number | { id:
     method: 'head',
 })
 
+    /**
+* @see \App\Http\Controllers\Admin\DriversController::edit
+ * @see app/Http/Controllers/Admin/DriversController.php:39
+ * @route '/admin/drivers/{driver}/edit'
+ */
+    const editForm = (args: { driver: number | { id: number } } | [driver: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: edit.url(args, options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\Admin\DriversController::edit
+ * @see app/Http/Controllers/Admin/DriversController.php:39
+ * @route '/admin/drivers/{driver}/edit'
+ */
+        editForm.get = (args: { driver: number | { id: number } } | [driver: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: edit.url(args, options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\Admin\DriversController::edit
+ * @see app/Http/Controllers/Admin/DriversController.php:39
+ * @route '/admin/drivers/{driver}/edit'
+ */
+        editForm.head = (args: { driver: number | { id: number } } | [driver: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: edit.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    edit.form = editForm
 /**
 * @see \App\Http\Controllers\Admin\DriversController::update
  * @see app/Http/Controllers/Admin/DriversController.php:46
@@ -253,6 +379,51 @@ update.patch = (args: { driver: number | { id: number } } | [driver: number | { 
     method: 'patch',
 })
 
+    /**
+* @see \App\Http\Controllers\Admin\DriversController::update
+ * @see app/Http/Controllers/Admin/DriversController.php:46
+ * @route '/admin/drivers/{driver}'
+ */
+    const updateForm = (args: { driver: number | { id: number } } | [driver: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: update.url(args, {
+                    [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                        _method: 'PUT',
+                        ...(options?.query ?? options?.mergeQuery ?? {}),
+                    }
+                }),
+        method: 'post',
+    })
+
+            /**
+* @see \App\Http\Controllers\Admin\DriversController::update
+ * @see app/Http/Controllers/Admin/DriversController.php:46
+ * @route '/admin/drivers/{driver}'
+ */
+        updateForm.put = (args: { driver: number | { id: number } } | [driver: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: update.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'PUT',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'post',
+        })
+            /**
+* @see \App\Http\Controllers\Admin\DriversController::update
+ * @see app/Http/Controllers/Admin/DriversController.php:46
+ * @route '/admin/drivers/{driver}'
+ */
+        updateForm.patch = (args: { driver: number | { id: number } } | [driver: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: update.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'PATCH',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'post',
+        })
+    
+    update.form = updateForm
 /**
 * @see \App\Http\Controllers\Admin\DriversController::destroy
  * @see app/Http/Controllers/Admin/DriversController.php:61
@@ -310,6 +481,38 @@ destroy.delete = (args: { driver: number | { id: number } } | [driver: number | 
     url: destroy.url(args, options),
     method: 'delete',
 })
+
+    /**
+* @see \App\Http\Controllers\Admin\DriversController::destroy
+ * @see app/Http/Controllers/Admin/DriversController.php:61
+ * @route '/admin/drivers/{driver}'
+ */
+    const destroyForm = (args: { driver: number | { id: number } } | [driver: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: destroy.url(args, {
+                    [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                        _method: 'DELETE',
+                        ...(options?.query ?? options?.mergeQuery ?? {}),
+                    }
+                }),
+        method: 'post',
+    })
+
+            /**
+* @see \App\Http\Controllers\Admin\DriversController::destroy
+ * @see app/Http/Controllers/Admin/DriversController.php:61
+ * @route '/admin/drivers/{driver}'
+ */
+        destroyForm.delete = (args: { driver: number | { id: number } } | [driver: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: destroy.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'DELETE',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'post',
+        })
+    
+    destroy.form = destroyForm
 const DriversController = { index, create, store, edit, update, destroy }
 
 export default DriversController

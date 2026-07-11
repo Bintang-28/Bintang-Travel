@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../../wayfinder'
 /**
 * @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::upload
  * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:21
@@ -33,6 +33,27 @@ upload.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     method: 'post',
 })
 
+    /**
+* @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::upload
+ * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:21
+ * @route '/filepond/upload'
+ */
+    const uploadForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: upload.url(options),
+        method: 'post',
+    })
+
+            /**
+* @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::upload
+ * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:21
+ * @route '/filepond/upload'
+ */
+        uploadForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: upload.url(options),
+            method: 'post',
+        })
+    
+    upload.form = uploadForm
 /**
 * @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::patch
  * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:42
@@ -67,6 +88,37 @@ patch.patch = (options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     method: 'patch',
 })
 
+    /**
+* @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::patch
+ * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:42
+ * @route '/filepond/patch'
+ */
+    const patchForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: patch.url({
+                    [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                        _method: 'PATCH',
+                        ...(options?.query ?? options?.mergeQuery ?? {}),
+                    }
+                }),
+        method: 'post',
+    })
+
+            /**
+* @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::patch
+ * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:42
+ * @route '/filepond/patch'
+ */
+        patchForm.patch = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: patch.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'PATCH',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'post',
+        })
+    
+    patch.form = patchForm
 /**
 * @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::restore
  * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:51
@@ -110,6 +162,46 @@ restore.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 
+    /**
+* @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::restore
+ * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:51
+ * @route '/filepond/restore'
+ */
+    const restoreForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: restore.url({
+                    [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                        _method: 'HEAD',
+                        ...(options?.query ?? options?.mergeQuery ?? {}),
+                    }
+                }),
+        method: 'get',
+    })
+
+            /**
+* @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::restore
+ * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:51
+ * @route '/filepond/restore'
+ */
+        restoreForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: restore.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+            /**
+* @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::restore
+ * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:51
+ * @route '/filepond/restore'
+ */
+        restoreForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: restore.url(options),
+            method: 'get',
+        })
+    
+    restore.form = restoreForm
 /**
 * @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::revert
  * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:69
@@ -163,6 +255,37 @@ revert.delete = (args: { folder: string | number } | [folder: string | number ] 
     method: 'delete',
 })
 
+    /**
+* @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::revert
+ * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:69
+ * @route '/filepond/revert/{folder}'
+ */
+    const revertForm = (args: { folder: string | number } | [folder: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: revert.url(args, {
+                    [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                        _method: 'DELETE',
+                        ...(options?.query ?? options?.mergeQuery ?? {}),
+                    }
+                }),
+        method: 'post',
+    })
+
+            /**
+* @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::revert
+ * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:69
+ * @route '/filepond/revert/{folder}'
+ */
+        revertForm.delete = (args: { folder: string | number } | [folder: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: revert.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'DELETE',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'post',
+        })
+    
+    revert.form = revertForm
 /**
 * @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::load
  * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:0
@@ -224,6 +347,42 @@ load.head = (args: { fileId: string | number } | [fileId: string | number ] | st
     url: load.url(args, options),
     method: 'head',
 })
+
+    /**
+* @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::load
+ * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:0
+ * @route '/filepond/load/{fileId}'
+ */
+    const loadForm = (args: { fileId: string | number } | [fileId: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: load.url(args, options),
+        method: 'get',
+    })
+
+            /**
+* @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::load
+ * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:0
+ * @route '/filepond/load/{fileId}'
+ */
+        loadForm.get = (args: { fileId: string | number } | [fileId: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: load.url(args, options),
+            method: 'get',
+        })
+            /**
+* @see \MohamedGaldi\ViltFilepond\Http\Controllers\FilePondController::load
+ * @see vendor/mohamedgaldi/vilt-filepond/src/Http/Controllers/FilePondController.php:0
+ * @route '/filepond/load/{fileId}'
+ */
+        loadForm.head = (args: { fileId: string | number } | [fileId: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: load.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    load.form = loadForm
 const FilePondController = { upload, patch, restore, revert, load }
 
 export default FilePondController

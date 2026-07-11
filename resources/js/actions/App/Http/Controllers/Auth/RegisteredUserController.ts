@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Auth\RegisteredUserController::create
  * @see app/Http/Controllers/Auth/RegisteredUserController.php:22
@@ -42,6 +42,41 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     method: 'head',
 })
 
+    /**
+* @see \App\Http\Controllers\Auth\RegisteredUserController::create
+ * @see app/Http/Controllers/Auth/RegisteredUserController.php:22
+ * @route '/register'
+ */
+    const createForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: create.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\Auth\RegisteredUserController::create
+ * @see app/Http/Controllers/Auth/RegisteredUserController.php:22
+ * @route '/register'
+ */
+        createForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: create.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\Auth\RegisteredUserController::create
+ * @see app/Http/Controllers/Auth/RegisteredUserController.php:22
+ * @route '/register'
+ */
+        createForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: create.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    create.form = createForm
 /**
 * @see \App\Http\Controllers\Auth\RegisteredUserController::store
  * @see app/Http/Controllers/Auth/RegisteredUserController.php:32
@@ -76,6 +111,27 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     method: 'post',
 })
 
+    /**
+* @see \App\Http\Controllers\Auth\RegisteredUserController::store
+ * @see app/Http/Controllers/Auth/RegisteredUserController.php:32
+ * @route '/register'
+ */
+    const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: store.url(options),
+        method: 'post',
+    })
+
+            /**
+* @see \App\Http\Controllers\Auth\RegisteredUserController::store
+ * @see app/Http/Controllers/Auth/RegisteredUserController.php:32
+ * @route '/register'
+ */
+        storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: store.url(options),
+            method: 'post',
+        })
+    
+    store.form = storeForm
 /**
 * @see \App\Http\Controllers\Auth\RegisteredUserController::showVerifyOtp
  * @see app/Http/Controllers/Auth/RegisteredUserController.php:63
@@ -119,6 +175,41 @@ showVerifyOtp.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => (
     method: 'head',
 })
 
+    /**
+* @see \App\Http\Controllers\Auth\RegisteredUserController::showVerifyOtp
+ * @see app/Http/Controllers/Auth/RegisteredUserController.php:63
+ * @route '/register/verify-otp'
+ */
+    const showVerifyOtpForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: showVerifyOtp.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\Auth\RegisteredUserController::showVerifyOtp
+ * @see app/Http/Controllers/Auth/RegisteredUserController.php:63
+ * @route '/register/verify-otp'
+ */
+        showVerifyOtpForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: showVerifyOtp.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\Auth\RegisteredUserController::showVerifyOtp
+ * @see app/Http/Controllers/Auth/RegisteredUserController.php:63
+ * @route '/register/verify-otp'
+ */
+        showVerifyOtpForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: showVerifyOtp.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    showVerifyOtp.form = showVerifyOtpForm
 /**
 * @see \App\Http\Controllers\Auth\RegisteredUserController::verifyOtp
  * @see app/Http/Controllers/Auth/RegisteredUserController.php:80
@@ -153,6 +244,27 @@ verifyOtp.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     method: 'post',
 })
 
+    /**
+* @see \App\Http\Controllers\Auth\RegisteredUserController::verifyOtp
+ * @see app/Http/Controllers/Auth/RegisteredUserController.php:80
+ * @route '/register/verify-otp'
+ */
+    const verifyOtpForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: verifyOtp.url(options),
+        method: 'post',
+    })
+
+            /**
+* @see \App\Http\Controllers\Auth\RegisteredUserController::verifyOtp
+ * @see app/Http/Controllers/Auth/RegisteredUserController.php:80
+ * @route '/register/verify-otp'
+ */
+        verifyOtpForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: verifyOtp.url(options),
+            method: 'post',
+        })
+    
+    verifyOtp.form = verifyOtpForm
 /**
 * @see \App\Http\Controllers\Auth\RegisteredUserController::resendOtp
  * @see app/Http/Controllers/Auth/RegisteredUserController.php:125
@@ -186,6 +298,28 @@ resendOtp.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: resendOtp.url(options),
     method: 'post',
 })
+
+    /**
+* @see \App\Http\Controllers\Auth\RegisteredUserController::resendOtp
+ * @see app/Http/Controllers/Auth/RegisteredUserController.php:125
+ * @route '/register/resend-otp'
+ */
+    const resendOtpForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: resendOtp.url(options),
+        method: 'post',
+    })
+
+            /**
+* @see \App\Http\Controllers\Auth\RegisteredUserController::resendOtp
+ * @see app/Http/Controllers/Auth/RegisteredUserController.php:125
+ * @route '/register/resend-otp'
+ */
+        resendOtpForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: resendOtp.url(options),
+            method: 'post',
+        })
+    
+    resendOtp.form = resendOtpForm
 const RegisteredUserController = { create, store, showVerifyOtp, verifyOtp, resendOtp }
 
 export default RegisteredUserController

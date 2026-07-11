@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFD Level 0 - Sistem Rental Mobil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .btn-download {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.3s;
+        }
+        .btn-download:hover {
+            background-color: #0056b3;
+        }
+        #canvas-container {
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            overflow: auto;
+            max-width: 100%;
+            border: 1px solid #ddd;
+        }
+        svg {
+            display: block;
+        }
+        text {
+            font-family: Arial, sans-serif;
+        }
+        .entity {
+            font-size: 24px;
+        }
+        .system {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .label {
+            font-size: 13px;
+            fill: black;
+            paint-order: stroke;
+            stroke: white;
+            stroke-width: 4px;
+            stroke-linecap: butt;
+            stroke-linejoin: miter;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>Data Flow Diagram (DFD) Level 0</h2>
+        <button class="btn-download" onclick="downloadImage()">Unduh Gambar (PNG)</button>
+    </div>
+
+    <div id="canvas-container">
+        <svg id="dfd-svg" width="1400" height="900" xmlns="http://www.w3.org/2000/svg" style="background: white;">
+            <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="black" />
+                </marker>
+            </defs>
+
+            <!-- Lines Client -->
+            <path d="M 110 250 L 110 80 L 620 80 L 620 251" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="365" y="75" text-anchor="middle" class="label">Input data registrasi &amp; login</text>
+            
+            <path d="M 150 250 L 150 120 L 590 120 L 590 283" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="370" y="115" text-anchor="middle" class="label">Input data reservasi mobil</text>
+            
+            <path d="M 190 250 L 190 160 L 560 160 L 560 338" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="375" y="155" text-anchor="middle" class="label">Upload bukti pembayaran denda</text>
+
+            <path d="M 610 260 L 290 260" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="450" y="255" text-anchor="middle" class="label">Informasi tagihan denda</text>
+
+            <path d="M 290 290 L 586 290" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="438" y="285" text-anchor="middle" class="label">Input tiket bantuan &amp; chat</text>
+
+            <path d="M 568 320 L 290 320" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="429" y="315" text-anchor="middle" class="label">Informasi ketersediaan &amp; detail mobil</text>
+
+            <path d="M 556 350 L 290 350" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="423" y="345" text-anchor="middle" class="label">Informasi status &amp; cetak reservasi</text>
+
+            <path d="M 548 380 L 290 380" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="419" y="375" text-anchor="middle" class="label">Informasi balasan tiket &amp; chat</text>
+
+            <path d="M 527 430 L 200 430 L 200 410" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="363" y="425" text-anchor="middle" class="label">Informasi tagihan denda</text>
+
+            <!-- Lines Admin -->
+            <path d="M 130 520 L 130 460 L 540 460" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="335" y="455" text-anchor="middle" class="label">Input data login Admin</text>
+
+            <path d="M 180 520 L 180 490 L 545 490" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="362" y="485" text-anchor="middle" class="label">Input data denda keterlambatan / kerusakan</text>
+
+            <path d="M 290 540 L 553 540" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="421" y="535" text-anchor="middle" class="label">Input data mobil &amp; driver</text>
+
+            <path d="M 290 570 L 563 570" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="426" y="565" text-anchor="middle" class="label">Input data pemeliharaan &amp; reminder</text>
+
+            <path d="M 290 600 L 578 600" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="434" y="595" text-anchor="middle" class="label">Input persetujuan / update reservasi</text>
+
+            <path d="M 290 630 L 599 630" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="444" y="625" text-anchor="middle" class="label">Input balasan tiket &amp; chat</text>
+
+            <path d="M 626 660 L 290 660" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="458" y="655" text-anchor="middle" class="label">Informasi login Admin</text>
+
+            <path d="M 662 700 L 230 700 L 230 680" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="446" y="695" text-anchor="middle" class="label">Informasi status mobil &amp; driver</text>
+
+            <path d="M 680 730 L 180 730 L 180 680" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="430" y="725" text-anchor="middle" class="label">Informasi data reservasi masuk</text>
+
+            <path d="M 700 760 L 130 760 L 130 680" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="415" y="755" text-anchor="middle" class="label">Informasi tiket bantuan masuk</text>
+
+            <path d="M 720 790 L 80 790 L 80 680" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="400" y="785" text-anchor="middle" class="label">Informasi notifikasi reminder dokumen</text>
+
+            <!-- Lines Super Admin -->
+            <path d="M 1250 250 L 1250 100 L 780 100 L 780 251" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="1015" y="95" text-anchor="middle" class="label">Input data login Super Admin</text>
+
+            <path d="M 1110 270 L 800 270" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="955" y="265" text-anchor="middle" class="label">Input data master user</text>
+
+            <path d="M 1110 300 L 819 300" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="964" y="295" text-anchor="middle" class="label">Request suspend / aktivasi akun client</text>
+
+            <path d="M 834 330 L 1110 330" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="972" y="325" text-anchor="middle" class="label">Informasi login Super Admin</text>
+
+            <path d="M 860 420 L 1200 420 L 1200 390" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="1030" y="415" text-anchor="middle" class="label">Informasi log akun pengguna</text>
+
+            <!-- Lines Owner -->
+            <path d="M 1250 520 L 1250 430 L 860 430" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="1055" y="425" text-anchor="middle" class="label">Input data login Owner</text>
+
+            <path d="M 1180 520 L 1180 470 L 858 470" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="1019" y="465" text-anchor="middle" class="label">Request laporan periode tertentu</text>
+
+            <path d="M 1110 540 L 847 540" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="978" y="535" text-anchor="middle" class="label">Request verifikasi pembayaran</text>
+
+            <path d="M 837 570 L 1110 570" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="973" y="565" text-anchor="middle" class="label">Informasi login Owner</text>
+
+            <path d="M 822 600 L 1110 600" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="966" y="595" text-anchor="middle" class="label">dashboard &amp; grafik tren reservasi</text>
+
+            <path d="M 801 630 L 1110 630" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="955" y="625" text-anchor="middle" class="label">laporan laba bersih &amp; KPI</text>
+
+            <path d="M 740 710 L 1200 710 L 1200 680" fill="none" stroke="black" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="970" y="705" text-anchor="middle" class="label">Informasi laporan utilitas &amp; kinerja kendaraan</text>
+
+            <!-- Entities -->
+            <!-- Client -->
+            <rect x="50" y="250" width="240" height="160" fill="white" stroke="black" stroke-width="2"/>
+            <text x="170" y="338" text-anchor="middle" class="entity">client</text>
+
+            <!-- Admin -->
+            <rect x="50" y="520" width="240" height="160" fill="white" stroke="black" stroke-width="2"/>
+            <text x="170" y="608" text-anchor="middle" class="entity">admin</text>
+
+            <!-- Super Admin -->
+            <rect x="1110" y="250" width="240" height="140" fill="white" stroke="black" stroke-width="2"/>
+            <text x="1230" y="328" text-anchor="middle" class="entity">super admin</text>
+
+            <!-- Owner -->
+            <rect x="1110" y="520" width="240" height="160" fill="white" stroke="black" stroke-width="2"/>
+            <text x="1230" y="608" text-anchor="middle" class="entity">owner</text>
+
+            <!-- Sistem -->
+            <ellipse cx="700" cy="450" rx="160" ry="230" fill="white" stroke="black" stroke-width="2"/>
+            <text x="700" y="445" text-anchor="middle" class="system">sistem rental</text>
+            <text x="700" y="475" text-anchor="middle" class="system">mobil</text>
+
+        </svg>
+    </div>
+
+    <script>
+        function downloadImage() {
+            const svg = document.getElementById('dfd-svg');
+            const serializer = new XMLSerializer();
+            let source = serializer.serializeToString(svg);
+            
+            // Add name spaces
+            if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
+                source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+            }
+            if(!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)){
+                source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+            }
+
+            source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+            const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+            
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                canvas.width = svg.width.baseVal.value;
+                canvas.height = svg.height.baseVal.value;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0);
+                
+                const a = document.createElement('a');
+                a.download = "dfd_level_0.png";
+                a.href = canvas.toDataURL("image/png");
+                a.click();
+            };
+            img.src = url;
+        }
+    </script>
+</body>
+</html>

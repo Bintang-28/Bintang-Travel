@@ -119,8 +119,11 @@ class BookingController extends Controller
             ])->get();
 
         $overlap = $activeReservations->some(function ($res) use ($startDateTime, $endDateTime) {
-            $existingStart = Carbon::parse($res->start_date->format('Y-m-d') . ' ' . ($res->pickup_time ?: '00:00'));
-            $existingEnd = Carbon::parse($res->end_date->format('Y-m-d') . ' ' . ($res->return_time ?: '23:59'))->addHour(); // 1 hour buffer
+            $pickupTime = $res->pickup_time instanceof \DateTimeInterface ? $res->pickup_time->format('H:i') : ($res->pickup_time ?: '00:00');
+            $returnTime = $res->return_time instanceof \DateTimeInterface ? $res->return_time->format('H:i') : ($res->return_time ?: '23:59');
+
+            $existingStart = Carbon::parse($res->start_date->format('Y-m-d') . ' ' . $pickupTime);
+            $existingEnd = Carbon::parse($res->end_date->format('Y-m-d') . ' ' . $returnTime)->addHour(); // 1 hour buffer
 
             return $existingStart->lt($endDateTime) && $existingEnd->gt($startDateTime);
         });
@@ -142,8 +145,11 @@ class BookingController extends Controller
                 ])->get();
                 
             $driverOverlap = $driverActiveReservations->some(function ($res) use ($startDateTime, $endDateTime) {
-                $existingStart = Carbon::parse($res->start_date->format('Y-m-d') . ' ' . ($res->pickup_time ?: '00:00'));
-                $existingEnd = Carbon::parse($res->end_date->format('Y-m-d') . ' ' . ($res->return_time ?: '23:59'))->addHour(); // 1 hour buffer
+                $pickupTime = $res->pickup_time instanceof \DateTimeInterface ? $res->pickup_time->format('H:i') : ($res->pickup_time ?: '00:00');
+                $returnTime = $res->return_time instanceof \DateTimeInterface ? $res->return_time->format('H:i') : ($res->return_time ?: '23:59');
+
+                $existingStart = Carbon::parse($res->start_date->format('Y-m-d') . ' ' . $pickupTime);
+                $existingEnd = Carbon::parse($res->end_date->format('Y-m-d') . ' ' . $returnTime)->addHour(); // 1 hour buffer
 
                 return $existingStart->lt($endDateTime) && $existingEnd->gt($startDateTime);
             });

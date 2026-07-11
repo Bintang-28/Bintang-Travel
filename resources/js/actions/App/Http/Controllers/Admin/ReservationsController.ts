@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Admin\ReservationsController::index
  * @see app/Http/Controllers/Admin/ReservationsController.php:23
@@ -42,6 +42,41 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     method: 'head',
 })
 
+    /**
+* @see \App\Http\Controllers\Admin\ReservationsController::index
+ * @see app/Http/Controllers/Admin/ReservationsController.php:23
+ * @route '/admin/reservations'
+ */
+    const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: index.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\Admin\ReservationsController::index
+ * @see app/Http/Controllers/Admin/ReservationsController.php:23
+ * @route '/admin/reservations'
+ */
+        indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: index.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\Admin\ReservationsController::index
+ * @see app/Http/Controllers/Admin/ReservationsController.php:23
+ * @route '/admin/reservations'
+ */
+        indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: index.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    index.form = indexForm
 /**
 * @see \App\Http\Controllers\Admin\ReservationsController::show
  * @see app/Http/Controllers/Admin/ReservationsController.php:81
@@ -109,6 +144,41 @@ show.head = (args: { reservation: number | { id: number } } | [reservation: numb
     method: 'head',
 })
 
+    /**
+* @see \App\Http\Controllers\Admin\ReservationsController::show
+ * @see app/Http/Controllers/Admin/ReservationsController.php:81
+ * @route '/admin/reservations/{reservation}'
+ */
+    const showForm = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: show.url(args, options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\Admin\ReservationsController::show
+ * @see app/Http/Controllers/Admin/ReservationsController.php:81
+ * @route '/admin/reservations/{reservation}'
+ */
+        showForm.get = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: show.url(args, options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\Admin\ReservationsController::show
+ * @see app/Http/Controllers/Admin/ReservationsController.php:81
+ * @route '/admin/reservations/{reservation}'
+ */
+        showForm.head = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: show.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    show.form = showForm
 /**
 * @see \App\Http\Controllers\Admin\ReservationsController::edit
  * @see app/Http/Controllers/Admin/ReservationsController.php:92
@@ -176,6 +246,41 @@ edit.head = (args: { reservation: number | { id: number } } | [reservation: numb
     method: 'head',
 })
 
+    /**
+* @see \App\Http\Controllers\Admin\ReservationsController::edit
+ * @see app/Http/Controllers/Admin/ReservationsController.php:92
+ * @route '/admin/reservations/{reservation}/edit'
+ */
+    const editForm = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: edit.url(args, options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\Admin\ReservationsController::edit
+ * @see app/Http/Controllers/Admin/ReservationsController.php:92
+ * @route '/admin/reservations/{reservation}/edit'
+ */
+        editForm.get = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: edit.url(args, options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\Admin\ReservationsController::edit
+ * @see app/Http/Controllers/Admin/ReservationsController.php:92
+ * @route '/admin/reservations/{reservation}/edit'
+ */
+        editForm.head = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: edit.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    edit.form = editForm
 /**
 * @see \App\Http\Controllers\Admin\ReservationsController::update
  * @see app/Http/Controllers/Admin/ReservationsController.php:109
@@ -243,6 +348,51 @@ update.patch = (args: { reservation: number | { id: number } } | [reservation: n
     method: 'patch',
 })
 
+    /**
+* @see \App\Http\Controllers\Admin\ReservationsController::update
+ * @see app/Http/Controllers/Admin/ReservationsController.php:109
+ * @route '/admin/reservations/{reservation}'
+ */
+    const updateForm = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: update.url(args, {
+                    [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                        _method: 'PUT',
+                        ...(options?.query ?? options?.mergeQuery ?? {}),
+                    }
+                }),
+        method: 'post',
+    })
+
+            /**
+* @see \App\Http\Controllers\Admin\ReservationsController::update
+ * @see app/Http/Controllers/Admin/ReservationsController.php:109
+ * @route '/admin/reservations/{reservation}'
+ */
+        updateForm.put = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: update.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'PUT',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'post',
+        })
+            /**
+* @see \App\Http\Controllers\Admin\ReservationsController::update
+ * @see app/Http/Controllers/Admin/ReservationsController.php:109
+ * @route '/admin/reservations/{reservation}'
+ */
+        updateForm.patch = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: update.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'PATCH',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'post',
+        })
+    
+    update.form = updateForm
 /**
 * @see \App\Http\Controllers\Admin\ReservationsController::print
  * @see app/Http/Controllers/Admin/ReservationsController.php:281
@@ -310,6 +460,41 @@ print.head = (args: { reservation: number | { id: number } } | [reservation: num
     method: 'head',
 })
 
+    /**
+* @see \App\Http\Controllers\Admin\ReservationsController::print
+ * @see app/Http/Controllers/Admin/ReservationsController.php:281
+ * @route '/admin/reservations/{reservation}/print'
+ */
+    const printForm = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: print.url(args, options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\Admin\ReservationsController::print
+ * @see app/Http/Controllers/Admin/ReservationsController.php:281
+ * @route '/admin/reservations/{reservation}/print'
+ */
+        printForm.get = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: print.url(args, options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\Admin\ReservationsController::print
+ * @see app/Http/Controllers/Admin/ReservationsController.php:281
+ * @route '/admin/reservations/{reservation}/print'
+ */
+        printForm.head = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: print.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    print.form = printForm
 /**
 * @see \App\Http\Controllers\Admin\ReservationsController::destroy
  * @see app/Http/Controllers/Admin/ReservationsController.php:295
@@ -367,6 +552,38 @@ destroy.delete = (args: { reservation: number | { id: number } } | [reservation:
     url: destroy.url(args, options),
     method: 'delete',
 })
+
+    /**
+* @see \App\Http\Controllers\Admin\ReservationsController::destroy
+ * @see app/Http/Controllers/Admin/ReservationsController.php:295
+ * @route '/admin/reservations/{reservation}'
+ */
+    const destroyForm = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: destroy.url(args, {
+                    [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                        _method: 'DELETE',
+                        ...(options?.query ?? options?.mergeQuery ?? {}),
+                    }
+                }),
+        method: 'post',
+    })
+
+            /**
+* @see \App\Http\Controllers\Admin\ReservationsController::destroy
+ * @see app/Http/Controllers/Admin/ReservationsController.php:295
+ * @route '/admin/reservations/{reservation}'
+ */
+        destroyForm.delete = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: destroy.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'DELETE',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'post',
+        })
+    
+    destroy.form = destroyForm
 const ReservationsController = { index, show, edit, update, print, destroy }
 
 export default ReservationsController

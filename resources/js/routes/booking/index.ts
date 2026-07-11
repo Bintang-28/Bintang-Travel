@@ -1,7 +1,7 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\BookingController::confirmation
- * @see app/Http/Controllers/BookingController.php:217
+ * @see app/Http/Controllers/BookingController.php:213
  * @route '/booking/{reservation}'
  */
 export const confirmation = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ confirmation.definition = {
 
 /**
 * @see \App\Http\Controllers\BookingController::confirmation
- * @see app/Http/Controllers/BookingController.php:217
+ * @see app/Http/Controllers/BookingController.php:213
  * @route '/booking/{reservation}'
  */
 confirmation.url = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -49,7 +49,7 @@ confirmation.url = (args: { reservation: number | { id: number } } | [reservatio
 
 /**
 * @see \App\Http\Controllers\BookingController::confirmation
- * @see app/Http/Controllers/BookingController.php:217
+ * @see app/Http/Controllers/BookingController.php:213
  * @route '/booking/{reservation}'
  */
 confirmation.get = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -58,13 +58,49 @@ confirmation.get = (args: { reservation: number | { id: number } } | [reservatio
 })
 /**
 * @see \App\Http\Controllers\BookingController::confirmation
- * @see app/Http/Controllers/BookingController.php:217
+ * @see app/Http/Controllers/BookingController.php:213
  * @route '/booking/{reservation}'
  */
 confirmation.head = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: confirmation.url(args, options),
     method: 'head',
 })
+
+    /**
+* @see \App\Http\Controllers\BookingController::confirmation
+ * @see app/Http/Controllers/BookingController.php:213
+ * @route '/booking/{reservation}'
+ */
+    const confirmationForm = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: confirmation.url(args, options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\BookingController::confirmation
+ * @see app/Http/Controllers/BookingController.php:213
+ * @route '/booking/{reservation}'
+ */
+        confirmationForm.get = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: confirmation.url(args, options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\BookingController::confirmation
+ * @see app/Http/Controllers/BookingController.php:213
+ * @route '/booking/{reservation}'
+ */
+        confirmationForm.head = (args: { reservation: number | { id: number } } | [reservation: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: confirmation.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    confirmation.form = confirmationForm
 const booking = {
     confirmation: Object.assign(confirmation, confirmation),
 }
