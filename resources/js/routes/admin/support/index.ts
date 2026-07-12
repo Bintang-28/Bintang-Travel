@@ -261,7 +261,7 @@ reply.post = (args: { ticket: number | { id: number } } | [ticket: number | { id
     reply.form = replyForm
 /**
 * @see \App\Http\Controllers\Admin\SupportController::close
- * @see app/Http/Controllers/Admin/SupportController.php:126
+ * @see app/Http/Controllers/Admin/SupportController.php:133
  * @route '/admin/support/tickets/{ticket}/close'
  */
 export const close = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -276,7 +276,7 @@ close.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\SupportController::close
- * @see app/Http/Controllers/Admin/SupportController.php:126
+ * @see app/Http/Controllers/Admin/SupportController.php:133
  * @route '/admin/support/tickets/{ticket}/close'
  */
 close.url = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -309,7 +309,7 @@ close.url = (args: { ticket: number | { id: number } } | [ticket: number | { id:
 
 /**
 * @see \App\Http\Controllers\Admin\SupportController::close
- * @see app/Http/Controllers/Admin/SupportController.php:126
+ * @see app/Http/Controllers/Admin/SupportController.php:133
  * @route '/admin/support/tickets/{ticket}/close'
  */
 close.post = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -319,7 +319,7 @@ close.post = (args: { ticket: number | { id: number } } | [ticket: number | { id
 
     /**
 * @see \App\Http\Controllers\Admin\SupportController::close
- * @see app/Http/Controllers/Admin/SupportController.php:126
+ * @see app/Http/Controllers/Admin/SupportController.php:133
  * @route '/admin/support/tickets/{ticket}/close'
  */
     const closeForm = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -329,7 +329,7 @@ close.post = (args: { ticket: number | { id: number } } | [ticket: number | { id
 
             /**
 * @see \App\Http\Controllers\Admin\SupportController::close
- * @see app/Http/Controllers/Admin/SupportController.php:126
+ * @see app/Http/Controllers/Admin/SupportController.php:133
  * @route '/admin/support/tickets/{ticket}/close'
  */
         closeForm.post = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

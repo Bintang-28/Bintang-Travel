@@ -14,6 +14,7 @@ class Message extends Model
     protected $fillable = [
         'ticket_id',
         'message',
+        'attachment_path',
         'is_admin',
     ];
 

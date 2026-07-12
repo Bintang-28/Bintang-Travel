@@ -102,7 +102,8 @@ class SupportController extends Controller
     public function reply(Request $request, Ticket $ticket)
     {
         $request->validate([
-            'message' => 'required|string|min:1',
+            'message' => 'required_without:attachment|string|nullable',
+            'attachment' => 'nullable|image|max:2048',
         ]);
 
         // Only allow replies to customer tickets
@@ -110,8 +111,14 @@ class SupportController extends Controller
             return back()->with('error', 'Cannot reply to guest tickets');
         }
 
+        $attachmentPath = null;
+        if ($request->hasFile('attachment')) {
+            $attachmentPath = $request->file('attachment')->store('chat_attachments', 'public');
+        }
+
         $ticket->messages()->create([
-            'message' => $request->message,
+            'message' => $request->message ?? '',
+            'attachment_path' => $attachmentPath,
             'is_admin' => true,
         ]);
 

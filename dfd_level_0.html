@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>DFD Level 0</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #diagram-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow-x: auto;
+            max-width: 100%;
+        }
+        .btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background-color: #1a252f;
+        }
+    </style>
+</head>
+<body>
+    <h2>DFD Level 0 - Sistem Informasi Rent Car</h2>
+    <div id="diagram-container">
+        <svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg"><defs>
+    <marker id="arrowHeadRight" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse">
+      <polygon points="0 0, 10 5, 0 10" fill="black" />
+    </marker>
+    <marker id="arrowHeadLeft" markerWidth="10" markerHeight="10" refX="1" refY="5" orient="auto-start-reverse">
+      <polygon points="10 0, 0 5, 10 10" fill="black" />
+    </marker>
+    </defs><style>
+        .box { fill: #ffffff; stroke: #000000; stroke-width: 2px; }
+        .center-circle { fill: #ffffff; stroke: #000000; stroke-width: 2px; }
+        .line { stroke: #000000; stroke-width: 1.5px; fill: none; }
+        .text-label { font-family: Arial, sans-serif; font-size: 13px; fill: #000; }
+        .node-title { font-family: Arial, sans-serif; font-size: 22px; font-weight: bold; fill: #000; text-anchor: middle; text-transform: uppercase; }
+    </style><ellipse cx="600" cy="400" rx="170" ry="320" class="center-circle" /><text x="600" y="385" class="node-title">SISTEM INFORMASI</text><text x="600" y="415" class="node-title">RENT CAR</text><rect x="10" y="50" width="200" height="260" class="box" /><text x="110.0" y="187.0" class="node-title">CLIENT</text><rect x="10" y="360" width="200" height="350" class="box" /><text x="110.0" y="542.0" class="node-title">ADMIN</text><rect x="990" y="120" width="200" height="170" class="box" /><text x="1090.0" y="212.0" class="node-title">SUPER ADMIN</text><rect x="990" y="400" width="200" height="230" class="box" /><text x="1090.0" y="522.0" class="node-title">OWNER</text><line x1="210" y1="70" x2="573.0" y2="70" class="line" marker-end="url(#arrowHeadRight)" /><text x="396.5" y="65" class="text-label" text-anchor="middle">Input data registrasi & login</text><line x1="210" y1="100" x2="530.8425036449311" y2="100" class="line" marker-end="url(#arrowHeadRight)" /><text x="375.42125182246554" y="95" class="text-label" text-anchor="middle">Input data reservasi mobil</text><line x1="210" y1="130" x2="498.7548160517499" y2="130" class="line" marker-end="url(#arrowHeadRight)" /><text x="359.37740802587496" y="125" class="text-label" text-anchor="middle">Upload bukti pembayaran reservasi</text><line x1="487.5555692797549" y1="160" x2="220" y2="160" class="line" marker-end="url(#arrowHeadLeft)" /><text x="348.77778463987744" y="155" class="text-label" text-anchor="middle">Informasi tagihan denda</text><line x1="210" y1="190" x2="461.7276000312226" y2="190" class="line" marker-end="url(#arrowHeadRight)" /><text x="340.86380001561133" y="185" class="text-label" text-anchor="middle">Input tiket bantuan & chat</text><line x1="459.4444615996936" y1="220" x2="220" y2="220" class="line" marker-end="url(#arrowHeadLeft)" /><text x="334.7222307998468" y="215" class="text-label" text-anchor="middle">Informasi ketersediaan & detail mobil</text><line x1="449.8337509832852" y1="250" x2="220" y2="250" class="line" marker-end="url(#arrowHeadLeft)" /><text x="329.9168754916426" y="245" class="text-label" text-anchor="middle">Informasi status & cetak reservasi</text><line x1="442.4057821492172" y1="280" x2="220" y2="280" class="line" marker-end="url(#arrowHeadLeft)" /><text x="326.2028910746086" y="275" class="text-label" text-anchor="middle">Informasi balasan tiket & chat</text><line x1="210" y1="385" x2="420.18687028548857" y2="385" class="line" marker-end="url(#arrowHeadRight)" /><text x="320.0934351427443" y="380" class="text-label" text-anchor="middle">Input data login Admin</text><line x1="210" y1="415" x2="420.18687028548857" y2="415" class="line" marker-end="url(#arrowHeadRight)" /><text x="320.0934351427443" y="410" class="text-label" text-anchor="middle">Input data denda keterlambatan / kerusakan</text><line x1="210" y1="445" x2="421.6893015553156" y2="445" class="line" marker-end="url(#arrowHeadRight)" /><text x="320.84465077765776" y="440" class="text-label" text-anchor="middle">Input data mobil & driver</text><line x1="210" y1="475" x2="424.7351350530383" y2="475" class="line" marker-end="url(#arrowHeadRight)" /><text x="322.3675675265191" y="470" class="text-label" text-anchor="middle">Input data pemeliharaan & reminder</text><line x1="210" y1="505" x2="429.41216687296173" y2="505" class="line" marker-end="url(#arrowHeadRight)" /><text x="324.70608343648087" y="500" class="text-label" text-anchor="middle">Input persetujuan / update reservasi</text><line x1="210" y1="535" x2="435.86881918820745" y2="535" class="line" marker-end="url(#arrowHeadRight)" /><text x="327.9344095941037" y="530" class="text-label" text-anchor="middle">Input balasan tiket & chat</text><line x1="454.3415576221636" y1="565" x2="220" y2="565" class="line" marker-end="url(#arrowHeadLeft)" /><text x="332.1707788110818" y="560" class="text-label" text-anchor="middle">Informasi login Admin</text><line x1="465.21003390111895" y1="595" x2="220" y2="595" class="line" marker-end="url(#arrowHeadLeft)" /><text x="337.6050169505595" y="590" class="text-label" text-anchor="middle">Informasi status mobil & driver</text><line x1="479.1187348120583" y1="625" x2="220" y2="625" class="line" marker-end="url(#arrowHeadLeft)" /><text x="344.55936740602914" y="620" class="text-label" text-anchor="middle">Informasi data reservasi masuk</text><line x1="497.29548318872486" y1="655" x2="220" y2="655" class="line" marker-end="url(#arrowHeadLeft)" /><text x="353.6477415943624" y="650" class="text-label" text-anchor="middle">Informasi tiket bantuan masuk</text><line x1="522.6944538798315" y1="685" x2="220" y2="685" class="line" marker-end="url(#arrowHeadLeft)" /><text x="366.34722693991574" y="680" class="text-label" text-anchor="middle">Informasi notifikasi reminder dokumen</text><line x1="990" y1="145" x2="712.7045168112752" y2="145" class="line" marker-end="url(#arrowHeadLeft)" /><text x="846.3522584056376" y="140" class="text-label" text-anchor="middle">Input data login Super Admin</text><line x1="990" y1="175" x2="730.8812651879417" y2="175" class="line" marker-end="url(#arrowHeadLeft)" /><text x="855.4406325939708" y="170" class="text-label" text-anchor="middle">Input data master user</text><line x1="990" y1="205" x2="744.789966098881" y2="205" class="line" marker-end="url(#arrowHeadLeft)" /><text x="862.3949830494405" y="200" class="text-label" text-anchor="middle">Request suspend / aktivasi akun client</text><line x1="745.6584423778364" y1="235" x2="980" y2="235" class="line" marker-end="url(#arrowHeadRight)" /><text x="867.8292211889182" y="230" class="text-label" text-anchor="middle">Informasi login Super Admin</text><line x1="754.1311808117925" y1="265" x2="980" y2="265" class="line" marker-end="url(#arrowHeadRight)" /><text x="872.0655904058963" y="260" class="text-label" text-anchor="middle">Informasi log akun pengguna</text><line x1="990" y1="425" x2="779.480407122586" y2="425" class="line" marker-end="url(#arrowHeadLeft)" /><text x="879.740203561293" y="420" class="text-label" text-anchor="middle">Input data login Owner</text><line x1="990" y1="455" x2="777.4701903278237" y2="455" class="line" marker-end="url(#arrowHeadLeft)" /><text x="878.7350951639119" y="450" class="text-label" text-anchor="middle">Request laporan periode tertentu</text><line x1="990" y1="485" x2="773.8929927908375" y2="485" class="line" marker-end="url(#arrowHeadLeft)" /><text x="876.9464963954188" y="480" class="text-label" text-anchor="middle">Request riwayat pembayaran</text><line x1="758.6428495424155" y1="515" x2="980" y2="515" class="line" marker-end="url(#arrowHeadRight)" /><text x="874.3214247712078" y="510" class="text-label" text-anchor="middle">Informasi login Owner</text><line x1="751.5459881469566" y1="545" x2="980" y2="545" class="line" marker-end="url(#arrowHeadRight)" /><text x="870.7729940734782" y="540" class="text-label" text-anchor="middle">Informasi grafik tren reservasi</text><line x1="742.326425949075" y1="575" x2="980" y2="575" class="line" marker-end="url(#arrowHeadRight)" /><text x="866.1632129745375" y="570" class="text-label" text-anchor="middle">Informasi laporan laba bersih & KPI</text><line x1="730.5351627376222" y1="605" x2="980" y2="605" class="line" marker-end="url(#arrowHeadRight)" /><text x="860.2675813688111" y="600" class="text-label" text-anchor="middle">Informasi laporan utilitas & kinerja kendaraan</text></svg>
+    </div>
+    <button class="btn" onclick="downloadImage()">Unduh Gambar DFD</button>
+
+    <script>
+        function downloadImage() {
+            const container = document.getElementById('diagram-container');
+            
+            // Ubah tombol sementara jika ada
+            const btn = document.querySelector('.btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Memproses Unduhan...';
+
+            html2canvas(container, { scale: 3, backgroundColor: "#ffffff" }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'DFD_Level_0_BintangTravel.png';
+                link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                btn.innerHTML = originalText;
+            }).catch(err => {
+                alert("Gagal mengunduh gambar: " + err);
+                btn.innerHTML = originalText;
+            });
+        }
+    </script>
+</body>
+</html>

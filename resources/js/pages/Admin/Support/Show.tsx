@@ -2,11 +2,13 @@ import { Button } from '@/components/ui/button';
 import AdminLayout from '@/layouts/AdminLayout';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
+import { Paperclip, Image as ImageIcon, X } from 'lucide-react';
 
 interface Message {
     id: number;
     message: string;
     is_admin: boolean;
+    attachment_path?: string | null;
     created_at: string;
 }
 
@@ -42,13 +44,14 @@ const statusLabels: Record<TicketStatusType, string> = {
 };
 
 export default function ShowTicket({ ticket, isGuest }: Props) {
-    const form = useForm({ message: '' });
+    const form = useForm({ message: '', attachment: null as File | null });
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [btnProcessing, setBtnProcessing] = useState(false);
 
     if (!ticket) return null;
 
-    const canSend = form.data.message.trim().length > 0 && !form.processing;
+    const canSend = (form.data.message.trim().length > 0 || form.data.attachment !== null) && !form.processing;
 
     const scrollToBottom = () => {
         setTimeout(() => {
@@ -63,15 +66,13 @@ export default function ShowTicket({ ticket, isGuest }: Props) {
     // Polling for new messages
     useEffect(() => {
         if (ticket?.status === 'closed') return;
-        
+
         const interval = setInterval(() => {
             router.reload({
                 only: ['ticket'],
-                preserveScroll: true,
-                preserveState: true,
             });
-        }, 5000); // Poll every 5 seconds
-        
+        }, 5000);
+
         return () => clearInterval(interval);
     }, [ticket?.status]);
 
@@ -82,7 +83,7 @@ export default function ShowTicket({ ticket, isGuest }: Props) {
         form.post(`/admin/support/tickets/${ticket.id}/reply`, {
             preserveScroll: true,
             onSuccess: () => {
-                form.reset('message');
+                form.reset('message', 'attachment');
                 scrollToBottom();
             },
             onError: (errors) => console.error('Failed to send message:', errors),
@@ -141,60 +142,95 @@ export default function ShowTicket({ ticket, isGuest }: Props) {
                 </div>
 
                 {/* Chat Interface */}
-                    <div className="h-[500px] space-y-4 overflow-y-auto p-6 rounded-2xl bg-white border border-gray-100 shadow-inner mb-6">
-                        <div className="space-y-4">
-                            {!ticket.messages || ticket.messages.length === 0 ? (
-                                <div className="flex h-full items-center justify-center rounded-xl border-2 border-dashed border-gray-200 p-12 text-center text-gray-500">
-                                    Belum ada pesan. Mulai percakapan di bawah ini.
-                                </div>
-                            ) : (
-                                ticket.messages.map((message) => (
-                                    <div
-                                        key={message.id}
-                                        className={`flex ${message.is_admin ? 'justify-end' : 'justify-start'}`}
-                                    >
-                                        <div className={`max-w-xl rounded-2xl px-5 py-3 shadow-sm ${
-                                            message.is_admin
-                                                ? 'rounded-tr-none bg-blue-600 text-white'
-                                                : 'rounded-tl-none bg-gray-100 text-gray-800 border border-gray-200'
+                <div className="h-[500px] space-y-4 overflow-y-auto p-6 rounded-2xl bg-white border border-gray-100 shadow-inner mb-6">
+                    <div className="space-y-4">
+                        {!ticket.messages || ticket.messages.length === 0 ? (
+                            <div className="flex h-full items-center justify-center rounded-xl border-2 border-dashed border-gray-200 p-12 text-center text-gray-500">
+                                Belum ada pesan. Mulai percakapan di bawah ini.
+                            </div>
+                        ) : (
+                            ticket.messages.map((message) => (
+                                <div
+                                    key={message.id}
+                                    className={`flex ${message.is_admin ? 'justify-end' : 'justify-start'}`}
+                                >
+                                    <div className={`max-w-xl rounded-2xl px-5 py-3 shadow-sm ${message.is_admin
+                                            ? 'rounded-tr-none bg-blue-600 text-white'
+                                            : 'rounded-tl-none bg-gray-100 text-gray-800 border border-gray-200'
                                         }`}>
-                                            <p className="whitespace-pre-line leading-relaxed">{message.message}</p>
-                                            <p className={`mt-2 text-[10px] text-right font-medium ${
-                                                message.is_admin ? 'text-blue-200' : 'text-gray-400'
+                                        {message.attachment_path && (
+                                            <a href={`/storage/${message.attachment_path}`} target="_blank" rel="noopener noreferrer">
+                                                <img 
+                                                    src={`/storage/${message.attachment_path}`} 
+                                                    alt="Attachment" 
+                                                    className="mb-2 max-w-full rounded-lg border border-gray-200 cursor-pointer hover:opacity-90 transition-opacity" 
+                                                />
+                                            </a>
+                                        )}
+                                        {message.message && <p className="whitespace-pre-line leading-relaxed">{message.message}</p>}
+                                        <p className={`mt-2 text-[10px] text-right font-medium ${message.is_admin ? 'text-blue-200' : 'text-gray-400'
                                             }`}>
-                                                {formatDate(message.created_at)}
-                                                <span className="ml-1">
-                                                    • {message.is_admin ? 'Admin (Anda)' : ticket.user?.name ?? 'Klien'}
-                                                </span>
-                                            </p>
-                                        </div>
+                                            {formatDate(message.created_at)}
+                                            <span className="ml-1">
+                                                • {message.is_admin ? 'Admin (Anda)' : ticket.user?.name ?? 'Klien'}
+                                            </span>
+                                        </p>
                                     </div>
-                                ))
-                            )}
-                            <div ref={messagesEndRef} />
-                        </div>
+                                </div>
+                            ))
+                        )}
+                        <div ref={messagesEndRef} />
                     </div>
+                </div>
                 {/* Reply Form */}
                 {ticket.status !== 'closed' && (
-                    <form
-                        onSubmit={submitReply}
-                        className="flex gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm items-end"
-                    >
-                        <div className="flex-1">
-                            <label htmlFor="message" className="sr-only">Balas tiket</label>
+                    <div className="flex flex-col bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
+                        {form.data.attachment && (
+                            <div className="px-4 py-2 border-b border-gray-100 flex items-center justify-between bg-blue-50/50">
+                                <div className="flex items-center text-sm text-blue-600 font-medium truncate">
+                                    <ImageIcon className="h-4 w-4 mr-2 flex-shrink-0" />
+                                    <span className="truncate">{form.data.attachment.name}</span>
+                                </div>
+                                <button 
+                                    type="button" 
+                                    onClick={() => form.setData('attachment', null)}
+                                    className="text-gray-400 hover:text-red-500 p-1 rounded-full hover:bg-white transition-colors cursor-pointer"
+                                >
+                                    <X className="h-4 w-4" />
+                                </button>
+                            </div>
+                        )}
+                        <form
+                            onSubmit={submitReply}
+                            className="flex gap-4 p-4 items-end"
+                        >
+                            <input 
+                                type="file" 
+                                ref={fileInputRef} 
+                                onChange={(e) => form.setData('attachment', e.target.files?.[0] || null)}
+                                className="hidden" 
+                                accept="image/*"
+                            />
+                            <button 
+                                type="button"
+                                onClick={() => fileInputRef.current?.click()}
+                                className="flex h-[76px] w-[76px] cursor-pointer flex-shrink-0 items-center justify-center rounded-xl border-2 border-gray-200 bg-gray-50 text-gray-500 hover:border-blue-500 hover:text-blue-600 transition-colors"
+                            >
+                                <Paperclip className="h-6 w-6" />
+                            </button>
+                            <div className="flex-1">
+                                <label htmlFor="message" className="sr-only">Balas tiket</label>
                             <textarea
                                 id="message"
                                 value={form.data.message}
                                 onChange={(e) => form.setData('message', e.target.value)}
                                 onKeyDown={handleKeyDown}
                                 rows={3}
-                                className={`w-full resize-none rounded-xl border-2 bg-gray-50 p-3 transition-colors focus:bg-white focus:border-blue-600 focus:ring-0 ${
-                                    form.errors.message
+                                className={`w-full resize-none rounded-xl border-2 bg-gray-50 p-3 transition-colors focus:bg-white focus:border-blue-600 focus:ring-0 ${form.errors.message
                                         ? 'border-red-500'
                                         : 'border-gray-200 hover:border-gray-300'
-                                }`}
+                                    }`}
                                 placeholder="Tulis balasan Anda... (Tekan Ctrl+Enter untuk mengirim)"
-                                required
                             />
                             {form.errors.message && (
                                 <p className="mt-1 text-sm font-medium text-red-600">{form.errors.message}</p>
@@ -214,7 +250,8 @@ export default function ShowTicket({ ticket, isGuest }: Props) {
                                 'Kirim'
                             )}
                         </button>
-                    </form>
+                        </form>
+                    </div>
                 )}
             </div>
         </AdminLayout>

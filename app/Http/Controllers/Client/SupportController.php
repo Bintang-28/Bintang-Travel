@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use App\Enums\TicketStatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SupportController extends Controller
 {
@@ -75,8 +76,14 @@ class SupportController extends Controller
     public function startChat(Request $request)
     {
         $request->validate([
-            'message' => 'required|string',
+            'message' => 'required_without:attachment|string|nullable',
+            'attachment' => 'nullable|image|max:2048',
         ]);
+
+        $attachmentPath = null;
+        if ($request->hasFile('attachment')) {
+            $attachmentPath = $request->file('attachment')->store('chat_attachments', 'public');
+        }
 
         $ticket = Ticket::create([
             'subject' => 'Chat Bantuan - ' . auth()->user()->name,
@@ -85,7 +92,8 @@ class SupportController extends Controller
         ]);
 
         $message = $ticket->messages()->create([
-            'message' => $request->message,
+            'message' => $request->message ?? '',
+            'attachment_path' => $attachmentPath,
             'is_admin' => false,
         ]);
 
@@ -97,8 +105,14 @@ class SupportController extends Controller
     public function replyJson($id, Request $request)
     {
         $request->validate([
-            'message' => 'required|string',
+            'message' => 'required_without:attachment|string|nullable',
+            'attachment' => 'nullable|image|max:2048',
         ]);
+
+        $attachmentPath = null;
+        if ($request->hasFile('attachment')) {
+            $attachmentPath = $request->file('attachment')->store('chat_attachments', 'public');
+        }
 
         $ticket = Ticket::findOrFail($id);
 
@@ -107,7 +121,8 @@ class SupportController extends Controller
         }
 
         $message = $ticket->messages()->create([
-            'message' => $request->message,
+            'message' => $request->message ?? '',
+            'attachment_path' => $attachmentPath,
             'is_admin' => false,
         ]);
 

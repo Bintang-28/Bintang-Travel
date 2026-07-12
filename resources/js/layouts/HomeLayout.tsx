@@ -2,7 +2,7 @@ import { Link, router, usePage } from '@inertiajs/react';
 import { useState, useEffect, useRef } from 'react';
 import logobintangtravel from '@/assets/logobintangtravel.png';
 import axios from 'axios';
-import { MessageCircle, X, Send, MessageSquare } from 'lucide-react';
+import { MessageCircle, X, Send, MessageSquare, Paperclip, Image as ImageIcon } from 'lucide-react';
 
 interface Props {
     children: React.ReactNode;
@@ -22,6 +22,8 @@ export default function HomeLayout({ children }: Props) {
     const [activeTicket, setActiveTicket] = useState<any>(null);
     const [messages, setMessages] = useState<any[]>([]);
     const [newMessage, setNewMessage] = useState('');
+    const [attachment, setAttachment] = useState<File | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const [isSending, setIsSending] = useState(false);
     const [loadingChat, setLoadingChat] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -88,17 +90,24 @@ export default function HomeLayout({ children }: Props) {
 
     const handleSendChat = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!newMessage.trim() || isSending) return;
+        if ((!newMessage.trim() && !attachment) || isSending) return;
 
         setIsSending(true);
         const msgText = newMessage;
+        const attachedFile = attachment;
+        
         setNewMessage('');
+        setAttachment(null);
+
+        const formData = new FormData();
+        if (msgText) formData.append('message', msgText);
+        if (attachedFile) formData.append('attachment', attachedFile);
 
         try {
             if (activeTicket && activeTicket.id) {
                 // Reply to existing ticket
-                const response = await axios.post(`/client/support-chat/${activeTicket.id}/reply`, {
-                    message: msgText
+                const response = await axios.post(`/client/support-chat/${activeTicket.id}/reply`, formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
                 });
                 if (response.data) {
                     setMessages((prev) => [...prev, response.data]);
@@ -106,8 +115,8 @@ export default function HomeLayout({ children }: Props) {
             } else {
                 // Create new ticket
                 setLoadingChat(true);
-                const response = await axios.post('/client/support-chat/create', {
-                    message: msgText
+                const response = await axios.post('/client/support-chat/create', formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
                 });
                 if (response.data && response.data.id) {
                     setActiveTicket(response.data);
@@ -122,6 +131,7 @@ export default function HomeLayout({ children }: Props) {
         } catch (error) {
             console.error('Error sending message:', error);
             setNewMessage(msgText); // Restore message
+            if (attachedFile) setAttachment(attachedFile);
         } finally {
             setIsSending(false);
         }
@@ -486,7 +496,16 @@ export default function HomeLayout({ children }: Props) {
                                                 ? 'bg-white border border-gray-100 text-gray-800 rounded-tl-none' 
                                                 : 'bg-blue-600 text-white rounded-tr-none'
                                         }`}>
-                                            <p className="whitespace-pre-line">{message.message}</p>
+                                            {message.attachment_path && (
+                                                <a href={`/storage/${message.attachment_path}`} target="_blank" rel="noopener noreferrer">
+                                                    <img 
+                                                        src={`/storage/${message.attachment_path}`} 
+                                                        alt="Attachment" 
+                                                        className="mb-2 max-w-full rounded-lg border border-gray-200 cursor-pointer hover:opacity-90 transition-opacity" 
+                                                    />
+                                                </a>
+                                            )}
+                                            {message.message && <p className="whitespace-pre-line">{message.message}</p>}
                                             <span className={`block text-[9px] mt-1 text-right ${
                                                 message.is_admin ? 'text-gray-400' : 'text-blue-200'
                                             }`}>
@@ -502,23 +521,54 @@ export default function HomeLayout({ children }: Props) {
 
                     {/* Chat Footer Input */}
                     {user && (
-                        <form onSubmit={handleSendChat} className="p-4 bg-white border-t border-gray-100 flex items-center gap-2 flex-shrink-0 pointer-events-auto">
-                            <input 
-                                type="text"
-                                value={newMessage}
-                                onChange={(e) => setNewMessage(e.target.value)}
-                                placeholder={activeTicket ? "Ketik pesan..." : "Tulis pertanyaan pertama..."}
-                                disabled={isSending}
-                                className="flex-1 rounded-xl border border-gray-200 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                            />
-                            <button 
-                                type="submit"
-                                disabled={!newMessage.trim() || isSending}
-                                className="h-10 w-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-500/20 hover:bg-blue-700 hover:shadow-lg transition-all disabled:opacity-40 disabled:hover:bg-blue-600 disabled:cursor-not-allowed cursor-pointer"
-                            >
-                                <Send className="h-4.5 w-4.5" />
-                            </button>
-                        </form>
+                        <div className="flex flex-col bg-white border-t border-gray-100 flex-shrink-0 pointer-events-auto">
+                            {attachment && (
+                                <div className="px-4 py-2 border-b border-gray-100 flex items-center justify-between bg-blue-50/50">
+                                    <div className="flex items-center text-sm text-blue-600 font-medium truncate">
+                                        <ImageIcon className="h-4 w-4 mr-2 flex-shrink-0" />
+                                        <span className="truncate">{attachment.name}</span>
+                                    </div>
+                                    <button 
+                                        type="button" 
+                                        onClick={() => setAttachment(null)}
+                                        className="text-gray-400 hover:text-red-500 p-1 rounded-full hover:bg-white transition-colors cursor-pointer"
+                                    >
+                                        <X className="h-4 w-4" />
+                                    </button>
+                                </div>
+                            )}
+                            <form onSubmit={handleSendChat} className="p-4 flex items-center gap-2">
+                                <input 
+                                    type="file" 
+                                    ref={fileInputRef} 
+                                    onChange={(e) => setAttachment(e.target.files?.[0] || null)}
+                                    className="hidden" 
+                                    accept="image/*"
+                                />
+                                <button 
+                                    type="button"
+                                    onClick={() => fileInputRef.current?.click()}
+                                    className="h-10 w-10 flex-shrink-0 flex items-center justify-center rounded-xl text-gray-500 hover:bg-gray-100 hover:text-blue-600 transition-colors cursor-pointer"
+                                >
+                                    <Paperclip className="h-5 w-5" />
+                                </button>
+                                <input 
+                                    type="text"
+                                    value={newMessage}
+                                    onChange={(e) => setNewMessage(e.target.value)}
+                                    placeholder={activeTicket ? "Ketik pesan..." : "Tulis pertanyaan pertama..."}
+                                    disabled={isSending}
+                                    className="flex-1 rounded-xl border border-gray-200 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 min-w-0"
+                                />
+                                <button 
+                                    type="submit"
+                                    disabled={(!newMessage.trim() && !attachment) || isSending}
+                                    className="h-10 w-10 flex-shrink-0 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-500/20 hover:bg-blue-700 hover:shadow-lg transition-all disabled:opacity-40 disabled:hover:bg-blue-600 disabled:cursor-not-allowed cursor-pointer"
+                                >
+                                    <Send className="h-4.5 w-4.5" />
+                                </button>
+                            </form>
+                        </div>
                     )}
                 </div>
 

@@ -2,7 +2,7 @@ import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFo
 import chat from './chat'
 /**
 * @see \App\Http\Controllers\Client\SupportController::index
- * @see app/Http/Controllers/Client/SupportController.php:12
+ * @see app/Http/Controllers/Client/SupportController.php:13
  * @route '/client/support'
  */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -17,7 +17,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\Client\SupportController::index
- * @see app/Http/Controllers/Client/SupportController.php:12
+ * @see app/Http/Controllers/Client/SupportController.php:13
  * @route '/client/support'
  */
 index.url = (options?: RouteQueryOptions) => {
@@ -26,7 +26,7 @@ index.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Client\SupportController::index
- * @see app/Http/Controllers/Client/SupportController.php:12
+ * @see app/Http/Controllers/Client/SupportController.php:13
  * @route '/client/support'
  */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +35,7 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\Client\SupportController::index
- * @see app/Http/Controllers/Client/SupportController.php:12
+ * @see app/Http/Controllers/Client/SupportController.php:13
  * @route '/client/support'
  */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -45,7 +45,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
     /**
 * @see \App\Http\Controllers\Client\SupportController::index
- * @see app/Http/Controllers/Client/SupportController.php:12
+ * @see app/Http/Controllers/Client/SupportController.php:13
  * @route '/client/support'
  */
     const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -55,7 +55,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
             /**
 * @see \App\Http\Controllers\Client\SupportController::index
- * @see app/Http/Controllers/Client/SupportController.php:12
+ * @see app/Http/Controllers/Client/SupportController.php:13
  * @route '/client/support'
  */
         indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -64,7 +64,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
             /**
 * @see \App\Http\Controllers\Client\SupportController::index
- * @see app/Http/Controllers/Client/SupportController.php:12
+ * @see app/Http/Controllers/Client/SupportController.php:13
  * @route '/client/support'
  */
         indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -80,7 +80,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     index.form = indexForm
 /**
 * @see \App\Http\Controllers\Client\SupportController::create
- * @see app/Http/Controllers/Client/SupportController.php:26
+ * @see app/Http/Controllers/Client/SupportController.php:27
  * @route '/client/support/create'
  */
 export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -95,7 +95,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\Client\SupportController::create
- * @see app/Http/Controllers/Client/SupportController.php:26
+ * @see app/Http/Controllers/Client/SupportController.php:27
  * @route '/client/support/create'
  */
 create.url = (options?: RouteQueryOptions) => {
@@ -104,7 +104,7 @@ create.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Client\SupportController::create
- * @see app/Http/Controllers/Client/SupportController.php:26
+ * @see app/Http/Controllers/Client/SupportController.php:27
  * @route '/client/support/create'
  */
 create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -113,7 +113,7 @@ create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\Client\SupportController::create
- * @see app/Http/Controllers/Client/SupportController.php:26
+ * @see app/Http/Controllers/Client/SupportController.php:27
  * @route '/client/support/create'
  */
 create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -123,7 +123,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
     /**
 * @see \App\Http\Controllers\Client\SupportController::create
- * @see app/Http/Controllers/Client/SupportController.php:26
+ * @see app/Http/Controllers/Client/SupportController.php:27
  * @route '/client/support/create'
  */
     const createForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -133,7 +133,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
             /**
 * @see \App\Http\Controllers\Client\SupportController::create
- * @see app/Http/Controllers/Client/SupportController.php:26
+ * @see app/Http/Controllers/Client/SupportController.php:27
  * @route '/client/support/create'
  */
         createForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -142,7 +142,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
             /**
 * @see \App\Http\Controllers\Client\SupportController::create
- * @see app/Http/Controllers/Client/SupportController.php:26
+ * @see app/Http/Controllers/Client/SupportController.php:27
  * @route '/client/support/create'
  */
         createForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -158,7 +158,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     create.form = createForm
 /**
 * @see \App\Http\Controllers\Client\SupportController::store
- * @see app/Http/Controllers/Client/SupportController.php:31
+ * @see app/Http/Controllers/Client/SupportController.php:32
  * @route '/client/support'
  */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -173,7 +173,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\Client\SupportController::store
- * @see app/Http/Controllers/Client/SupportController.php:31
+ * @see app/Http/Controllers/Client/SupportController.php:32
  * @route '/client/support'
  */
 store.url = (options?: RouteQueryOptions) => {
@@ -182,7 +182,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Client\SupportController::store
- * @see app/Http/Controllers/Client/SupportController.php:31
+ * @see app/Http/Controllers/Client/SupportController.php:32
  * @route '/client/support'
  */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -192,7 +192,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
     /**
 * @see \App\Http\Controllers\Client\SupportController::store
- * @see app/Http/Controllers/Client/SupportController.php:31
+ * @see app/Http/Controllers/Client/SupportController.php:32
  * @route '/client/support'
  */
     const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -202,7 +202,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
             /**
 * @see \App\Http\Controllers\Client\SupportController::store
- * @see app/Http/Controllers/Client/SupportController.php:31
+ * @see app/Http/Controllers/Client/SupportController.php:32
  * @route '/client/support'
  */
         storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -213,7 +213,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     store.form = storeForm
 /**
 * @see \App\Http\Controllers\Client\SupportController::show
- * @see app/Http/Controllers/Client/SupportController.php:17
+ * @see app/Http/Controllers/Client/SupportController.php:18
  * @route '/client/support/{id}'
  */
 export const show = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -228,7 +228,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\Client\SupportController::show
- * @see app/Http/Controllers/Client/SupportController.php:17
+ * @see app/Http/Controllers/Client/SupportController.php:18
  * @route '/client/support/{id}'
  */
 show.url = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -256,7 +256,7 @@ show.url = (args: { id: string | number } | [id: string | number ] | string | nu
 
 /**
 * @see \App\Http\Controllers\Client\SupportController::show
- * @see app/Http/Controllers/Client/SupportController.php:17
+ * @see app/Http/Controllers/Client/SupportController.php:18
  * @route '/client/support/{id}'
  */
 show.get = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -265,7 +265,7 @@ show.get = (args: { id: string | number } | [id: string | number ] | string | nu
 })
 /**
 * @see \App\Http\Controllers\Client\SupportController::show
- * @see app/Http/Controllers/Client/SupportController.php:17
+ * @see app/Http/Controllers/Client/SupportController.php:18
  * @route '/client/support/{id}'
  */
 show.head = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -275,7 +275,7 @@ show.head = (args: { id: string | number } | [id: string | number ] | string | n
 
     /**
 * @see \App\Http\Controllers\Client\SupportController::show
- * @see app/Http/Controllers/Client/SupportController.php:17
+ * @see app/Http/Controllers/Client/SupportController.php:18
  * @route '/client/support/{id}'
  */
     const showForm = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -285,7 +285,7 @@ show.head = (args: { id: string | number } | [id: string | number ] | string | n
 
             /**
 * @see \App\Http\Controllers\Client\SupportController::show
- * @see app/Http/Controllers/Client/SupportController.php:17
+ * @see app/Http/Controllers/Client/SupportController.php:18
  * @route '/client/support/{id}'
  */
         showForm.get = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -294,7 +294,7 @@ show.head = (args: { id: string | number } | [id: string | number ] | string | n
         })
             /**
 * @see \App\Http\Controllers\Client\SupportController::show
- * @see app/Http/Controllers/Client/SupportController.php:17
+ * @see app/Http/Controllers/Client/SupportController.php:18
  * @route '/client/support/{id}'
  */
         showForm.head = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -310,7 +310,7 @@ show.head = (args: { id: string | number } | [id: string | number ] | string | n
     show.form = showForm
 /**
 * @see \App\Http\Controllers\Client\SupportController::reply
- * @see app/Http/Controllers/Client/SupportController.php:49
+ * @see app/Http/Controllers/Client/SupportController.php:50
  * @route '/client/support/{id}/reply'
  */
 export const reply = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -325,7 +325,7 @@ reply.definition = {
 
 /**
 * @see \App\Http\Controllers\Client\SupportController::reply
- * @see app/Http/Controllers/Client/SupportController.php:49
+ * @see app/Http/Controllers/Client/SupportController.php:50
  * @route '/client/support/{id}/reply'
  */
 reply.url = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -353,7 +353,7 @@ reply.url = (args: { id: string | number } | [id: string | number ] | string | n
 
 /**
 * @see \App\Http\Controllers\Client\SupportController::reply
- * @see app/Http/Controllers/Client/SupportController.php:49
+ * @see app/Http/Controllers/Client/SupportController.php:50
  * @route '/client/support/{id}/reply'
  */
 reply.post = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -363,7 +363,7 @@ reply.post = (args: { id: string | number } | [id: string | number ] | string | 
 
     /**
 * @see \App\Http\Controllers\Client\SupportController::reply
- * @see app/Http/Controllers/Client/SupportController.php:49
+ * @see app/Http/Controllers/Client/SupportController.php:50
  * @route '/client/support/{id}/reply'
  */
     const replyForm = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -373,7 +373,7 @@ reply.post = (args: { id: string | number } | [id: string | number ] | string | 
 
             /**
 * @see \App\Http\Controllers\Client\SupportController::reply
- * @see app/Http/Controllers/Client/SupportController.php:49
+ * @see app/Http/Controllers/Client/SupportController.php:50
  * @route '/client/support/{id}/reply'
  */
         replyForm.post = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

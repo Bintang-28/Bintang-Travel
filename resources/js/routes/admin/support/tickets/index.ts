@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Admin\SupportController::destroy
- * @see app/Http/Controllers/Admin/SupportController.php:135
+ * @see app/Http/Controllers/Admin/SupportController.php:142
  * @route '/admin/support/tickets/{ticket}'
  */
 export const destroy = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -16,7 +16,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\SupportController::destroy
- * @see app/Http/Controllers/Admin/SupportController.php:135
+ * @see app/Http/Controllers/Admin/SupportController.php:142
  * @route '/admin/support/tickets/{ticket}'
  */
 destroy.url = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -49,7 +49,7 @@ destroy.url = (args: { ticket: number | { id: number } } | [ticket: number | { i
 
 /**
 * @see \App\Http\Controllers\Admin\SupportController::destroy
- * @see app/Http/Controllers/Admin/SupportController.php:135
+ * @see app/Http/Controllers/Admin/SupportController.php:142
  * @route '/admin/support/tickets/{ticket}'
  */
 destroy.delete = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -59,7 +59,7 @@ destroy.delete = (args: { ticket: number | { id: number } } | [ticket: number | 
 
     /**
 * @see \App\Http\Controllers\Admin\SupportController::destroy
- * @see app/Http/Controllers/Admin/SupportController.php:135
+ * @see app/Http/Controllers/Admin/SupportController.php:142
  * @route '/admin/support/tickets/{ticket}'
  */
     const destroyForm = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -74,7 +74,7 @@ destroy.delete = (args: { ticket: number | { id: number } } | [ticket: number | 
 
             /**
 * @see \App\Http\Controllers\Admin\SupportController::destroy
- * @see app/Http/Controllers/Admin/SupportController.php:135
+ * @see app/Http/Controllers/Admin/SupportController.php:142
  * @route '/admin/support/tickets/{ticket}'
  */
         destroyForm.delete = (args: { ticket: number | { id: number } } | [ticket: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
