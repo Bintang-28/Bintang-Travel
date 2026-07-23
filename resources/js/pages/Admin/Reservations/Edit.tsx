@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import AdminLayout from '@/layouts/AdminLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { index, update } from '@/routes/admin/reservations';
+import { useEffect } from 'react';
 
 interface Driver {
     id: number;
@@ -48,19 +49,30 @@ export default function EditReservation({ reservation, enums, drivers = [] }: Pr
     const calculateSuggestedPenalty = () => {
         if (!reservation?.car?.penalty_per_hour) return 0;
         if (!reservation?.end_date || !reservation?.return_time) return 0;
+        if (!form.data.end_date || !form.data.return_time) return 0;
 
-        const returnDateTime = new Date(`${reservation.end_date.split('T')[0]}T${reservation.return_time}`);
-        const now = new Date();
+        const originalReturnDateTime = new Date(`${reservation.end_date.split('T')[0]}T${reservation.return_time}`);
+        const newReturnDateTime = new Date(`${form.data.end_date}T${form.data.return_time}`);
         
-        if (now <= returnDateTime) return 0;
+        if (newReturnDateTime <= originalReturnDateTime) return 0;
         
-        const diffMs = now.getTime() - returnDateTime.getTime();
+        const diffMs = newReturnDateTime.getTime() - originalReturnDateTime.getTime();
         const diffHours = Math.ceil(diffMs / (1000 * 60 * 60));
         
         return diffHours * Number(reservation.car.penalty_per_hour);
     };
 
     const suggestedPenalty = calculateSuggestedPenalty();
+
+    useEffect(() => {
+        const originalEndDate = reservation?.end_date ? reservation.end_date.split('T')[0] : '';
+        const originalReturnTime = reservation?.return_time || '';
+        
+        if (form.data.end_date !== originalEndDate || form.data.return_time !== originalReturnTime) {
+            const penalty = calculateSuggestedPenalty();
+            form.setData('penalty_amount', penalty);
+        }
+    }, [form.data.end_date, form.data.return_time]);
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();

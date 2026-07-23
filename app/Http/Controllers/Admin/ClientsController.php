@@ -192,4 +192,22 @@ class ClientsController extends Controller
             ->route('admin.clients.index')
             ->with('success', 'Akun berhasil dihapus secara permanen.');
     }
+
+    public function startChat(User $client)
+    {
+        // Cari tiket yang masih open (NEW atau IN_PROGRESS)
+        $ticket = \App\Models\Ticket::where('user_id', $client->id)
+            ->whereIn('status', [\App\Enums\TicketStatus::NEW, \App\Enums\TicketStatus::IN_PROGRESS])
+            ->first();
+
+        if (!$ticket) {
+            $ticket = \App\Models\Ticket::create([
+                'user_id' => $client->id,
+                'subject' => 'Pesan dari Admin',
+                'status' => \App\Enums\TicketStatus::IN_PROGRESS,
+            ]);
+        }
+
+        return redirect()->route('admin.support.show', $ticket->id);
+    }
 }

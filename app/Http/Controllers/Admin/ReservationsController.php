@@ -91,7 +91,7 @@ class ReservationsController extends Controller
 
     public function edit(Reservation $reservation): Response
     {
-        $reservation->load(['user:id,name,email', 'car:id,make,model,year,license_plate', 'driver']);
+        $reservation->load(['user:id,name,email', 'car:id,make,model,year,license_plate,penalty_per_hour', 'driver']);
 
         $drivers = \App\Models\Driver::select('id', 'name', 'phone', 'license_number')
             ->orderBy('name')

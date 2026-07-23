@@ -40,6 +40,7 @@ Route::middleware(['auth', 'verified', 'active', 'admin'])
         // Mengubah patch menjadi post agar sesuai dengan request dari React/Inertia
         Route::post('clients/{client}/suspend', [ClientsController::class, 'suspend'])->name('clients.suspend');
         Route::post('clients/{client}/activate', [ClientsController::class, 'activate'])->name('clients.activate');
+        Route::post('clients/{client}/chat', [ClientsController::class, 'startChat'])->name('clients.chat');
 
         // Payments
         Route::resource('payments', PaymentsController::class)->only(['index']);

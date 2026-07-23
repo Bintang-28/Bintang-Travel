@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafik SUS Bintang Travel</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 1000px;
+            width: 100%;
+        }
+        canvas {
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            background-color: #ffffff;
+            max-width: 100%;
+            height: auto;
+        }
+        .btn-download {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-download:hover {
+            background-color: #4338ca;
+        }
+        h2 { margin-top: 0; color: #1f2937; }
+        p { color: #6b7280; font-size: 14px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Grafik Evaluasi SUS</h2>
+    <p>Desain telah disesuaikan 100% dengan standar pengujian SUS internasional.</p>
+    
+    <canvas id="susCanvas" width="900" height="320"></canvas>
+    
+    <br>
+    <a id="downloadBtn" class="btn-download" download="Grafik_SUS_Standard.png">
+        Unduh Gambar (PNG)
+    </a>
+</div>
+
+<script>
+    window.onload = function() {
+        const canvas = document.getElementById('susCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Background white
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // --- Create Cross-Hatch Pattern ---
+        const pCanvas = document.createElement('canvas');
+        pCanvas.width = 8;
+        pCanvas.height = 8;
+        const pctx = pCanvas.getContext('2d');
+        pctx.fillStyle = '#ffffff';
+        pctx.fillRect(0, 0, 8, 8);
+        pctx.strokeStyle = '#999999';
+        pctx.lineWidth = 1;
+        pctx.beginPath();
+        pctx.moveTo(0, 0); pctx.lineTo(8, 8);
+        pctx.moveTo(8, 0); pctx.lineTo(0, 8);
+        pctx.stroke();
+        const hatchPattern = ctx.createPattern(pCanvas, 'repeat');
+
+        // Layout Constants
+        const startX = 200;
+        const barW = 650;
+        const endX = startX + barW;
+        
+        function getX(score) {
+            return startX + (score / 100) * barW;
+        }
+
+        // --- 1. ACCEPTABILITY RANGES ---
+        const yAcc = 50;
+        const hAcc = 18;
+        
+        // Left Label
+        ctx.fillStyle = '#000000';
+        ctx.font = '11px Arial';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('ACCEPTABILITY', startX - 15, yAcc + 2);
+        ctx.fillText('RANGES', startX - 15, yAcc + 14);
+
+        // Labels above bar
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText('NOT ACCEPTABLE', getX(25), yAcc - 3);
+        ctx.fillText('MARGINAL', getX(60), yAcc - 3);
+        ctx.fillText('ACCEPTABLE', getX(85), yAcc - 3);
+        
+        // Bar Segments
+        // Not Acceptable (0 - 50)
+        ctx.fillStyle = hatchPattern;
+        ctx.fillRect(getX(0), yAcc, getX(50) - getX(0), hAcc);
+        
+        // Marginal Low (50 - 62.5)
+        ctx.fillStyle = '#333333';
+        ctx.fillRect(getX(50), yAcc, getX(62.5) - getX(50), hAcc);
+        
+        // Marginal High (62.5 - 71)
+        ctx.fillStyle = '#444444';
+        ctx.fillRect(getX(62.5), yAcc, getX(71) - getX(62.5), hAcc);
+        
+        // Acceptable (71 - 100)
+        ctx.fillStyle = hatchPattern;
+        ctx.fillRect(getX(71), yAcc, getX(100) - getX(71), hAcc);
+        
+        // White separator line in Marginal
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(getX(62.5), yAcc);
+        ctx.lineTo(getX(62.5), yAcc + hAcc);
+        ctx.stroke();
+
+        // Text inside Marginal
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 10px Arial';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('LOW', getX(56.25), yAcc + hAcc/2);
+        ctx.fillText('HIGH', getX(66.75), yAcc + hAcc/2);
+
+        // --- 2. GRADE SCALE ---
+        const yGrd = 85;
+        const hGrd = 22;
+        
+        // Left Label
+        ctx.fillStyle = '#000000';
+        ctx.font = '11px Arial';
+        ctx.textAlign = 'right';
+        ctx.fillText('GRADE', startX - 15, yGrd + 4);
+        ctx.fillText('SCALE', startX - 15, yGrd + 16);
+
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 1.2;
+        
+        // F: 0-60
+        ctx.fillStyle = '#cccccc';
+        ctx.fillRect(getX(0), yGrd, getX(60) - getX(0), hGrd);
+        ctx.strokeRect(getX(0), yGrd, getX(60) - getX(0), hGrd);
+        
+        // D: 60-68
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(getX(60), yGrd, getX(68) - getX(60), hGrd);
+        ctx.strokeRect(getX(60), yGrd, getX(68) - getX(60), hGrd);
+        
+        // C: 68-73
+        ctx.fillStyle = '#cccccc';
+        ctx.fillRect(getX(68), yGrd, getX(73) - getX(68), hGrd);
+        ctx.strokeRect(getX(68), yGrd, getX(73) - getX(68), hGrd);
+        
+        // B: 73-80
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(getX(73), yGrd, getX(80) - getX(73), hGrd);
+        ctx.strokeRect(getX(73), yGrd, getX(80) - getX(73), hGrd);
+        
+        // A: 80-100
+        ctx.fillStyle = '#cccccc';
+        ctx.fillRect(getX(80), yGrd, getX(100) - getX(80), hGrd);
+        ctx.strokeRect(getX(80), yGrd, getX(100) - getX(80), hGrd);
+
+        // Text inside Grades
+        ctx.fillStyle = '#000000';
+        ctx.font = 'bold 14px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('F', getX(30), yGrd + hGrd/2);
+        ctx.fillText('D', getX(64), yGrd + hGrd/2);
+        ctx.fillText('C', getX(70.5), yGrd + hGrd/2);
+        ctx.fillText('B', getX(76.5), yGrd + hGrd/2);
+        ctx.fillText('A', getX(90), yGrd + hGrd/2);
+
+        // --- 3. ADJECTIVE RATINGS ---
+        const yAxis = 190;
+        
+        // Left Label
+        ctx.fillStyle = '#000000';
+        ctx.font = '11px Arial';
+        ctx.textAlign = 'right';
+        ctx.fillText('ADJECTIVE', startX - 15, 135);
+        ctx.fillText('RATINGS', startX - 15, 147);
+
+        function drawAdjective(lines, score) {
+            let x = getX(score);
+            
+            // Dotted line from text down to axis
+            ctx.beginPath();
+            ctx.moveTo(x, 150);
+            ctx.lineTo(x, yAxis);
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = '#000000';
+            ctx.setLineDash([3, 4]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Text
+            ctx.fillStyle = '#000000';
+            ctx.font = '10px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            if(lines.length === 2) {
+                ctx.fillText(lines[0], x, 137);
+                ctx.fillText(lines[1], x, 148);
+            } else {
+                ctx.fillText(lines[0], x, 148);
+            }
+        }
+
+        drawAdjective(['WORST', 'IMAGINABLE'], 25);
+        drawAdjective(['POOR'], 38);
+        drawAdjective(['OK'], 51.5);
+        drawAdjective(['GOOD'], 72.5);
+        drawAdjective(['EXCELLENT'], 85);
+        drawAdjective(['BEST', 'IMAGINABLE'], 100);
+
+        // --- 4. NUMBER LINE & AXIS ---
+        ctx.beginPath();
+        ctx.moveTo(startX, yAxis);
+        ctx.lineTo(endX, yAxis);
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#000000';
+        ctx.stroke();
+
+        ctx.fillStyle = '#000000';
+        ctx.textBaseline = 'top';
+        for (let i = 0; i <= 100; i += 5) {
+            let x = getX(i);
+            ctx.beginPath();
+            if (i % 10 === 0) {
+                // Big tick (goes UP from the axis line)
+                ctx.moveTo(x, yAxis);
+                ctx.lineTo(x, yAxis - 12);
+                ctx.stroke();
+                
+                // Number below axis
+                ctx.font = '22px Arial';
+                ctx.fillText(i, x, yAxis + 12);
+            } else {
+                // Small tick
+                ctx.moveTo(x, yAxis);
+                ctx.lineTo(x, yAxis - 6);
+                ctx.stroke();
+            }
+        }
+        
+        // SUS Score Title
+        ctx.font = '22px Arial';
+        ctx.fillText('SUS Score', startX + barW/2, yAxis + 45);
+
+        // --- 5. USER SCORE MARKER (92) ---
+        // I keep this as requested to highlight their specific result
+        const userScore = 92;
+        const scoreX = getX(userScore);
+        
+        ctx.beginPath();
+        ctx.moveTo(scoreX, yAxis + 25);
+        ctx.lineTo(scoreX, 260);
+        ctx.strokeStyle = '#2563eb';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([4, 4]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+        // Draw blue pill box
+        ctx.fillStyle = '#2563eb';
+        const boxW = 280;
+        const boxH = 34;
+        const boxY = 260;
+        ctx.beginPath();
+        ctx.roundRect(scoreX - boxW/2, boxY, boxW, boxH, 6);
+        ctx.fill();
+        
+        // Text inside blue box
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 14px Arial';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(`Skor Bintang Travel: ${userScore} (Grade A)`, scoreX, boxY + boxH/2);
+
+        // Download functionality
+        const btn = document.getElementById('downloadBtn');
+        btn.addEventListener('click', function() {
+            const dataURL = canvas.toDataURL('image/png');
+            btn.href = dataURL;
+        });
+    };
+</script>
+
+</body>
+</html>
+        canvas {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .btn-download {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-download:hover {
+            background-color: #4338ca;
+            transform: translateY(-2px);
+        }
+        h2 { margin-top: 0; color: #1f2937; }
+        p { color: #6b7280; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Grafik Pembuat Skor SUS Otomatis</h2>
+    <p>Grafik khusus ini digambar otomatis menggunakan kode. Silakan klik tombol di bawah untuk mengunduh gambar ini agar bisa dimasukkan ke Microsoft Word skripsi Anda.</p>
+    
+    <canvas id="susCanvas" width="900" height="400"></canvas>
+    
+    <br>
+    <a id="downloadBtn" class="btn-download" download="Grafik_SUS_BintangTravel.png">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+        Unduh Gambar Grafik (PNG)
+    </a>
+</div>
+
+<script>
+    window.onload = function() {
+        const canvas = document.getElementById('susCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // 1. Background
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // 2. Title
+        ctx.fillStyle = '#1f2937';
+        ctx.font = 'bold 24px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('Grafik Skala Penilaian System Usability Scale (SUS)', canvas.width / 2, 50);
+        
+        // 3. Subtitle
+        ctx.fillStyle = '#6b7280';
+        ctx.font = '16px Arial';
+        ctx.fillText('Evaluasi Tingkat Kegunaan (Usability) Sistem Informasi Penyewaan Mobil Bintang Travel', canvas.width / 2, 80);
+        
+        // Layout Variables
+        const startX = 80;
+        const endX = 820;
+        const barWidth = endX - startX;
+        const barY = 220;
+        const barHeight = 50;
+        
+        // Helper to convert score (0-100) to Canvas X pixel
+        function getX(score) {
+            return startX + (score / 100) * barWidth;
+        }
+        
+        // 4. Draw Segments (Colors)
+        // a. Not Acceptable (0 - 50)
+        ctx.fillStyle = '#ef4444'; // Red
+        ctx.fillRect(getX(0), barY, getX(50) - getX(0), barHeight);
+        
+        // b. Marginal (50 - 68)
+        ctx.fillStyle = '#f59e0b'; // Orange/Yellow
+        ctx.fillRect(getX(50), barY, getX(68) - getX(50), barHeight);
+        
+        // c. Acceptable (68 - 100)
+        ctx.fillStyle = '#10b981'; // Green
+        ctx.fillRect(getX(68), barY, getX(100) - getX(68), barHeight);
+        
+        // 5. Draw Bar Outline
+        ctx.strokeStyle = '#374151';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(startX, barY, barWidth, barHeight);
+        
+        // 6. Draw Separator Lines for Grades
+        ctx.beginPath();
+        ctx.moveTo(getX(50), barY); ctx.lineTo(getX(50), barY + barHeight); // F to D
+        ctx.moveTo(getX(60), barY); ctx.lineTo(getX(60), barY + barHeight); // D to C
+        ctx.moveTo(getX(68), barY); ctx.lineTo(getX(68), barY + barHeight); // C to B
+        ctx.moveTo(getX(80), barY); ctx.lineTo(getX(80), barY + barHeight); // B to A
+        ctx.stroke();
+        
+        // 7. Labels inside the bar (Acceptability)
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 15px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('NOT ACCEPTABLE', getX(25), barY + barHeight / 2);
+        ctx.fillText('MARGINAL', getX(59), barY + barHeight / 2);
+        ctx.fillText('ACCEPTABLE', getX(84), barY + barHeight / 2);
+        
+        // 8. Grades above the bar
+        ctx.fillStyle = '#374151';
+        ctx.textBaseline = 'bottom';
+        ctx.font = 'bold 18px Arial';
+        ctx.fillText('GRADE F', getX(25), barY - 15);
+        
+        ctx.font = 'bold 14px Arial';
+        ctx.fillText('GRADE D', getX(55), barY - 15);
+        ctx.fillText('GRADE C', getX(64), barY - 15);
+        ctx.fillText('GRADE B', getX(74), barY - 15);
+        
+        ctx.font = 'bold 18px Arial';
+        ctx.fillText('GRADE A', getX(90), barY - 15);
+        
+        // 9. Score Numbers below the bar
+        ctx.fillStyle = '#4b5563';
+        ctx.textBaseline = 'top';
+        ctx.font = 'bold 14px Arial';
+        const scoresToLabel = [0, 50, 60, 68, 80, 100];
+        scoresToLabel.forEach(s => {
+            ctx.beginPath();
+            ctx.moveTo(getX(s), barY + barHeight);
+            ctx.lineTo(getX(s), barY + barHeight + 8);
+            ctx.stroke();
+            ctx.fillText(s, getX(s), barY + barHeight + 12);
+        });
+        
+        // 10. Draw The User's Score Marker (92)
+        const userScore = 92;
+        const scoreX = getX(userScore);
+        
+        // Draw vertical dashed line
+        ctx.beginPath();
+        ctx.moveTo(scoreX, barY - 60);
+        ctx.lineTo(scoreX, barY + barHeight + 35);
+        ctx.strokeStyle = '#2563eb'; // Blue
+        ctx.lineWidth = 3;
+        ctx.setLineDash([6, 4]);
+        ctx.stroke();
+        ctx.setLineDash([]); // reset dash
+        
+        // Draw Marker Box
+        ctx.fillStyle = '#2563eb';
+        const boxW = 280;
+        const boxH = 45;
+        // Adjust position so it doesn't get clipped on the right
+        ctx.fillRect(scoreX - boxW/2, barY - 95, boxW, boxH);
+        
+        // Draw Triangle pointing down
+        ctx.beginPath();
+        ctx.moveTo(scoreX - 12, barY - 50);
+        ctx.lineTo(scoreX + 12, barY - 50);
+        ctx.lineTo(scoreX, barY - 35);
+        ctx.fill();
+        
+        // Text inside marker box
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 16px Arial';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(`Skor Bintang Travel: ${userScore} (Excellent)`, scoreX, barY - 72);
+        
+        // Setup Download Feature
+        const btn = document.getElementById('downloadBtn');
+        btn.addEventListener('click', function() {
+            // Convert canvas to data URL (PNG)
+            const dataURL = canvas.toDataURL('image/png');
+            btn.href = dataURL;
+        });
+    };
+</script>
+
+</body>
+</html>

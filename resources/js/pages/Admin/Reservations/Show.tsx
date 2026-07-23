@@ -173,7 +173,17 @@ export default function ShowReservation({ reservation, statusMeta, currency }: P
                             )}
                             <div className="flex items-center justify-between"><div className="text-sm">Diskon</div><div className="font-medium text-green-600">-{fmtMoney(reservation.discount_amount)}</div></div>
                             {Number(reservation.penalty_amount) > 0 && (
-                                <div className="flex items-center justify-between"><div className="text-sm">Denda Keterlambatan</div><div className="font-medium text-red-600">+{fmtMoney(reservation.penalty_amount)}</div></div>
+                                <div className="flex items-center justify-between">
+                                    <div className="text-sm flex flex-col">
+                                        <span>Denda Keterlambatan</span>
+                                        {Number(reservation.car?.penalty_per_hour) > 0 && (
+                                            <span className="text-xs text-gray-500">
+                                                ({Math.ceil(Number(reservation.penalty_amount) / Number(reservation.car.penalty_per_hour))} jam x {fmtMoney(reservation.car.penalty_per_hour)})
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="font-medium text-red-600">+{fmtMoney(reservation.penalty_amount)}</div>
+                                </div>
                             )}
                             <div className="border-t pt-2 flex items-center justify-between"><div className="text-sm font-semibold">Total</div><div className="text-lg font-semibold">{fmtMoney(reservation.total_amount)}</div></div>
                         </div>

@@ -773,6 +773,85 @@ activate.post = (args: { client: number | { id: number } } | [client: number | {
         })
     
     activate.form = activateForm
+/**
+* @see \App\Http\Controllers\Admin\ClientsController::chat
+ * @see app/Http/Controllers/Admin/ClientsController.php:196
+ * @route '/admin/clients/{client}/chat'
+ */
+export const chat = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: chat.url(args, options),
+    method: 'post',
+})
+
+chat.definition = {
+    methods: ["post"],
+    url: '/admin/clients/{client}/chat',
+} satisfies RouteDefinition<["post"]>
+
+/**
+* @see \App\Http\Controllers\Admin\ClientsController::chat
+ * @see app/Http/Controllers/Admin/ClientsController.php:196
+ * @route '/admin/clients/{client}/chat'
+ */
+chat.url = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { client: args }
+    }
+
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { client: args.id }
+        }
+    
+    if (Array.isArray(args)) {
+        args = {
+                    client: args[0],
+                }
+    }
+
+    args = applyUrlDefaults(args)
+
+    const parsedArgs = {
+                        client: typeof args.client === 'object'
+                ? args.client.id
+                : args.client,
+                }
+
+    return chat.definition.url
+            .replace('{client}', parsedArgs.client.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\Admin\ClientsController::chat
+ * @see app/Http/Controllers/Admin/ClientsController.php:196
+ * @route '/admin/clients/{client}/chat'
+ */
+chat.post = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: chat.url(args, options),
+    method: 'post',
+})
+
+    /**
+* @see \App\Http\Controllers\Admin\ClientsController::chat
+ * @see app/Http/Controllers/Admin/ClientsController.php:196
+ * @route '/admin/clients/{client}/chat'
+ */
+    const chatForm = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: chat.url(args, options),
+        method: 'post',
+    })
+
+            /**
+* @see \App\Http\Controllers\Admin\ClientsController::chat
+ * @see app/Http/Controllers/Admin/ClientsController.php:196
+ * @route '/admin/clients/{client}/chat'
+ */
+        chatForm.post = (args: { client: number | { id: number } } | [client: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: chat.url(args, options),
+            method: 'post',
+        })
+    
+    chat.form = chatForm
 const clients = {
     index: Object.assign(index, index),
 create: Object.assign(create, create),
@@ -783,6 +862,7 @@ update: Object.assign(update, update),
 destroy: Object.assign(destroy, destroy),
 suspend: Object.assign(suspend, suspend),
 activate: Object.assign(activate, activate),
+chat: Object.assign(chat, chat),
 }
 
 export default clients
